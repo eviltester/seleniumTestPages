@@ -1,0 +1,4 @@
+/app/.idea
+/app/phptestapp.iml
+/app/vendor
+/app/composer.lock

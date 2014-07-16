@@ -1,0 +1,17 @@
+{
+    "name": "seleniumsimplified/phptestapp",
+    "description": "An 'app' version of the test pages",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Alan Richardson",
+            "email": "alan@compendiumdev.co.uk"
+        }
+    ],
+    "require-dev": {
+    },
+    "require": {
+        "phpunit/phpunit": "3.7.37"
+    }
+}
