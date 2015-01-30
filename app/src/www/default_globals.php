@@ -1,7 +1,16 @@
 <?php
 
-$defaultLoggedInPage = "edit_user.php";
+$defaultLoggedInPage = "default.php";
 $loggedInCookieName = "PhpTestAppLoggedIn";
+
+function getLoggedInUserName(){
+    global $loggedInCookieName;
+    $userName = "";
+    if(isset($_COOKIE[$loggedInCookieName])) {
+        $userName = $_COOKIE[$loggedInCookieName];
+    }
+    return $userName;
+}
 
 function redirectIfAlreadyLoggedIn(){
     global $loggedInCookieName,$defaultLoggedInPage;
@@ -22,11 +31,13 @@ function displayHeader(){
     global $loggedInCookieName;
     echo "<div class='header'>";
     echo "<p>";
-    echo "Welcome ".$_COOKIE[$loggedInCookieName];
+    echo "<a href='default.php'>Welcome</a> ".getLoggedInUserName();
     echo " | "."<a href='edit_research.php'>Edit Research</a>";
     echo " | "."<a href='upload_research_file.php'>Upload Research</a>";
     echo " | "."<a href='edit_user.php'>Edit User Details</a>";
     echo " | "."<a href='list_users.php'>Manage Users</a>";
+    echo " | "."<a href='researchExamples.php'>Samples</a>";
+    echo " | "."<a href='misc_page.php'>Misc</a>";
     echo " | "."<a href='logout.php'>Logout</a>";
     echo "</p>";
     echo "</div>";

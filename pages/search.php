@@ -1,6 +1,5 @@
 <html>
 <head>
-<link href="styles.css" rel="stylesheet" type="text/css" />
 <title><?php if (isset($_POST['q'])){echo($_POST['q'].' - '); } ?>Selenium Simplified Search Engine</title>
 <!--http://www.bing.com/developers/s/API%20Basics.pdf#1-->
 

@@ -3,9 +3,6 @@ require_once 'default_globals.php';
 redirectIfNotLoggedLoggedIn();
 
 // show a text area with the research text and allow it to be submitted - same as upload
-
-
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -66,8 +63,12 @@ displayHeader();
 
     // setup save function
     $('#saveonclick').click(function() {
+        //debugger;
+        $("#editprompt").text("Saving..");
         var text = $('textarea#researchjsoneditor').val();
-        amplify.store("research_user_" + userNameCookieValue,text);
+        amplify.store("research_user_" + userNameCookieValue,JSON.parse(text));
+        $("#editprompt").text("Saved..");
+        $("#editprompt").text("Edit JSON Here");
     });
 
 

@@ -1,6 +1,5 @@
 <html>
 <head>
-<link href="styles.css" rel="stylesheet" type="text/css" />
 <title>Selenium Simplified Calculator</title>
 </head>
 
