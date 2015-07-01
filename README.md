@@ -11,3 +11,17 @@ And the Training course
 
 http://unow.be/at/webdriverapi
 
+
+These pages are hosted at:
+
+* http://compendiumdev.co.uk/selenium (without the index.html)
+* http://compendiumdev.co.uk/selenium/testpages/index.html
+* http://seleniumsimplified.com/testpages/
+
+------
+Alan Richardson
+www.eviltester.com
+www.seleniumsimplified.com
+www.javafortesters.com
+www.compendiumdev.co.uk
+@eviltester
