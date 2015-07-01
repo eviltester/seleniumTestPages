@@ -1,0 +1,26 @@
+recreate existing test pages and exercises
+==========================================
+
+* choose samples in researchExamples from drop down
+* add the 'multiple values' at the end of the page to fully recreate the find_by_playground.php
+* add to 'misc' page
+    * ajax form
+    * possibly a canvas page
+    * missing more alerts and confirms
+    * missing a field that validates on losing focus
+
+* review to see what else is missing from 'app' that is on examples
+* create the webdriver code and exercises and adjust the course
+* test app
+
+new functionality
+=================
+* create a 'help' page accessibly from loggedin and not logged in
+* add content to the home page
+* unit tests for php
+* more classes for php
+* unit tests for javascript
+* create import files for javascript
+* create more samples
+* allow 'download' of samples json files
+* allow samples to be downloaded without being logged in - but not preview
