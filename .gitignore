@@ -2,3 +2,6 @@
 /app/phptestapp.iml
 /app/vendor
 /app/composer.lock
+/java/*.iml
+.idea
+/java/target
