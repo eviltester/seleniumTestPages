@@ -1,37 +1,23 @@
 package com.seleniumsimplified.seleniumtestpages;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 
-/**
- * Created by Alan on 07/07/2016.
- */
 public class ResourceReader {
 
 
     public String asString(String resourceName){
 
-        StringBuilder output = new StringBuilder();
+        InputStream in = this.getClass().getResourceAsStream(resourceName);
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(resourceName).getFile());
+        // http://web.archive.org/web/20140531042945/https://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
+        Scanner scanner = new Scanner(in).useDelimiter("\\A");
 
-        try (Scanner scanner = new Scanner(file)) {
-
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                output.append(line);
-                output.append(System.lineSeparator());
-            }
-
-            scanner.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(scanner.hasNext()) {
+            return scanner.next();
+        }else{
+            return "";
         }
-
-        return output.toString();
 
     }
 }

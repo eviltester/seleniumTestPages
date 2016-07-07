@@ -30,8 +30,8 @@ public class MainTestPages {
 
 
         // some tests check the url of the asked for page so don't redirect this one
-        get("/selenium/basic_web_page.html", (req, res) -> {return new ResourceReader().asString("web/basic_web_page.html");});
-        get("/selenium/gui_user_interactions.html", (req, res) -> {return new ResourceReader().asString("web/gui_user_interactions.html");});
+        get("/selenium/basic_web_page.html", (req, res) -> {return new ResourceReader().asStringFromResourceStream("/web/basic_web_page.html");});
+        get("/selenium/gui_user_interactions.html", (req, res) -> {return new ResourceReader().asStringFromResourceStream("/web/gui_user_interactions.html");});
 
 
         get("/ajaxselect.php", (req, res) -> {return new PhpAjaxSelect(req,res).get();});

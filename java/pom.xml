@@ -52,7 +52,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>MainRestMud</mainClass>
+                            <mainClass>com.seleniumsimplified.seleniumtestpages.MainTestPages</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
