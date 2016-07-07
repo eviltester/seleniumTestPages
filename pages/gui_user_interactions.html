@@ -36,7 +36,7 @@ based heavily on http://jqueryui.com/demos/droppable/
 			}
 		});		
 		$(document).keydown(function(event){
-			$("#keyevents").append("<p> down " + event.which + "</p>");
+			$("#keyeventslist").append("<li> down " + event.which + "</li>");
 			if(event.which == 17) cntrlPressed = true;
 			if(event.which == 32 && cntrlPressed){
 				// ctrl space
@@ -51,37 +51,73 @@ based heavily on http://jqueryui.com/demos/droppable/
 			}
 		});
 		$(document).keyup(function(event){
-			$("#keyevents").append("<p> up " + event.which + "</p>");
+			
 			if(event.which == 17) cntrlPressed = false;
 			$('.droppable').find("p").html("Drop Here");
 		});		
+		
+		$(document).ready(function(){
+			drawcanvas=false;
+			canvas = $('#canvas')[0];
+			mycanvas2d = canvas.getContext("2d");
+			mycanvas2d.fillStyle="#000000";
+		});
+		
+		$("#canvas").mouseup(function(){
+			/* deliberate bug */
+			drawcanvas=false;
+		});
+		
+		$("#canvas").mousedown(function(){			
+			drawcanvas=true;
+		});
+		
+		$("#canvas").mousemove(function(event){			
+			if(drawcanvas==true){
+				$("#keyeventslist").append("<li> draw " + event.clientX + ", " + event.clientY + "</li>");
+				var canvasrect = canvas.getBoundingClientRect();
+				mycanvas2d.beginPath();
+				mycanvas2d.rect(event.clientX - canvasrect.left, event.clientY - canvasrect.top, 2, 2);  
+				mycanvas2d.closePath();
+				mycanvas2d.fill();
+			}
+		}); 
+
 	});
 	</script>
 
 
 
-<div class="draganddrops">
-	
-<div id="draggable1" class="draggable">
-	<p>Drag me</p>
+<div class="draganddrops">	
+	<div>
+		<div id="draggable1" class="draggable">
+			<p>Drag me</p>
+		</div>
+
+		<div id="draggable2" class="draggable">
+			<p>Drag me</p>
+		</div>
+
+		<div id="droppable1" class="droppable">
+			<p>Drop here</p>
+		</div>
+
+		<div id="droppable2" class="droppable">
+			<p>No Drop here</p>
+		</div>
+	</div>
+
 </div>
 
-<div id="draggable2" class="draggable">
-	<p>Drag me</p>
+<div id="keyevents" style="float:right">
+<p>Events:</p>
+<ul id="keyeventslist">
+</ul>
 </div>
 
-<div id="droppable1" class="droppable">
-	<p>Drop here</p>
-</div>
-
-<div id="droppable2" class="droppable">
-	<p>No Drop here</p>
-</div>
-
-</div>
-
-<div id="keyevents">
-</div>
+	<div>
+	<canvas style="border:solid 1px #000000" id="canvas" width="300" height="300"></canvas>
+	</div>
 
 
 </body>

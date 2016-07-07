@@ -26,6 +26,9 @@ public class PhpFormProcessor {
 
         html = new StringBuilder();
 
+        html.append("<html><head><title>Processed Form Details</title></head>");
+        html.append("<body>");
+
         // for backwards compatibility with PHP we should process the form fields in the order they are submitted
         String[] paramKeys = req.body().split("&");
         Set<String> theParamKeys = new LinkedHashSet<>();
@@ -60,6 +63,7 @@ public class PhpFormProcessor {
                     addLine(String.format("<p><strong>No Value for %s</strong></p>", param));
                 }else{
 
+                    boolean paramIsArray = param.contains("[]");
                     String paramDisplayName = param.replace("[]","");
 
                     addLine(String.format("<div id='_%s'>",paramDisplayName));
@@ -67,7 +71,7 @@ public class PhpFormProcessor {
 
                     addLine("<ul>");
 
-                    if(value.size()>=1) {
+                    if(paramIsArray) {
                         int count=0;
                         for (String aValue : value) {
                             addLine(String.format("<li id='_value%s%d'>%s</li>", paramDisplayName, count, aValue));
@@ -103,6 +107,8 @@ public class PhpFormProcessor {
             addLine("<a href='basic_html_form.html' id='back_to_form'>Go back to the main form</a>");
         }
 
+        html.append("</body>");
+        html.append("</html>");
         return html.toString();
     }
 
