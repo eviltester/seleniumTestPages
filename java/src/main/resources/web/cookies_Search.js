@@ -394,7 +394,9 @@ function DeleteCookie(name) {
     if (cval != null) {
 
         document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
-
+          // try with multiple domains
+          // to overcome issue if webdriver adds a 'dot'
+        document.cookie = name + "=" + cval + "; domain=." + document.domain +  "; expires=" + exp.toGMTString();
     }
 
 }
