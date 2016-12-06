@@ -2,584 +2,497 @@
 
 <head>
 
-<title><?php if (isset($_POST['q'])){echo($_POST['q'].' - '); } ?>Selenium Simplified Search Engine</title>
+    <title><?php if (isset($_POST['q'])) {
+            echo($_POST['q'] . ' - ');
+        } ?>Selenium Simplified Search Engine</title>
+    
+    <?php require 'searchurls.php' ?>
 
-<!--http://www.bing.com/developers/s/API%20Basics.pdf#1-->
 
+    <SCRIPT>
 
+        <!--
 
-<?php require 'apikey.php' ?>
+        /* cookie code found on http://www.cookiecentral.com/code/js_cookie8.htm */
 
+        /*
 
+         Cookies Demo
 
-<SCRIPT>
+         By Jerry Aman, Optima System, July 28, 1996.
 
-<!--
+         Cookie Functions written by Bill Dortch, hIdaho Design.
 
-/* cookie code found on http://www.cookiecentral.com/code/js_cookie8.htm */
 
-/* 
 
-	Cookies Demo
+         Part of the PageSpinner distribution.
 
-	By Jerry Aman, Optima System, July 28, 1996.
 
-   	Cookie Functions written by Bill Dortch, hIdaho Design.
 
+         We will not be held responsible for any unwanted
 
+         effects due to the usage of this script or any derivative.
 
-	Part of the PageSpinner distribution.
+         No warrantees for usability for any specific application
 
+         are given or implied.
 
 
-	We will not be held responsible for any unwanted 
 
-	effects due to the usage of this script or any derivative.  
+         You are free to use and modify this script,
 
-	No warrantees for usability for any specific application 
+         if credits are kept in the source code
 
-	are given or implied.
+         */
 
 
+        var cookieVisitID = 'seleniumSimplifiedSearchLastVisit';
 
-	You are free to use and modify this script,
+        var cookieNumVisitID = 'seleniumSimplifiedSearchNumVisits';
 
-	if credits are kept in the source code
+        var cookieLastSearch = 'seleniumSimplifiedLastSearch';
 
-*/
 
+        var gLastVisit;
 
+        var gNumVisits;
 
-	var cookieVisitID 	= 'seleniumSimplifiedSearchLastVisit';	
+        var gLastSearch;
 
-	var cookieNumVisitID 	= 'seleniumSimplifiedSearchNumVisits';	
 
-	var cookieLastSearch 	= 'seleniumSimplifiedLastSearch';	
+        SetLastVisit();	// Execute when loading page
 
-	
 
-	var gLastVisit;
+        function GetLastVisit() {
 
-	var gNumVisits;
 
-	var gLastSearch;
+            if (gLastVisit == "") {
 
+                return "This is your first Search.";
 
+            }
 
-	SetLastVisit();	// Execute when loading page
+            else {
 
+                var oldVisitDate = new Date(gLastVisit);
 
+                return "Your last visit to this page was on "
 
-	function GetLastVisit ()
+                    + gLastVisit + " and you searched for " + gLastSearch + ".<BR>You have been here "
 
-	{
+                    + gNumVisits + " time" + (gNumVisits > 1 ? "s" : "")
 
+                    + " before."
 
+            }
 
-		if ( gLastVisit == "")
+        }
 
-		{
 
-			return "This is your first Search.";
+        function setLastSearchCookie(searchTerm) {
 
-		}
+            var expDate = new Date();
 
-		else 
+            expDate.setTime(expDate.getTime() + (365 * 24 * 60 * 60 * 1000));
 
-		{
+            SetCookie(cookieLastSearch, searchTerm, expDate);
 
-			var oldVisitDate = new Date(gLastVisit);
+        }
 
-			return 	"Your last visit to this page was on " 
 
-					+ gLastVisit + " and you searched for " + gLastSearch +".<BR>You have been here " 
+        function SetLastVisit(name, value) {
 
-					+ gNumVisits + " time" +(gNumVisits>1 ? "s" :"") 
+            var newVisitDate = new Date();
 
-					+" before."
+            var expDate = new Date();
 
-		}
+            var numVisits = 0;
 
-	}
 
+            // The expDate is the date when the cookie should
 
+            // expire, we will keep it for a year
 
-	function setLastSearchCookie(searchTerm){
+            expDate.setTime(expDate.getTime() + (365 * 24 * 60 * 60 * 1000));
 
-		var expDate = new Date (); 
 
-		expDate.setTime( expDate.getTime() + (365 * 24 * 60 * 60 * 1000) ); 
+            // Info about last visit
 
-		SetCookie( cookieLastSearch, searchTerm, expDate); 
+            if (GetCookie(cookieLastSearch) != null)
 
-	}
+                gLastSearch = GetCookie(cookieLastSearch);
 
-	
+            else
 
-	function SetLastVisit (name, value) 
+                gLastSearch = "";
 
-	{
 
-		var newVisitDate = new Date();
+            if (GetCookie(cookieVisitID) != null)
 
-		var expDate = new Date (); 
+                gLastVisit = GetCookie(cookieVisitID);
 
-		var numVisits = 0;
+            else
 
+                gLastVisit = "";
 
 
-			// The expDate is the date when the cookie should
+            if (GetCookie(cookieNumVisitID) != null) {
 
-			// expire, we will keep it for a year
+                // to work around webdriver issues, get the cookie which has the highest number
 
-		expDate.setTime( expDate.getTime() + (365 * 24 * 60 * 60 * 1000) ); 
+                var highestVisitsCount = GetCookie(cookieNumVisitID);
+                gNumVisits = highestVisitsCount;
+                iterCount = 0;
 
+                while (highestVisitsCount != null) {
+                    // to work around some WebDriver issues around cookie creation, delete the existing cookie
+                    DeleteCookie(cookieNumVisitID);
+                    highestVisitsCount = GetCookie(cookieNumVisitID);
+                    if (highestVisitsCount != null) {
+                        if (eval(highestVisitsCount) > eval(gNumVisits)) {
+                            gNumVisits = highestVisitsCount;
+                        }
+                    }
 
+                    iterCount++;
+                    if (iterCount > 10) {
+                        break;
+                    }
+                }
 
-			// Info about last visit
 
-		if (GetCookie (cookieLastSearch) != null)
+            } else
 
-			gLastSearch = GetCookie (cookieLastSearch);
+                gNumVisits = 0;
 
-		else
 
-			gLastSearch = "";
+            // Use eval() to convert a string to a number
 
-			
+            numVisits = eval(gNumVisits) + 1;
 
-		if (GetCookie (cookieVisitID) != null)
 
-			gLastVisit = GetCookie (cookieVisitID);
+            // Store info about this visit
 
-		else
+            SetCookie(cookieVisitID, newVisitDate, expDate);
 
-			gLastVisit = "";
+            SetCookie(cookieNumVisitID, numVisits, expDate);
 
+        }
 
 
-		if (GetCookie (cookieNumVisitID) != null){
+        // ---------------------------------------------------------------
 
-			// to work around webdriver issues, get the cookie which has the highest number
-			
-			var highestVisitsCount = GetCookie (cookieNumVisitID);
-			gNumVisits = highestVisitsCount;
-			iterCount = 0;
-			
-			while(highestVisitsCount!=null){
-				// to work around some WebDriver issues around cookie creation, delete the existing cookie
-				DeleteCookie (cookieNumVisitID);
-				highestVisitsCount = GetCookie (cookieNumVisitID);
-				if(highestVisitsCount!=null){
-					if(eval(highestVisitsCount) > eval(gNumVisits)){
-						gNumVisits = highestVisitsCount;
-					}
-				}
-				
-				iterCount++;
-				if(iterCount>10){break;}
-			}
-			
+        //  Cookie Functions - Second Helping  (21-Jan-96)
 
-		}else
+        //  Written by:  Bill Dortch, hIdaho Design <BDORTCH@NETW.COM>
 
-			gNumVisits = 0;
+        //  The following functions are released to the public domain.
 
+        //
 
+        //  The Second Helping version of the cookie functions dispenses with
 
-			// Use eval() to convert a string to a number
+        //  my encode and decode functions, in favor of JavaScript's new built-in
 
-		numVisits = eval(gNumVisits) + 1;	
+        //  escape and unescape functions, which do more complete encoding, and
 
+        //  which are probably much faster.
 
+        //
 
-			// Store info about this visit
+        //  The new version also extends the SetCookie function, though in
 
-		SetCookie( cookieVisitID, newVisitDate, expDate); 
+        //  a backward-compatible manner, so if you used the First Helping of
 
-		SetCookie( cookieNumVisitID, numVisits, expDate); 
+        //  cookie functions as they were written, you will not need to change any
 
-	}
+        //  code, unless you want to take advantage of the new capabilities.
 
+        //
 
+        //  The following changes were made to SetCookie:
 
-    // ---------------------------------------------------------------
+        //
 
-    //  Cookie Functions - Second Helping  (21-Jan-96)
+        //  1.  The expires parameter is now optional - that is, you can omit
 
-    //  Written by:  Bill Dortch, hIdaho Design <BDORTCH@NETW.COM>
+        //      it instead of passing it null to expire the cookie at the end
 
-    //  The following functions are released to the public domain.
+        //      of the current session.
 
-    //
+        //
 
-    //  The Second Helping version of the cookie functions dispenses with
+        //  2.  An optional path parameter has been added.
 
-    //  my encode and decode functions, in favor of JavaScript's new built-in
+        //
 
-    //  escape and unescape functions, which do more complete encoding, and
+        //  3.  An optional domain parameter has been added.
 
-    //  which are probably much faster.
+        //
 
-    //
+        //  4.  An optional secure parameter has been added.
 
-    //  The new version also extends the SetCookie function, though in
+        //
 
-    //  a backward-compatible manner, so if you used the First Helping of
+        //  For information on the significance of these parameters, and
 
-    //  cookie functions as they were written, you will not need to change any
+        //  and on cookies in general, please refer to the official cookie
 
-    //  code, unless you want to take advantage of the new capabilities.
+        //  spec, at:
 
-    //
+        //
 
-    //  The following changes were made to SetCookie:
+        //      http://www.netscape.com/newsref/std/cookie_spec.html
 
-    //
+        //
 
-    //  1.  The expires parameter is now optional - that is, you can omit
+        //
 
-    //      it instead of passing it null to expire the cookie at the end
+        // "Internal" function to return the decoded value of a cookie
 
-    //      of the current session.
+        //
 
-    //
+        function getCookieVal(offset) {
 
-    //  2.  An optional path parameter has been added.
+            var endstr = document.cookie.indexOf(";", offset);
 
-    //
+            if (endstr == -1)
 
-    //  3.  An optional domain parameter has been added.
+                endstr = document.cookie.length;
 
-    //
+            return unescape(document.cookie.substring(offset, endstr));
 
-    //  4.  An optional secure parameter has been added.
+        }
 
-    //
 
-    //  For information on the significance of these parameters, and
+        //
 
-    //  and on cookies in general, please refer to the official cookie
+        //  Function to return the value of the cookie specified by "name".
 
-    //  spec, at:
+        //    name - String object containing the cookie name.
 
-    //
+        //    returns - String object containing the cookie value, or null if
 
-    //      http://www.netscape.com/newsref/std/cookie_spec.html    
+        //      the cookie does not exist.
 
-    //
+        //
 
-    //
+        function GetCookie(name) {
 
-    // "Internal" function to return the decoded value of a cookie
+            var arg = name + "=";
 
-    //
+            var alen = arg.length;
 
-    function getCookieVal (offset) {
+            var clen = document.cookie.length;
 
-      var endstr = document.cookie.indexOf (";", offset);
+            var i = 0;
 
-      if (endstr == -1)
+            while (i < clen) {
 
-        endstr = document.cookie.length;
+                var j = i + alen;
 
-      return unescape(document.cookie.substring(offset, endstr));
+                if (document.cookie.substring(i, j) == arg)
 
-    }
+                    return getCookieVal(j);
 
+                i = document.cookie.indexOf(" ", i) + 1;
 
+                if (i == 0) break;
 
-    //
+            }
 
-    //  Function to return the value of the cookie specified by "name".
+            return null;
 
-    //    name - String object containing the cookie name.
+        }
 
-    //    returns - String object containing the cookie value, or null if
 
-    //      the cookie does not exist.
+        //
 
-    //
+        //  Function to create or update a cookie.
 
-    function GetCookie (name) {
+        //    name - String object object containing the cookie name.
 
-      var arg = name + "=";
+        //    value - String object containing the cookie value.  May contain
 
-      var alen = arg.length;
+        //      any valid string characters.
 
-      var clen = document.cookie.length;
+        //    [expires] - Date object containing the expiration data of the cookie.  If
 
-      var i = 0;
+        //      omitted or null, expires the cookie at the end of the current session.
 
-      while (i < clen) {
+        //    [path] - String object indicating the path for which the cookie is valid.
 
-        var j = i + alen;
+        //      If omitted or null, uses the path of the calling document.
 
-        if (document.cookie.substring(i, j) == arg)
+        //    [domain] - String object indicating the domain for which the cookie is
 
-          return getCookieVal (j);
+        //      valid.  If omitted or null, uses the domain of the calling document.
 
-        i = document.cookie.indexOf(" ", i) + 1;
+        //    [secure] - Boolean (true/false) value indicating whether cookie transmission
 
-        if (i == 0) break; 
+        //      requires a secure channel (HTTPS).
 
-      }
+        //
 
-      return null;
+        //  The first two parameters are required.  The others, if supplied, must
 
-    }
+        //  be passed in the order listed above.  To omit an unused optional field,
 
+        //  use null as a place holder.  For example, to call SetCookie using name,
 
+        //  value and path, you would code:
 
-    //
+        //
 
-    //  Function to create or update a cookie.
+        //      SetCookie ("myCookieName", "myCookieValue", null, "/");
 
-    //    name - String object object containing the cookie name.
+        //
 
-    //    value - String object containing the cookie value.  May contain
+        //  Note that trailing omitted parameters do not require a placeholder.
 
-    //      any valid string characters.
+        //
 
-    //    [expires] - Date object containing the expiration data of the cookie.  If
+        //  To set a secure cookie for path "/myPath", that expires after the
 
-    //      omitted or null, expires the cookie at the end of the current session.
+        //  current session, you might code:
 
-    //    [path] - String object indicating the path for which the cookie is valid.
+        //
 
-    //      If omitted or null, uses the path of the calling document.
+        //      SetCookie (myCookieVar, cookieValueVar, null, "/myPath", null, true);
 
-    //    [domain] - String object indicating the domain for which the cookie is
+        //
 
-    //      valid.  If omitted or null, uses the domain of the calling document.
+        function SetCookie(name, value) {
 
-    //    [secure] - Boolean (true/false) value indicating whether cookie transmission
+            var argv = SetCookie.arguments;
 
-    //      requires a secure channel (HTTPS).  
+            var argc = SetCookie.arguments.length;
 
-    //
+            var expires = (argc > 2) ? argv[2] : null;
 
-    //  The first two parameters are required.  The others, if supplied, must
+            var path = (argc > 3) ? argv[3] : null;
 
-    //  be passed in the order listed above.  To omit an unused optional field,
+            var domain = (argc > 4) ? argv[4] : null;
 
-    //  use null as a place holder.  For example, to call SetCookie using name,
+            var secure = (argc > 5) ? argv[5] : false;
 
-    //  value and path, you would code:
+            document.cookie = name + "=" + escape(value) +
 
-    //
+                ((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
 
-    //      SetCookie ("myCookieName", "myCookieValue", null, "/");
+                ((path == null) ? "" : ("; path=" + path)) +
 
-    //
+                ((domain == null) ? "" : ("; domain=" + domain)) +
 
-    //  Note that trailing omitted parameters do not require a placeholder.
+                ((secure == true) ? "; secure" : "");
 
-    //
+        }
 
-    //  To set a secure cookie for path "/myPath", that expires after the
 
-    //  current session, you might code:
+        //  Function to delete a cookie. (Sets expiration date to current date/time)
 
-    //
+        //    name - String object containing the cookie name
 
-    //      SetCookie (myCookieVar, cookieValueVar, null, "/myPath", null, true);
+        //
 
-    //
+        function DeleteCookie(name) {
 
-    function SetCookie (name, value) {
+            var exp = new Date();
 
-      var argv = SetCookie.arguments;
+            exp.setTime(exp.getTime() - 1);  // This cookie is history
 
-      var argc = SetCookie.arguments.length;
+            // delete multiple cookies with the same name but break if more than 10
+            // To handle WebDriver cookie creation errors
 
-      var expires = (argc > 2) ? argv[2] : null;
+            var cval = GetCookie(name);
 
-      var path = (argc > 3) ? argv[3] : null;
+            if (cval != null) {
 
-      var domain = (argc > 4) ? argv[4] : null;
+                document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+                // try with multiple domains
+                // to overcome issue if webdriver adds a 'dot'
+                document.cookie = name + "=" + cval + "; domain=." + document.domain + "; expires=" + exp.toGMTString();
+            }
 
-      var secure = (argc > 5) ? argv[5] : false;
+        }
 
-      document.cookie = name + "=" + escape (value) +
 
-        ((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
+        // -->
 
-        ((path == null) ? "" : ("; path=" + path)) +
-
-        ((domain == null) ? "" : ("; domain=" + domain)) +
-
-        ((secure == true) ? "; secure" : "");
-
-    }
-
-
-
-    //  Function to delete a cookie. (Sets expiration date to current date/time)
-
-    //    name - String object containing the cookie name
-
-    //
-
-    function DeleteCookie (name) {
-
-      var exp = new Date();
-
-      exp.setTime (exp.getTime() - 1);  // This cookie is history
-
-      // delete multiple cookies with the same name but break if more than 10
-      // To handle WebDriver cookie creation errors
-      
-      var cval = GetCookie (name);
-      
-      if(cval != null){
-
-      	document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
-        // try with multiple domains
-        // to overcome issue if webdriver adds a 'dot'
-        document.cookie = name + "=" + cval + "; domain=." + document.domain +  "; expires=" + exp.toGMTString();
-      }
-
-    }
-
-
-
-// -->
-
-</SCRIPT>
-
-
-
-
-
-
-
+    </SCRIPT>
 
 
 </head>
 
 
-
 <body>
 
-<div style="float:right"><img src="cover_small.gif"><p>Note: This test page uses <br/>cookies as an example to<br/>count your visits and last<br/> search criteria.<br/> Do not use this page if you<br/> are not happy with this use<br/> of cookies.</p></div>
-
-
-
+<div style="float:right"><img src="cover_small.gif">
+    <p>Note: This test page uses <br/>cookies as an example to<br/>count your visits and last<br/> search criteria.<br/>
+        Do not use this page if you<br/> are not happy with this use<br/> of cookies.</p></div>
 
 
 <h1>The "Selenium Simplified" Search Engine</h1>
 
 
-
 <?php
 
-if (isset($_POST['q'])){
+if (isset($_POST['q'])) {
 
-echo("<SCRIPT>setLastSearchCookie('".$_POST['q']."');</SCRIPT>");
+    echo("<SCRIPT>setLastSearchCookie('" . $_POST['q'] . "');</SCRIPT>");
 
 }
 
 ?>
 
 
+<form method="post" action="search.php">
 
-<form method="post" action="<?php echo $PHP_SELF;?>">
+    Type in a search:<input title="Search" type="text" name="q"
 
-Type in a search:<input title="Search" type="text" name="q"
+                            value="<?php
 
-value="<?php
+                            if (isset($_POST['q'])) {
 
-if (isset($_POST['q'])){
+                                echo($_POST['q']);
 
-echo($_POST['q']); 
+                            } else {
+                                echo('Selenium-RC');
+                            }
 
-}
+                            ?>"/>
 
-else { echo('Selenium-RC');}
+    <input type="submit" value="Search" name="btnG"/>
 
-?>"/>
+    <?php
 
-<input type="submit" value="Search" name="btnG" />
-
-<?php
-
-if (isset($_POST['btnG'])) {
-
+    if (isset($_POST['btnG'])) {
 
 
-$request = 'https://api.datamarket.azure.com/Bing/SearchWeb/Web?Query=%27' . urlencode( $_POST["q"]) . '%27&Adult=%27Off%27&$top=20&$format=JSON';
+// Bing have changed their API so instead of doing a real wrapper around a search engine, let's just stub it
+        $results = stubSearchFor($_POST["q"]);
 
 
-
-	//http://stackoverflow.com/questions/10844463/bing-search-api-and-azure
-
+        echo('<ul ID="resultList">');
 
 
-    $process = curl_init($request);
+        foreach ($results as $value) {
 
-    curl_setopt($process, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            echo('<li class="resultlistitem"><a href="' . $value->url . '">' . $value->displayUrl . '</a>');
 
-    curl_setopt($process, CURLOPT_USERPWD,  ":" . $appid);
+            echo('<p><em>' . $value->title . '</em> ' . $value->description . '</p></li>');
 
-    curl_setopt($process, CURLOPT_TIMEOUT, 30);
-
-    curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
-
-    $response = curl_exec($process);
-
-	
-
-$jsonobj = json_decode($response);
+        }
 
 
+        echo("</ul>");
 
-echo('<ul ID="resultList">');
-
-if(array_key_exists('d',$jsonobj)){
-
-	if(array_key_exists('results',$jsonobj->d)){
-
-try{
-
-foreach($jsonobj->d->results as $value)
-
-{
-
-echo('<li class="resultlistitem"><a href="' . $value->Url . '">'.$value->DisplayUrl.'</a>');
-
-echo('<p><em>'.$value->Title.'</em> '.$value->Description.'</p></li>');
-
-}
-
-}catch(Exception $e){}
-
-}}
-
-
-
-	// fudge results in case Selenium hq changes
-
-	if(strcasecmp($_POST["q"],"selenium-rc")==0){
-
-		echo('<li class="resultlistitem"><a href="http://seleniumhq.org">seleniumhq.org</a>');
-
-		echo('<p><em>Selenium Remote-Control</em> Selenium RC comes in two parts. A server which automatically launches and kills browsers, and acts as a HTTP proxy for web requests from them. ...</p></li>');
-
-	}
-
-	
-
-echo("</ul>");
-
-} ?>
+    } ?>
 
 </form>
 
 
-
-<SCRIPT>document.write (GetLastVisit())</SCRIPT>
-
+<SCRIPT>document.write(GetLastVisit())</SCRIPT>
 
 
 </body>
