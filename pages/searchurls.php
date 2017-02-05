@@ -22,6 +22,10 @@ class SearchUrls{
         return $this->urls;
     }
 
+    function getUrl($urlkey) {
+        return $this->urls[$urlkey];
+    }
+
     function create(){
 
         // naively copy and pasted from Java then find and and replace to create PHP code
@@ -157,7 +161,7 @@ class SearchUrls{
  * @param $query
  */
 function stubSearchFor($query){
-    $returnUrls = [];
+    $returnUrls = array();
 
     $urlsToReturn = 20;
     
@@ -201,8 +205,9 @@ function stubSearchFor($query){
     if ($urlsToReturn > 0) {
         // randomly choose some urls
         $theChosen = array_rand($urls->get(), $urlsToReturn);
+        $returnUrls = array();
         foreach($theChosen as $sUrlKey) {
-            $returnUrls[] = $urls->get()[$sUrlKey];
+            array_push($returnUrls,$urls->getUrl($sUrlKey));
         }
     }
 
