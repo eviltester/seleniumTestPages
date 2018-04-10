@@ -2,9 +2,7 @@ package com.seleniumsimplified.seleniumtestpages;
 
 import com.seleniumsimplified.seleniumtestpages.php.*;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.staticFileLocation;
+import static spark.Spark.*;
 
 /**
  * Created by Alan on 15/06/2016.
@@ -13,7 +11,11 @@ public class MainTestPages {
 
     public static void main(String[] args) {
 
+        //port(4568); //for testing in case I forget to shutdown
         staticFileLocation("/web");
+
+        // add a shutdown url in case left running on port 4567
+        get("/shutdown", (req, res) -> {System.exit(0); return "";});
 
         // javascript games
         get("/games/", (req, res) -> {res.redirect("/games/buggygames/index.html"); return "";});
@@ -28,6 +30,10 @@ public class MainTestPages {
         get("/apps/7charval/", (req, res) -> {res.redirect("/testing_exercises/7charval/simiple7charvalidation.htm"); return "";});
         get("/apps/7charval", (req, res) -> {res.redirect("/testing_exercises/7charval/simiple7charvalidation.htm"); return "";});
 
+
+        //sloganizer header redirects
+        get("/page/dearEvilTester", (req, res) -> {res.redirect("http://eviltester.com/page/dearEvilTester"); return "";});
+        get("/contact.html", (req, res) -> {res.redirect("http://eviltester.com/contact.html"); return "";});
 
         // create backwards compatibility with selenium page on compendiumdev.co.uk
         // avoid redirects
