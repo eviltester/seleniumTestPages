@@ -1,5 +1,7 @@
 ## Self contained localhost version of test pages
 
+
+
 This `java` folder contains a localhost version of the selenium test pages.
 
 Written using spark framework.
@@ -61,5 +63,3 @@ Replace:
 This will allow most of the tests to run locally against the java app.
 
 * At the moment the screenshot tests still use `seleniumsimplified.com` and there is some navigation on the internet with the frames tests - these will be amended later.
-
-
