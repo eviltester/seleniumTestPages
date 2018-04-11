@@ -63,3 +63,9 @@ Replace:
 This will allow most of the tests to run locally against the java app.
 
 * At the moment the screenshot tests still use `seleniumsimplified.com` and there is some navigation on the internet with the frames tests - these will be amended later.
+
+## Now Supports Technical and Exploratory Testing
+
+I have created a few JavaScript games and apps for teaching exploratory technical testing.
+
+These are now included in this application, you can find a link at the bottom of the main page.
