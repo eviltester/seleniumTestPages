@@ -24,8 +24,8 @@ public class MainTestPages {
         get("/games/buggygames/", (req, res) -> {res.redirect("/games/buggygames/index.html"); return "";});
 
         // apps
-        get("/apps/eprimer/", (req, res) -> {res.redirect("/eprimer/eprimer.html"); return "";});
-        get("/apps/eprimer", (req, res) -> {res.redirect("/eprimer/eprimer.html"); return "";});
+        get("/apps/eprimer/", (req, res) -> {res.redirect("/apps/eprimer/eprimer.html"); return "";});
+        get("/apps/eprimer", (req, res) -> {res.redirect("/apps/eprimer/eprimer.html"); return "";});
 
         get("/apps/7charval/", (req, res) -> {res.redirect("/testing_exercises/7charval/simiple7charvalidation.htm"); return "";});
         get("/apps/7charval", (req, res) -> {res.redirect("/testing_exercises/7charval/simiple7charvalidation.htm"); return "";});
