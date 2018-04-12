@@ -1,5 +1,8 @@
 package com.seleniumsimplified.pulp.domain;
 
+import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.seleniumtestpages.CsvReader;
+import com.seleniumsimplified.seleniumtestpages.ResourceReader;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -72,5 +75,50 @@ public class BasicDomainObjectsTest {
         Assert.assertEquals("Street and Smith", sas.getName());
         Assert.assertEquals("SAS", sas.getId());
     }
+
+    @Test
+    public void canReadSavage(){
+        CsvReader reader = new CsvReader("/data/pulp/doc_savage_test.csv");
+        reader.read();
+
+        Assert.assertEquals(5, reader.numberOfLines());
+
+        String fields[] = reader.getLines(0).split("\",\"");
+        Assert.assertEquals(4, fields.length);
+
+        Assert.assertEquals("Lester Dent", reader.getLineField(0,0));
+        Assert.assertEquals("The Angry Canary", reader.getLineField(0,1));
+        Assert.assertEquals("Jul / Aug, 1948", reader.getLineField(0,2));
+        Assert.assertEquals("1948", reader.getLineField(0,3));
+
+    }
+
+    @Test
+    public void canUseSavageReader(){
+        SavageReader reader = new SavageReader("/data/pulp/doc_savage_test.csv");
+
+        Assert.assertEquals(5, reader.numberOfLines());
+
+        PulpBook book = reader.getBook(0);
+
+        Assert.assertEquals("KennethRobeson", book.getHouseAuthorIndex());
+        Assert.assertEquals("StreetAndSmith", book.getPublisherIndex());
+        Assert.assertEquals("LesterDent", book.getAuthorIndex());
+        Assert.assertEquals("The Angry Canary", book.getTitle());
+        Assert.assertEquals("Jul / Aug, 1948", book.getSeriesId());
+        Assert.assertEquals(1948, book.getPublicationYear());
+
+    }
+
+    // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app
+    // TODO create books ("database") class
+    // TODO create classes for collection of authors, publishers, heroes, series, books
+    //   e.g. books.books()
+    // TODO create numeric indexes when adding an entity
+    // TODO replace the text index in book e.g. KennethRobeson with the numeric index
+    // TODO: books.authors().get("1")
+    // TODO: books.authors().delete(1) - delete all books from that author
+
+    // TODO create unit tests for each of the pages and apps routings
 
 }
