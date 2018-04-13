@@ -3,6 +3,11 @@ package com.seleniumsimplified.pulp.reader;
 import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class SavageReader {
     private final CsvReader reader;
     private String defaultHouseAuthor;
@@ -41,7 +46,8 @@ public class SavageReader {
 
     public PulpBook getBook(int atLine) {
 
-        PulpBook book = new PulpBook(   defaultSeriesName,
+        PulpBook book = new PulpBook(   "unknown",
+                                        defaultSeriesName,
                                         reader.getLineField(atLine,0),
                                         defaultHouseAuthor,
                                         reader.getLineField(atLine,1),
@@ -50,5 +56,32 @@ public class SavageReader {
                                         defaultPublisherName
                             );
         return book;
+    }
+
+    public List<String> getAuthorNames() {
+
+        Set<String> authorNames = new HashSet<>();
+        authorNames.add(defaultHouseAuthor);
+
+        for(int line=0; line<reader.numberOfLines(); line++){
+            authorNames.add(reader.getLineField(line,0).trim());
+        }
+
+        List<String> names = new ArrayList<>();
+        names.addAll(authorNames);
+
+        return names;
+    }
+
+    public List<String> getPublisherNames() {
+        List<String> publishers = new ArrayList<>();
+        publishers.add(defaultPublisherName);
+        return publishers;
+    }
+
+    public List<String> getPulpSeries() {
+        List<String> seriesnames = new ArrayList<>();
+        seriesnames.add(defaultSeriesName);
+        return seriesnames;
     }
 }

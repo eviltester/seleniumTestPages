@@ -6,7 +6,7 @@ public class PulpHero {
 
     public PulpHero(String name) {
         this.name = name;
-        this.id = name.replaceAll(" ", "");
+        this.id = "unknown";
     }
 
     public String getName() {

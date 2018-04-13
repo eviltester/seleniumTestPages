@@ -1,6 +1,7 @@
 package com.seleniumsimplified.pulp.domain;
 
 public class PulpBook {
+    public static final PulpBook UNKNOWN_BOOK = new PulpBook("unknown", "unknown", "unknown", "unknown", "Unknown Title", "unknown", 0, "unknown");
     private final String authorIndexName;
     private final String seriesIndexName;
     private final String title;
@@ -8,15 +9,17 @@ public class PulpBook {
     private final int publicationYear;
     private final String publisherIndexName;
     private String houseAuthorIndexName;
+    private String id;
 
-    public PulpBook(String seriesIndexName, String authorIndexName, String houseAuthorIndex, String title, String seriesId, int publicationYear, String publisherIndexName) {
-        this.seriesIndexName = seriesIndexName.replaceAll(" ","");
-        this.authorIndexName = authorIndexName.replaceAll(" ","");
-        this.houseAuthorIndexName = houseAuthorIndex.replaceAll(" ","");
+    public PulpBook(String id, String seriesIndexName, String authorIndexName, String houseAuthorIndex, String title, String seriesId, int publicationYear, String publisherIndexName) {
+        this.id = id;
+        this.seriesIndexName = seriesIndexName;
+        this.authorIndexName = authorIndexName;
+        this.houseAuthorIndexName = houseAuthorIndex;
         this.title = title;
         this.seriesId = seriesId;
         this.publicationYear = publicationYear;
-        this.publisherIndexName = publisherIndexName.replaceAll(" ", "");
+        this.publisherIndexName = publisherIndexName;
     }
 
     public String getSeriesIndex() {
@@ -45,5 +48,9 @@ public class PulpBook {
 
     public String getHouseAuthorIndex() {
         return this.houseAuthorIndexName;
+    }
+
+    public String getId() {
+        return id;
     }
 }
