@@ -145,7 +145,22 @@ public class BasicDomainObjectsTest {
     }
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app
+    // TODO: Add support for co-authors
+    // TODO: amend Savage data to have co-authors
+    // TODO: Add data for The Spider, The Avenger
+    // TODO: add report classes to use for JSON and XML serialisation
+    // TODO: create a list of basic end points and add methods to support end point reporting
+    // TODO: add a basic REST API for get requests and reporting
+    // TODO: add a simple GUI that uses the REST API for reporting the data
+    // TODO: add an AJAX based GUI that uses the REST API for reporting the data
+    // TODO: can READ and get without authentication
+    // TODO: add a single admin user hard coded
+    // TODO: can see an admin interface when logged in
+    // TODO: expand back end for delete, replace, partial amend - require admin user permissions and authentication
     // TODO: books.authors().delete(1) - delete all books from that author
+    // TODO: add other users
+    // TODO: add permissions on entities, created-by, owner
+    // TODO: amendment based on permissions of user
     // TODO: the static data reader and collection classes were created with a high level exploratory test - not low level TDD, really neeed class specific tests on the collections
 
     // TODO create unit tests for each of the pages and apps routings
