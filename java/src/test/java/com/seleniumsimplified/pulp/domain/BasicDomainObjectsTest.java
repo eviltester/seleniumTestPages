@@ -210,8 +210,15 @@ public class BasicDomainObjectsTest {
         Assert.assertTrue("HTML should end well", report.contains("</body></html>"));
     }
 
+    @Test
+    public void haveBasicAppWrapperForPublishers(){
+        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        String report = app.reports().getPublishersAsHtmlList();
+        System.out.println(report);
+        Assert.assertTrue(report.contains("<li>Street And Smith</li>"));
+    }
+
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
-    // TODO: simple HTML add report for publishers
     // TODO: add simple HTML report for years
     // TODO: add simple HTML report for Series Names
     // TODO: add link from authors to a report of books written by the author

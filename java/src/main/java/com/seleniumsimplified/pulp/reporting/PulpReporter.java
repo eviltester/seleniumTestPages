@@ -3,6 +3,7 @@ package com.seleniumsimplified.pulp.reporting;
 import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.domain.PulpAuthor;
 import com.seleniumsimplified.pulp.domain.PulpBook;
+import com.seleniumsimplified.pulp.domain.PulpPublisher;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,6 +63,24 @@ public class PulpReporter {
         }
 
         return report;
+
+    }
+
+    public Collection<String> getPublishersAsStrings() {
+            List<String> report = new ArrayList<>();
+            StringBuilder line;
+
+            List<String> keys = data.publishers().keys();
+
+            for(String key : keys) {
+                line = new StringBuilder();
+                PulpPublisher item = data.publishers().get(key);
+                line.append(item.getName());
+
+                report.add(line.toString());
+            }
+
+            return report;
 
     }
 }

@@ -5,6 +5,7 @@ import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.pulp.domain.PulpPublisher;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PulpPublishers {
     private int key;
@@ -47,4 +48,11 @@ public class PulpPublishers {
 
         return PulpPublisher.UNKNOWN_PUBLISHER;
     }
-}
+
+    public List<String> keys() {
+        List<String> keys = new ArrayList<>();
+        for(PulpPublisher item : publishers){
+            keys.add(item.getId());
+        }
+        return keys;
+    }}

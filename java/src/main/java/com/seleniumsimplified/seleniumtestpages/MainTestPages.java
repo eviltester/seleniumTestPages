@@ -74,12 +74,11 @@ public class MainTestPages {
         // everything else just redirect
         get("/selenium/*", (req, res) -> {res.redirect("/" + req.splat()[0]); return "";});
 
-
-
         // pulp app
         PulpApp pulp = new PulpApp("/data/pulp/doc_savage.csv");
         get("/apps/pulp/gui/reports/books", (req, res) -> { return pulp.reports().getBooksAsHtmlList();});
         get("/apps/pulp/gui/reports/authors", (req, res) -> { return pulp.reports().getAuthorsAsHtmlList();});
+        get("/apps/pulp/gui/reports/publishers", (req, res) -> { return pulp.reports().getPublishersAsHtmlList();});
 
         get("/apps/pulp/", (req, res) -> { return pulp.reports().getIndexPage();});
         get("/apps/pulp", (req, res) -> { return pulp.reports().getIndexPage();});
