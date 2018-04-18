@@ -81,6 +81,13 @@ public class MainTestPages {
         get("/apps/pulp/gui/reports/books", (req, res) -> { return pulp.reports().getBooksAsHtmlList();});
         get("/apps/pulp/gui/reports/authors", (req, res) -> { return pulp.reports().getAuthorsAsHtmlList();});
 
+        get("/apps/pulp/", (req, res) -> { return pulp.reports().getIndexPage();});
+        get("/apps/pulp", (req, res) -> { return pulp.reports().getIndexPage();});
+        get("/apps/pulp/gui", (req, res) -> { return pulp.reports().getIndexPage();});
+        get("/apps/pulp/gui/", (req, res) -> { return pulp.reports().getIndexPage();});
+        get("/apps/pulp/gui/reports", (req, res) -> { return pulp.reports().getIndexPage();});
+        get("/apps/pulp/gui/reports/", (req, res) -> { return pulp.reports().getIndexPage();});
+
     }
 
 

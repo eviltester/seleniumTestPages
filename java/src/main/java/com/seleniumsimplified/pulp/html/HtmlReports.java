@@ -24,21 +24,67 @@ public class HtmlReports {
 
         StringBuilder report = new StringBuilder();
 
-        report.append("<html><head>\n");
-        report.append(String.format("<title>List of %s</title>%n", listOfWhat));
-        report.append("</head>\n");
+        addHeader(String.format("<title>List of %s</title>%n", listOfWhat), report);
 
-        report.append("<body>\n");
+        startBody(report);
 
-        report.append("<ul>\n");
+        startUl(report);
+
         for(String reportLine : simpleReport){
-            report.append(String.format("<li>%s</li>%n", reportLine));
+            report.append(getLi(reportLine));
         }
-        report.append("</ul>");
+        endUl(report);
 
-        report.append("</body></html>");
+        endBodyAndPage(report);
 
         return report.toString();
 
+    }
+
+    private void endUl(StringBuilder report) {
+        report.append("</ul>");
+    }
+
+    private void startUl(StringBuilder report) {
+        report.append("<ul>\n");
+    }
+
+    private void endBodyAndPage(StringBuilder report) {
+        report.append("</body></html>");
+    }
+
+    private void startBody(StringBuilder report) {
+        report.append("<body>\n");
+    }
+
+    public String getIndexPage(){
+
+        StringBuilder report = new StringBuilder();
+        addHeader("Pulp App Menu", report);
+        startBody(report);
+
+        startUl(report);
+
+        report.append(getLi(getLink("List of Books", "/apps/pulp/gui/reports/books")));
+        report.append(getLi(getLink("List of Authors", "/apps/pulp/gui/reports/authors")));
+
+        endUl(report);
+        endBodyAndPage(report);
+
+        return report.toString();
+    }
+
+    private String getLi(String text) {
+        return String.format("<li>%s</li>%n", text);
+    }
+
+    private String getLink(String text, String href) {
+        return String.format("<a href='%s'>%s</a>", href, text);
+    }
+
+    private void addHeader(String title, StringBuilder report) {
+        report.append("<html><head>\n");
+        report.append(title);
+        report.append("</head>\n");
     }
 }
