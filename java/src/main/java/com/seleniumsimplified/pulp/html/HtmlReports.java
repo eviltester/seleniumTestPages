@@ -43,10 +43,14 @@ public class HtmlReports {
 
         startUl(report);
 
+        report.append(String.format("<h1>List of %s</h1>%n", listOfWhat));
+
         for(String reportLine : simpleReport){
             report.append(getLi(reportLine));
         }
         endUl(report);
+
+        addReportList(report);
 
         endBodyAndPage(report);
 
@@ -76,6 +80,16 @@ public class HtmlReports {
         addHeader("Pulp App Menu", report);
         startBody(report);
 
+        addReportList(report);
+
+        endBodyAndPage(report);
+
+        return report.toString();
+    }
+
+    private void addReportList(StringBuilder report) {
+
+        report.append("<h2>Reports List</h2>");
         startUl(report);
 
         report.append(getLi(getLink("List of Books", "/apps/pulp/gui/reports/books")));
@@ -85,9 +99,6 @@ public class HtmlReports {
         report.append(getLi(getLink("List of Series", "/apps/pulp/gui/reports/series")));
 
         endUl(report);
-        endBodyAndPage(report);
-
-        return report.toString();
     }
 
     private String getLi(String text) {

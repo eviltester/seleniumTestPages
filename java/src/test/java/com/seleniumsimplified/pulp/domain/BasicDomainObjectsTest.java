@@ -237,7 +237,6 @@ public class BasicDomainObjectsTest {
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
     
-    // TODO: add report index to footer of all the simple reports
     // TODO: add link from authors to a report of books written by the author
     // TODO: add a link from the years to a report of books published in that year
     // TODO: add a link from the publishers to a report of the series published by that publisher
