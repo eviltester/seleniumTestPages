@@ -211,6 +211,7 @@ public class BasicDomainObjectsTest {
     // TODO: add permissions on entities, created-by, owner
     // TODO: amendment based on permissions of user
     // TODO: the static data reader and collection classes were created with a high level exploratory test - not low level TDD, really neeed class specific tests on the collections
+    //       20180415 bugs that slipped through because of this - hard coded paths, not reading books as unique books - i.e. every book was first in csv file
 
     // TODO create unit tests for each of the pages and apps routings
 
