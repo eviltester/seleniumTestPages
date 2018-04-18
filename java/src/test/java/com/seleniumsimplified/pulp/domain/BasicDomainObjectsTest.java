@@ -183,20 +183,44 @@ public class BasicDomainObjectsTest {
     @Test
     public void haveBasicAppWrapperForBooks(){
         PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
-        System.out.println(app.reports().getBooksAsHtmlList());
-        Assert.assertTrue(app.reports().getBooksAsHtmlList().contains("<li>The Angry Canary | Lester Dent"));
+        String report = app.reports().getBooksAsHtmlList();
+        System.out.println(report);
+        Assert.assertTrue(report.contains("<li>The Angry Canary | Lester Dent"));
     }
 
 
     @Test
     public void haveBasicAppWrapperForAuthors(){
         PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
-        System.out.println(app.reports().getAuthorsAsHtmlList());
-        Assert.assertTrue(app.reports().getAuthorsAsHtmlList().contains("<li>Lester Dent</li>"));
+        String report = app.reports().getAuthorsAsHtmlList();
+        System.out.println(report);
+        Assert.assertTrue(report.contains("<li>Lester Dent</li>"));
+    }
+
+    @Test
+    public void simpleReportHasBasicHtmlStructure(){
+        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        String report = app.reports().getAuthorsAsHtmlList();
+        System.out.println(report);
+
+        Assert.assertTrue("Should start as basic html",report.contains("<html><head>"));
+        Assert.assertTrue("Should have title", report.contains("<title>List of Authors</title>"));
+        Assert.assertTrue("Should have well formed head", report.contains("</head>"));
+        Assert.assertTrue("Should have body", report.contains("<body>"));
+        Assert.assertTrue("HTML should end well", report.contains("</body></html>"));
     }
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
-    // TODO: Add data for The Spider, The Avenger
+
+    // TODO: simple HTML add report for publishers
+    // TODO: add simple HTML report for years
+    // TODO: add simple HTML report for Series Names
+    // TODO: add link from authors to a report of books written by the author
+    // TODO: add a link from the years to a report of books published in that year
+    // TODO: add a link from the publishers to a report of the series published by that publisher
+    // TODO: add a link from the series to the books published in that series
+    // TODO: make the book report have links from "author" to author, publisher to publisher, year to year, series to series
+    // TODO: Add data for The Spider, The Avenger, and others ()
     // TODO: add report classes to use for JSON and XML serialisation
     // TODO: create a list of basic end points and add methods to support end point reporting
     // TODO: add a basic REST API for get requests and reporting
