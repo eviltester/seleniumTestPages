@@ -79,6 +79,7 @@ public class MainTestPages {
         // pulp app
         PulpApp pulp = new PulpApp("/data/pulp/doc_savage.csv");
         get("/apps/pulp/gui/reports/books", (req, res) -> { return pulp.reports().getBooksAsHtmlList();});
+        get("/apps/pulp/gui/reports/authors", (req, res) -> { return pulp.reports().getAuthorsAsHtmlList();});
 
     }
 

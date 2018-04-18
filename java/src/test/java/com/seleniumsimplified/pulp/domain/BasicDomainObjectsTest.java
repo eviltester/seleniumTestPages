@@ -181,8 +181,18 @@ public class BasicDomainObjectsTest {
     }
 
     @Test
-    public void haveBasicAppWrapper(){
+    public void haveBasicAppWrapperForBooks(){
         PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        System.out.println(app.reports().getBooksAsHtmlList());
+        Assert.assertTrue(app.reports().getBooksAsHtmlList().contains("<li>The Angry Canary | Lester Dent"));
+    }
+
+
+    @Test
+    public void haveBasicAppWrapperForAuthors(){
+        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        System.out.println(app.reports().getAuthorsAsHtmlList());
+        Assert.assertTrue(app.reports().getAuthorsAsHtmlList().contains("<li>Lester Dent</li>"));
     }
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK

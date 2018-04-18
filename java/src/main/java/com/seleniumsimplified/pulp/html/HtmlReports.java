@@ -13,13 +13,20 @@ public class HtmlReports {
     }
 
     public String getBooksAsHtmlList() {
-        Collection<String> simpleReport = reporter.getBooksAsStrings();
+        return reportCollectionasLi(reporter.getBooksAsStrings());
+    }
+
+    public String getAuthorsAsHtmlList() {
+        return reportCollectionasLi(reporter.getAuthorsAsStrings());
+    }
+
+    private String reportCollectionasLi(Collection<String> simpleReport){
 
         StringBuilder report = new StringBuilder();
 
-        report.append("<ul>");
+        report.append("<ul>\n");
         for(String reportLine : simpleReport){
-            report.append(String.format("<li>%s</li>", reportLine));
+            report.append(String.format("<li>%s</li>%n", reportLine));
         }
         report.append("</ul>");
         return report.toString();

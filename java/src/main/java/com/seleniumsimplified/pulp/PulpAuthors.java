@@ -1,8 +1,10 @@
 package com.seleniumsimplified.pulp;
 
 import com.seleniumsimplified.pulp.domain.PulpAuthor;
+import com.seleniumsimplified.pulp.domain.PulpBook;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PulpAuthors {
     private int key;
@@ -43,5 +45,13 @@ public class PulpAuthors {
         }
 
         return PulpAuthor.UNKNOWN_AUTHOR;
+    }
+
+    public List<String> keys() {
+        List<String> keys = new ArrayList<>();
+        for(PulpAuthor item : authors){
+            keys.add(item.getId());
+        }
+        return keys;
     }
 }
