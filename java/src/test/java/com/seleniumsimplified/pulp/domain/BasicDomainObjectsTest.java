@@ -236,18 +236,27 @@ public class BasicDomainObjectsTest {
     }
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
+
+    // TODO: Element linked Reports
+        // TODO: add link from authors to a report of books written by the author
+        // TODO: add a link from the years to a report of books published in that year
+        // TODO: add a link from the publishers to a report of the series published by that publisher
+        // TODO: add a link from the series to the books published in that series
+        // TODO: make the book report have links from "author" to author, publisher to publisher, year to year, series to series
+
+    // TODO: More Data
+        // TODO: Add data for The Spider, The Avenger, and others ()
+
+    // TODO: Basic API
+        // TODO: add report classes to use for JSON and XML serialisation
+        // TODO: create a list of basic end points and add methods to support end point reporting
+        // TODO: add a basic REST API for get requests and reporting
+
+    // TODO: API Powered GUI
+        // TODO: add a simple GUI that uses the REST API for reporting the data
+        // TODO: add an AJAX based GUI that uses the REST API for reporting the data
+
     
-    // TODO: add link from authors to a report of books written by the author
-    // TODO: add a link from the years to a report of books published in that year
-    // TODO: add a link from the publishers to a report of the series published by that publisher
-    // TODO: add a link from the series to the books published in that series
-    // TODO: make the book report have links from "author" to author, publisher to publisher, year to year, series to series
-    // TODO: Add data for The Spider, The Avenger, and others ()
-    // TODO: add report classes to use for JSON and XML serialisation
-    // TODO: create a list of basic end points and add methods to support end point reporting
-    // TODO: add a basic REST API for get requests and reporting
-    // TODO: add a simple GUI that uses the REST API for reporting the data
-    // TODO: add an AJAX based GUI that uses the REST API for reporting the data
     // TODO: can READ and get without authentication
     // TODO: add a single admin user hard coded
     // TODO: can see an admin interface when logged in
