@@ -40,7 +40,7 @@ public class BasicDomainObjectsTest {
         PulpBook savageOne = new PulpBook("1","Doc Savage", "Lester Dent", "Kenneth Robeson","The Man of Bronze", "March, 1933", 1933, "Street And Smith");
         Assert.assertEquals("1", savageOne.getId());
         Assert.assertEquals("Doc Savage", savageOne.getSeriesIndex());
-        Assert.assertEquals("Lester Dent", savageOne.getAuthorIndex());
+        Assert.assertEquals("Lester Dent", savageOne.getAuthorIndexesAsString());
         Assert.assertEquals("Kenneth Robeson", savageOne.getHouseAuthorIndex());
         Assert.assertEquals("The Man of Bronze", savageOne.getTitle());
         Assert.assertEquals("March, 1933", savageOne.getSeriesId());
@@ -80,7 +80,7 @@ public class BasicDomainObjectsTest {
         String fields[] = reader.getLines(0).split("\",\"");
         Assert.assertEquals(4, fields.length);
 
-        Assert.assertEquals("Lester Dent", reader.getLineField(0,0));
+        Assert.assertEquals("Lester Dent / Will Murray", reader.getLineField(0,0));
         Assert.assertEquals("The Angry Canary", reader.getLineField(0,1));
         Assert.assertEquals("Jul / Aug, 1948", reader.getLineField(0,2));
         Assert.assertEquals("1948", reader.getLineField(0,3));
@@ -97,7 +97,8 @@ public class BasicDomainObjectsTest {
 
         Assert.assertEquals("Kenneth Robeson", book.getHouseAuthorIndex());
         Assert.assertEquals("Street And Smith", book.getPublisherIndex());
-        Assert.assertEquals("Lester Dent", book.getAuthorIndex());
+        Assert.assertEquals("Lester Dent", book.getAuthorIndexes().get(0));
+        Assert.assertEquals("Will Murray", book.getAuthorIndexes().get(1));
         Assert.assertEquals("The Angry Canary", book.getTitle());
         Assert.assertEquals("Jul / Aug, 1948", book.getSeriesId());
         Assert.assertEquals(1948, book.getPublicationYear());
@@ -110,9 +111,11 @@ public class BasicDomainObjectsTest {
         SavageReader reader = new SavageReader("/data/pulp/doc_savage_test.csv");
 
         List<String> authorNames = reader.getAuthorNames();
-        Assert.assertEquals(2, authorNames.size());
+        Assert.assertEquals(3, authorNames.size());
         Assert.assertTrue(authorNames.contains("Kenneth Robeson"));
         Assert.assertTrue(authorNames.contains("Lester Dent"));
+        Assert.assertTrue(authorNames.contains("Will Murray"));
+
     }
 
     @Test
@@ -123,7 +126,7 @@ public class BasicDomainObjectsTest {
         SavageReader reader = new SavageReader("/data/pulp/doc_savage_test.csv");
         populator.populateFrom(reader);
 
-        Assert.assertEquals(2, books.authors().count());
+        Assert.assertEquals(3, books.authors().count());
 
         // not convinced this will always be true - ordering may be different on some machines
         Assert.assertEquals("Lester Dent", books.authors().get("1").getName());
@@ -140,13 +143,13 @@ public class BasicDomainObjectsTest {
         Assert.assertEquals(5, books.books().count());
 
         Assert.assertEquals("Kenneth Robeson", books.authors().get(books.books().get("1").getHouseAuthorIndex()).getName());
-        Assert.assertEquals("Lester Dent", books.authors().get(books.books().get("1").getAuthorIndex()).getName());
+        Assert.assertEquals("Lester Dent", books.authors().get(books.books().get("1").getAuthorIndexes().get(0)).getName());
+        Assert.assertEquals("Will Murray", books.authors().get(books.books().get("1").getAuthorIndexes().get(1)).getName());
 
     }
 
-    // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app
-    // TODO: Add support for co-authors
-    // TODO: amend Savage data to have co-authors
+    // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
+    // TODO: amend Savage data to include co-authors in proper data
     // TODO: Add data for The Spider, The Avenger
     // TODO: add report classes to use for JSON and XML serialisation
     // TODO: create a list of basic end points and add methods to support end point reporting

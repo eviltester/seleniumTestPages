@@ -1,5 +1,7 @@
 package com.seleniumsimplified.seleniumtestpages;
 
+import java.util.Collection;
+
 public class CsvReader {
     private final String resourcePath;
     private String data;

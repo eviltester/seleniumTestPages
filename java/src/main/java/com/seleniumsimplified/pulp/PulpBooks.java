@@ -1,6 +1,7 @@
 package com.seleniumsimplified.pulp;
 
 import com.seleniumsimplified.pulp.domain.PulpBook;
+import com.seleniumsimplified.pulp.domain.PulpPublisher;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,10 @@ public class PulpBooks {
         return books.size();
     }
 
-    public void add(String series, String author, String houseAuthor, String title, String seriesId, int year, String publisher) {
+    public PulpBook add(String series, String author, String houseAuthor, String title, String seriesId, int year, String publisher) {
         PulpBook book = getNextBook(series, author, houseAuthor, title, seriesId, year, publisher);
         books.add(book);
+        return book;
     }
 
     private PulpBook getNextBook(String series, String author, String houseAuthor, String title, String seriesId, int year, String publisher) {

@@ -1,12 +1,10 @@
 package com.seleniumsimplified.pulp.reader;
 
+import com.seleniumsimplified.pulp.domain.PulpAuthor;
 import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SavageReader {
     private final CsvReader reader;
@@ -64,13 +62,21 @@ public class SavageReader {
         authorNames.add(defaultHouseAuthor);
 
         for(int line=0; line<reader.numberOfLines(); line++){
-            authorNames.add(reader.getLineField(line,0).trim());
+            authorNames.addAll(getAuthorsFromLine(line));
         }
 
         List<String> names = new ArrayList<>();
         names.addAll(authorNames);
 
         return names;
+    }
+
+    private Collection<String> getAuthorsFromLine(int line) {
+
+        String authorsField = reader.getLineField(line,0).trim();
+
+        return PulpAuthor.parseNameAsMultipleAuthors(authorsField);
+
     }
 
     public List<String> getPublisherNames() {

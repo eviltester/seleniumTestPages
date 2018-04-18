@@ -67,8 +67,9 @@ public class PulpDataPopulator {
             // find the series index
             PulpSeries series = data.series().findByName(aDraftBook.getSeriesIndex());
 
-            // find the author index
-            PulpAuthor author = data.authors().findByName(aDraftBook.getAuthorIndex());
+            // find the author indexes
+            List<String> authors = aDraftBook.getAuthorIndexes();
+            PulpAuthor author = data.authors().findByName(authors.get(0)); // use first author as main author
 
             // find the house author index
             PulpAuthor houseAuthor = data.authors().findByName(aDraftBook.getHouseAuthorIndex());
@@ -77,9 +78,14 @@ public class PulpDataPopulator {
             PulpPublisher publisher = data.publishers().findByName(aDraftBook.getPublisherIndex());
 
             if(allIndexesArePresent(series, author, houseAuthor, publisher )){
-                data.books().add(series.getId(), author.getId(), houseAuthor.getId(), title, seriesId, publicationYear, publisher.getId());
+                PulpBook book = data.books().add(series.getId(), author.getId(), houseAuthor.getId(), title, seriesId, publicationYear, publisher.getId());
+                for(String authorName : authors){
+                    PulpAuthor anAuthor = data.authors().findByName(authorName);
+                    book.addCoAuthor(anAuthor.getId());
+                }
             }else{
-                System.out.println(String.format("Warning: Could not add SERIES %s, %s, %s, by %s (published as %s) by publisher %s", aDraftBook.getSeriesIndex(), title, seriesId, aDraftBook.getAuthorIndex(), aDraftBook.getHouseAuthorIndex(), aDraftBook.getPublisherIndex()));
+                System.out.println(String.format("Warning: Could not add SERIES %s, %s, %s, by %s (published as %s) by publisher %s",
+                                                    aDraftBook.getSeriesIndex(), title, seriesId, aDraftBook.getAuthorIndexesAsString(), aDraftBook.getHouseAuthorIndex(), aDraftBook.getPublisherIndex()));
                 System.out.println(String.format("Because: %s", whichIndexesAreMissing(series, author, houseAuthor, publisher)));
             }
 
