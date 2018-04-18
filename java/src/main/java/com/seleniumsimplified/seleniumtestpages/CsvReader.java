@@ -12,7 +12,7 @@ public class CsvReader {
     }
 
     public void read() {
-        this.data = new ResourceReader().asString("/data/pulp/doc_savage_test.csv");
+        this.data = new ResourceReader().asString(resourcePath);
         this.lines = data.split("\n");
     }
 

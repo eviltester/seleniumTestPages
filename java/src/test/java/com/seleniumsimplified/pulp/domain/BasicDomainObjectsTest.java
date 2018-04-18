@@ -1,5 +1,6 @@
 package com.seleniumsimplified.pulp.domain;
 
+import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
 import com.seleniumsimplified.pulp.reader.SavageReader;
@@ -166,7 +167,9 @@ public class BasicDomainObjectsTest {
         SavageReader reader = new SavageReader("/data/pulp/doc_savage_test.csv");
         populator.populateFrom(reader);
 
+
         PulpReporter reporter = new PulpReporter(books);
+
         Collection<String> simpleReport = reporter.getBooksAsStrings();
 
         for(String reportLine : simpleReport){
@@ -175,6 +178,11 @@ public class BasicDomainObjectsTest {
 
         Assert.assertEquals(simpleReport.size(), books.books().count());
 
+    }
+
+    @Test
+    public void haveBasicAppWrapper(){
+        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
     }
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK

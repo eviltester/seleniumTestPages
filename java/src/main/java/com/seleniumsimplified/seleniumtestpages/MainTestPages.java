@@ -1,5 +1,6 @@
 package com.seleniumsimplified.seleniumtestpages;
 
+import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.seleniumtestpages.php.*;
 
 import static spark.Spark.*;
@@ -73,6 +74,11 @@ public class MainTestPages {
         // everything else just redirect
         get("/selenium/*", (req, res) -> {res.redirect("/" + req.splat()[0]); return "";});
 
+
+
+        // pulp app
+        PulpApp pulp = new PulpApp("/data/pulp/doc_savage.csv");
+        get("/apps/pulp/gui/reports/books", (req, res) -> { return pulp.reports().getBooksAsHtmlList();});
 
     }
 
