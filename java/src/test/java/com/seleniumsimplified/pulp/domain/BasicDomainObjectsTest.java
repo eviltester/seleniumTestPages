@@ -149,7 +149,6 @@ public class BasicDomainObjectsTest {
     }
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
-    // TODO: amend Savage data to include co-authors in proper data
     // TODO: Add data for The Spider, The Avenger
     // TODO: add report classes to use for JSON and XML serialisation
     // TODO: create a list of basic end points and add methods to support end point reporting
