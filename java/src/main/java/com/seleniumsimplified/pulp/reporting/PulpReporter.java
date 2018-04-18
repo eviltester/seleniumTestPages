@@ -4,6 +4,7 @@ import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.domain.PulpAuthor;
 import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.pulp.domain.PulpPublisher;
+import com.seleniumsimplified.pulp.domain.PulpSeries;
 
 import java.util.*;
 
@@ -85,8 +86,6 @@ public class PulpReporter {
     public Collection<String> getYearsAsStrings() {
         List<String> report = new ArrayList<>();
 
-        StringBuilder line;
-
         List<String> keys = data.books().keys();
 
         Set<Integer> years = new TreeSet<>();
@@ -102,5 +101,19 @@ public class PulpReporter {
         }
 
         return report;
+    }
+
+    public Collection<String> getSeriesNamesAsStrings() {
+
+        List<String> keys = data.series().keys();
+
+        Set<String> itemNames = new TreeSet<>();
+
+        for(String key : keys) {
+            PulpSeries item = data.series().get(key);
+            itemNames.add(item.getName());
+        }
+
+        return itemNames;
     }
 }
