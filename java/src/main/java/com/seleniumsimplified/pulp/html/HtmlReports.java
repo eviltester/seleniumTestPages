@@ -13,19 +13,22 @@ public class HtmlReports {
     }
 
     public String getBooksAsHtmlList() {
-        return reportCollectionasLi(reporter.getBooksAsStrings(), "Books");
+        return reportCollectionAsLi(reporter.getBooksAsStrings(), "Books");
     }
 
     public String getAuthorsAsHtmlList() {
-        return reportCollectionasLi(reporter.getAuthorsAsStrings(), "Authors");
+        return reportCollectionAsLi(reporter.getAuthorsAsStrings(), "Authors");
     }
 
     public String getPublishersAsHtmlList() {
-        return reportCollectionasLi(reporter.getPublishersAsStrings(), "Publishers");
+        return reportCollectionAsLi(reporter.getPublishersAsStrings(), "Publishers");
     }
 
+    public String getYearsAsHtmlList() {
+        return reportCollectionAsLi(reporter.getYearsAsStrings(), "Years");
+    }
 
-    private String reportCollectionasLi(Collection<String> simpleReport, String listOfWhat){
+    private String reportCollectionAsLi(Collection<String> simpleReport, String listOfWhat){
 
         StringBuilder report = new StringBuilder();
 
@@ -73,6 +76,7 @@ public class HtmlReports {
         report.append(getLi(getLink("List of Books", "/apps/pulp/gui/reports/books")));
         report.append(getLi(getLink("List of Authors", "/apps/pulp/gui/reports/authors")));
         report.append(getLi(getLink("List of Publishers", "/apps/pulp/gui/reports/publishers")));
+        report.append(getLi(getLink("List of Years", "/apps/pulp/gui/reports/years")));
 
         endUl(report);
         endBodyAndPage(report);
@@ -93,5 +97,6 @@ public class HtmlReports {
         report.append(title);
         report.append("</head>\n");
     }
+
 
 }
