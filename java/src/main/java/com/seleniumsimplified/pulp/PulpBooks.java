@@ -4,6 +4,7 @@ import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.pulp.domain.PulpPublisher;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PulpBooks {
 
@@ -52,4 +53,11 @@ public class PulpBooks {
         return findByName(title);
     }
 
+    public List<String> keys() {
+        List<String> bookKeys = new ArrayList<>();
+        for(PulpBook book : books){
+            bookKeys.add(book.getId());
+        }
+        return bookKeys;
+    }
 }

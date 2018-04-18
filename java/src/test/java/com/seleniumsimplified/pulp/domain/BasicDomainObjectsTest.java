@@ -3,10 +3,12 @@ package com.seleniumsimplified.pulp.domain;
 import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
 import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.List;
 
 public class BasicDomainObjectsTest {
@@ -145,6 +147,33 @@ public class BasicDomainObjectsTest {
         Assert.assertEquals("Kenneth Robeson", books.authors().get(books.books().get("1").getHouseAuthorIndex()).getName());
         Assert.assertEquals("Lester Dent", books.authors().get(books.books().get("1").getAuthorIndexes().get(0)).getName());
         Assert.assertEquals("Will Murray", books.authors().get(books.books().get("1").getAuthorIndexes().get(1)).getName());
+
+        String bookID = books.books().keys().get(0);
+        PulpBook book = books.books().get(bookID);
+        Assert.assertEquals("Doc Savage", books.series().get(book.getSeriesIndex()).getName());
+
+        Assert.assertEquals("The Angry Canary", books.books().get("1").getTitle());
+        Assert.assertEquals("The Swooning Lady", books.books().get("2").getTitle());
+
+
+    }
+
+    @Test
+    public void canReportOnData(){
+
+        PulpData books = new PulpData();
+        PulpDataPopulator populator = new PulpDataPopulator(books);
+        SavageReader reader = new SavageReader("/data/pulp/doc_savage_test.csv");
+        populator.populateFrom(reader);
+
+        PulpReporter reporter = new PulpReporter(books);
+        Collection<String> simpleReport = reporter.getBooksAsStrings();
+
+        for(String reportLine : simpleReport){
+            System.out.println(reportLine);
+        }
+
+        Assert.assertEquals(simpleReport.size(), books.books().count());
 
     }
 

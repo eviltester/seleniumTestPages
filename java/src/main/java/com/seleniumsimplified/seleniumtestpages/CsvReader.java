@@ -25,7 +25,7 @@ public class CsvReader {
     }
 
     public String getLineField(int line, int field) {
-        String fields[]=this.getLines(0).split("\",\"");
+        String fields[]=this.getLines(line).split("\",\"");
 
         String retVal;
 

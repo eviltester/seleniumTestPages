@@ -2,6 +2,7 @@ package com.seleniumsimplified.pulp.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public class PulpBook {
@@ -83,5 +84,13 @@ public class PulpBook {
         }
 
         return authors.toString();
+    }
+
+    public Collection<String> getAllAuthorIndexes() {
+        Collection<String> ids = new HashSet<>();
+        ids.addAll(getAuthorIndexes());
+        ids.add(houseAuthorIndexName);
+        return ids;
+
     }
 }
