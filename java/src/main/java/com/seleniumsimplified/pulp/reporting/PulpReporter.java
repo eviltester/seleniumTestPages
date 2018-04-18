@@ -89,7 +89,7 @@ public class PulpReporter {
 
         List<String> keys = data.books().keys();
 
-        Set<Integer> years = new HashSet<>();
+        Set<Integer> years = new TreeSet<>();
 
         for(String key : keys) {
             PulpBook book = data.books().get(key);
