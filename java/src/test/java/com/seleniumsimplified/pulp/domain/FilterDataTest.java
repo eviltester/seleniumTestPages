@@ -3,6 +3,7 @@ package com.seleniumsimplified.pulp.domain;
 import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.reader.SpiderReader;
 import com.seleniumsimplified.pulp.reader.TheAvengerReader;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import org.junit.Assert;
@@ -12,8 +13,6 @@ import java.util.List;
 
 
 public class FilterDataTest {
-
-    // TODO: allow multiple filter params e.g. ?year=136&author=4
 
     @Test
     public void canCreateAFilterForAuthorId(){
@@ -89,6 +88,28 @@ public class FilterDataTest {
         List<PulpBook> books = app.books().books().filteredBy(filter);
 
         Assert.assertEquals(2, books.size());
+
+    }
+
+    @Test
+    public void canCreateAFilterForSeries(){
+        PulpApp app = new PulpApp();
+        app.readData( new TheAvengerReader("/data/pulp/the_avenger_test.csv"));
+        app.readData( new SavageReader("/data/pulp/doc_savage_test.csv"));
+
+        Assert.assertEquals(13, app.books().books().count());
+
+        BookFilter filter = new BookFilter();
+        filter.where().partOfSeries(app.books().series().findByName("Doc Savage").getId());
+
+        List<PulpBook> books = app.books().books().filteredBy(filter);
+
+        Assert.assertEquals(5, books.size());
+
+        filter = new BookFilter();
+        filter.where().partOfSeries(app.books().series().findByName("The Avenger").getId());
+        books = app.books().books().filteredBy(filter);
+        Assert.assertEquals(8, books.size());
 
     }
 

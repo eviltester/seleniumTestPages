@@ -107,4 +107,8 @@ public class PulpBook {
     public boolean wasPublishedIn(int year) {
         return this.publicationYear==year;
     }
+
+    public boolean isPartOfSeries(String seriesId) {
+        return this.seriesIndexName.equalsIgnoreCase(seriesId);
+    }
 }

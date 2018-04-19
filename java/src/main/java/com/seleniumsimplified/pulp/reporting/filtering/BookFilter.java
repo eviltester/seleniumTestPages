@@ -4,8 +4,13 @@ public class BookFilter {
     private String authorId;
     private Integer year;
     private String publisherId;
+    private String seriesId;
 
     public BookFilter where() {
+        return this;
+    }
+
+    public BookFilter and() {
         return this;
     }
 
@@ -48,7 +53,16 @@ public class BookFilter {
         return publisherId;
     }
 
-    public BookFilter and() {
+    public BookFilter partOfSeries(String id) {
+        this.seriesId = id;
         return this;
+    }
+
+    public boolean isBySeries() {
+        return seriesId!=null;
+    }
+
+    public String getSeriesId() {
+        return seriesId;
     }
 }

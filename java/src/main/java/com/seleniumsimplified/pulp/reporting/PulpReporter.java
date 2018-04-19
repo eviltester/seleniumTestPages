@@ -5,6 +5,7 @@ import com.seleniumsimplified.pulp.domain.PulpAuthor;
 import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.pulp.domain.PulpPublisher;
 import com.seleniumsimplified.pulp.domain.PulpSeries;
+import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 
 import java.util.*;
 
@@ -23,14 +24,16 @@ public class PulpReporter {
 
     public Collection<String> getBooksAsStrings() {
 
+        return getBooksAsStrings(new BookFilter());
+    }
+
+    public Collection<String> getBooksAsStrings(BookFilter filter) {
+
         List<String> report = new ArrayList<>();
 
-        StringBuilder line;
+        List<PulpBook> filteredSet = data.books().filteredBy(filter);
 
-        List<String> keys = data.books().keys();
-
-        for(String key : keys){
-            PulpBook book = data.books().get(key);
+        for(PulpBook book : filteredSet){
             report.add(getLineFrom(book));
         }
 
@@ -38,77 +41,34 @@ public class PulpReporter {
     }
 
 
-
     public Collection<String> getBooksByAuthorAsStrings(String specificAuthorId) {
-        List<String> report = new ArrayList<>();
 
-        List<String> keys = data.books().keys();
+        BookFilter filter = new BookFilter().where().author(specificAuthorId);
 
-        for(String key : keys){
-
-            PulpBook book = data.books().get(key);
-
-            if(book.isAuthoredBy(specificAuthorId)){
-
-                report.add(getLineFrom(book));
-            }
-        }
-
-        return report;
+        return getBooksAsStrings(filter);
     }
 
     public Collection<String> getBooksPublishedInYearAsStrings(String year) {
-        List<String> report = new ArrayList<>();
 
-        List<String> keys = data.books().keys();
+        BookFilter filter = new BookFilter().where().publishedInYear(Integer.valueOf(year));
 
-        for(String key : keys){
+        return getBooksAsStrings(filter);
 
-            PulpBook book = data.books().get(key);
-
-            if(book.getPublicationYear()==Integer.valueOf(year)){
-
-                report.add(getLineFrom(book));
-            }
-        }
-
-        return report;
     }
 
     public Collection<String> getBooksPublishedByPublisherAsStrings(String id) {
-        List<String> report = new ArrayList<>();
 
-        List<String> keys = data.books().keys();
+        BookFilter filter = new BookFilter().where().publishedBy(id);
 
-        for(String key : keys){
-
-            PulpBook book = data.books().get(key);
-
-            if(book.getPublisherIndex().contentEquals(id)){
-
-                report.add(getLineFrom(book));
-            }
-        }
-
-        return report;
+        return getBooksAsStrings(filter);
     }
 
     public Collection<String> getBooksPublishedInSeriesAsStrings(String id) {
-        List<String> report = new ArrayList<>();
 
-        List<String> keys = data.books().keys();
+        BookFilter filter = new BookFilter().where().partOfSeries(id);
 
-        for(String key : keys){
+        return getBooksAsStrings(filter);
 
-            PulpBook book = data.books().get(key);
-
-            if(book.getSeriesIndex().contentEquals(id)){
-
-                report.add(getLineFrom(book));
-            }
-        }
-
-        return report;
     }
 
     private String getLineFrom(PulpBook book) {
@@ -195,9 +155,7 @@ public class PulpReporter {
             List<String> report = new ArrayList<>();
             StringBuilder line;
 
-            List<String> keys = data.publishers().keys();
-
-            for(String key : keys) {
+            for(String key : data.publishers().keys()) {
                 line = new StringBuilder();
                 PulpPublisher item = data.publishers().get(key);
                 line.append(getPublisher(item));

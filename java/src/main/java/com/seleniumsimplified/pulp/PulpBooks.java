@@ -94,6 +94,10 @@ public class PulpBooks {
                 ok = false;
             }
 
+            if(filter.isBySeries() && !book.isPartOfSeries(filter.getSeriesId())){
+                ok = false;
+            }
+
 
             if(ok){
                 filteredResultSet.add(book);
