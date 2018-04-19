@@ -3,7 +3,9 @@ package com.seleniumsimplified.pulp.domain;
 import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
+import com.seleniumsimplified.pulp.reader.PulpSeriesCSVReader;
 import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.reader.SpiderReader;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
@@ -161,6 +163,43 @@ public class BasicDomainObjectsTest {
     }
 
     @Test
+    public void canHaveAStaticDataPopulatorFromTheSpider(){
+
+        PulpData books = new PulpData();
+        PulpDataPopulator populator = new PulpDataPopulator(books);
+        PulpSeriesCSVReader reader = new SpiderReader("/data/pulp/the_spider_test.csv");
+        populator.populateFrom(reader);
+
+        Assert.assertEquals(4, books.authors().count());
+
+        // not convinced this will always be true - ordering may be different on some machines
+        Assert.assertEquals("Grant Stockbridge", books.authors().get("1").getName());
+
+        Assert.assertEquals("Norvell Page", books.authors().findByName("Norvell Page").getName());
+
+
+        Assert.assertEquals(1, books.publishers().count());
+        Assert.assertEquals("Popular Publications", books.publishers().get("1").getName());
+
+        Assert.assertEquals(1, books.series().count());
+        Assert.assertEquals("The Spider", books.series().get("1").getName());
+
+        Assert.assertEquals(6, books.books().count());
+
+        Assert.assertEquals("R.T.M. Scott", books.authors().get(books.books().get("1").getHouseAuthorIndex()).getName());
+        Assert.assertEquals("R.T.M. Scott", books.authors().get(books.books().get("1").getAuthorIndexes().get(0)).getName());
+
+        String bookID = books.books().keys().get(0);
+        PulpBook book = books.books().get(bookID);
+        Assert.assertEquals("The Spider", books.series().get(book.getSeriesIndex()).getName());
+
+        Assert.assertEquals("The Spider Strikes", books.books().get("1").getTitle());
+        Assert.assertEquals("The Wheel of Death", books.books().get("2").getTitle());
+
+
+    }
+
+    @Test
     public void canReportOnData(){
 
         PulpData books = new PulpData();
@@ -183,7 +222,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForBooks(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
         String report = app.reports().getBooksAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary | Lester Dent"));
@@ -192,7 +232,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForAuthors(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
         String report = app.reports().getAuthorsAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>Lester Dent</li>"));
@@ -200,7 +241,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void simpleReportHasBasicHtmlStructure(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
         app.reports().configure(ReportConfig.justStrings());
         String report = app.reports().getAuthorsAsHtmlList();
         System.out.println(report);
@@ -214,7 +256,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForPublishers(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
         String report = app.reports().getPublishersAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>Street And Smith</li>"));
@@ -222,7 +265,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForYears(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
         String report = app.reports().getYearsAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>1948</li>"));
@@ -231,7 +275,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForSeries(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
         String report = app.reports().getSeriesNamesAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>Doc Savage</li>"));
@@ -258,7 +303,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForBooksByAuthor(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
 
         PulpAuthor will = app.books().authors().findByName("Will Murray");
 
@@ -279,7 +325,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForBooksByPublisher(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readSavageData("/data/pulp/doc_savage_test.csv");
 
         PulpPublisher pub = app.books().publishers().findByName("Street And Smith");
 
@@ -292,7 +339,8 @@ public class BasicDomainObjectsTest {
 
     @Test
     public void haveBasicAppWrapperForBooksBySeries(){
-        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        PulpApp app = new PulpApp();
+        app.readData( new SavageReader("/data/pulp/doc_savage_test.csv"));
 
         PulpSeries series = app.books().series().findByName("Doc Savage");
 
@@ -310,7 +358,7 @@ public class BasicDomainObjectsTest {
     // TODO: allow multiple filter params e.g. ?year=136&author=4
 
     // TODO: More Data
-        // TODO: Add books for The Spider, The Avenger, and others ()
+        // TODO: Add books for The Avenger, and others ()
 
     // TODO: Basic API
         // TODO: add report classes to use for JSON and XML serialisation

@@ -89,7 +89,9 @@ public class PulpBook {
     public Collection<String> getAllAuthorIndexes() {
         Collection<String> ids = new HashSet<>();
         ids.addAll(getAuthorIndexes());
-        ids.add(houseAuthorIndexName);
+        if(houseAuthorIndexName!=null && houseAuthorIndexName.trim().length()!=0){
+            ids.add(houseAuthorIndexName);
+        }
         return ids;
 
     }

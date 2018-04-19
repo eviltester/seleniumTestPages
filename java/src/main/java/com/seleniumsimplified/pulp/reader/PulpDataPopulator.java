@@ -12,13 +12,13 @@ import java.util.List;
 
 public class PulpDataPopulator {
     private final PulpData data;
-    private SavageReader reader;
+    private PulpSeriesCSVReader reader;
 
     public PulpDataPopulator(PulpData data) {
         this.data = data;
     }
 
-    public void populateFrom(SavageReader reader) {
+    public void populateFrom(PulpSeriesCSVReader reader) {
         this.reader = reader;
 
         addTheAuthorNames(reader, data);
@@ -28,7 +28,7 @@ public class PulpDataPopulator {
 
     }
 
-    private void addThePublisherNames(SavageReader reader, PulpData data) {
+    private void addThePublisherNames(PulpSeriesCSVReader reader, PulpData data) {
         List<String> names = reader.getPublisherNames();
 
         for(String publisherName : names){
@@ -37,7 +37,7 @@ public class PulpDataPopulator {
 
     }
 
-    private void addTheAuthorNames(SavageReader reader, PulpData data) {
+    private void addTheAuthorNames(PulpSeriesCSVReader reader, PulpData data) {
         List<String> names = reader.getAuthorNames();
 
         for(String authorName : names){
@@ -45,7 +45,7 @@ public class PulpDataPopulator {
         }
     }
 
-    private void addTheSeriesNames(SavageReader reader, PulpData data) {
+    private void addTheSeriesNames(PulpSeriesCSVReader reader, PulpData data) {
         List<String> names = reader.getPulpSeries();
 
         for(String seriesName : names){
@@ -54,7 +54,7 @@ public class PulpDataPopulator {
     }
 
 
-    private void addTheBookData(SavageReader reader, PulpData data) {
+    private void addTheBookData(PulpSeriesCSVReader reader, PulpData data) {
 
         for(int bookNumber=0; bookNumber < reader.numberOfLines(); bookNumber++){
 
@@ -72,7 +72,13 @@ public class PulpDataPopulator {
             PulpAuthor author = data.authors().findByName(authors.get(0)); // use first author as main author
 
             // find the house author index
-            PulpAuthor houseAuthor = data.authors().findByName(aDraftBook.getHouseAuthorIndex());
+            PulpAuthor houseAuthor;
+            if(aDraftBook.getHouseAuthorIndex().trim().length()==0) {
+                // there is no house author
+                houseAuthor = author;
+            }else{
+                houseAuthor = data.authors().findByName(aDraftBook.getHouseAuthorIndex());
+            }
 
             // find the publisher index
             PulpPublisher publisher = data.publishers().findByName(aDraftBook.getPublisherIndex());

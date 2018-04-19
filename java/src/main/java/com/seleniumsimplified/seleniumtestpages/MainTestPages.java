@@ -1,6 +1,8 @@
 package com.seleniumsimplified.seleniumtestpages;
 
 import com.seleniumsimplified.pulp.PulpApp;
+import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.reader.SpiderReader;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.seleniumtestpages.php.*;
 
@@ -76,7 +78,10 @@ public class MainTestPages {
         get("/selenium/*", (req, res) -> {res.redirect("/" + req.splat()[0]); return "";});
 
         // pulp app
-        PulpApp pulp = new PulpApp("/data/pulp/doc_savage.csv");
+        PulpApp pulp = new PulpApp();
+        pulp.readData(new SavageReader("/data/pulp/doc_savage.csv"));
+        pulp.readData(new SpiderReader("/data/pulp/the_spider.csv"));
+
         pulp.reports().configure(ReportConfig.allHTML("/apps/pulp/gui/reports/"));
         get("/apps/pulp/gui/reports/books", (req, res) -> {
             if(req.queryMap().hasKeys() && req.queryMap().value("author")!=null){

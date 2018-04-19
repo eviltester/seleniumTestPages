@@ -2,7 +2,9 @@ package com.seleniumsimplified.pulp;
 
 import com.seleniumsimplified.pulp.html.HtmlReports;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
+import com.seleniumsimplified.pulp.reader.PulpSeriesCSVReader;
 import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.reader.SpiderReader;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 
 public class PulpApp {
@@ -10,22 +12,24 @@ public class PulpApp {
 
     HtmlReports reports;
 
-    public PulpApp(String initialData) {
+    public PulpApp() {
 
         books = new PulpData();
-
-        readData(initialData);
-
         reports = new HtmlReports(books);
-
     }
 
 
-    private void readData(String dataToRead) {
-        PulpDataPopulator populator = new PulpDataPopulator(books);
-        SavageReader reader = new SavageReader(dataToRead);
-        populator.populateFrom(reader);
+    public void readSavageData(String dataToRead) {
+        readData(new SavageReader(dataToRead));
+    }
 
+    public void readSpiderData(String dataToRead) {
+        readData(new SpiderReader(dataToRead));
+    }
+
+    public void readData(PulpSeriesCSVReader reader) {
+        PulpDataPopulator populator = new PulpDataPopulator(books);
+        populator.populateFrom(reader);
     }
 
     public HtmlReports reports() {
