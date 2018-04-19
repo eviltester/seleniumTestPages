@@ -22,6 +22,11 @@ public class PulpSeriesCollection {
     }
 
     public void add(String seriesName) {
+
+        if(findByName(seriesName)!=PulpSeries.UNKNOWN_SERIES){
+            return;
+        }
+
         PulpSeries series = getNextSeries(seriesName);
         serieses.add(series);
     }

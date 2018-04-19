@@ -19,6 +19,11 @@ public class PulpAuthors {
     }
 
     public void add(String authorName) {
+        // check if author exists
+        if(findByName(authorName)!=PulpAuthor.UNKNOWN_AUTHOR){
+            return;
+        }
+        // add new author
         PulpAuthor author = getNextAuthor(authorName);
         authors.add(author);
     }

@@ -21,6 +21,11 @@ public class PulpPublishers {
     }
 
     public void add(String publisherName) {
+
+        if(findByName(publisherName)!=PulpPublisher.UNKNOWN_PUBLISHER){
+            return;
+        }
+
         PulpPublisher publisher = getNextPublisher(publisherName);
         publishers.add(publisher);
     }
