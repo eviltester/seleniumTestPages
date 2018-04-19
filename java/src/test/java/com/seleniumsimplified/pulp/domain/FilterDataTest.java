@@ -1,9 +1,7 @@
 package com.seleniumsimplified.pulp.domain;
 
 import com.seleniumsimplified.pulp.PulpApp;
-import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.reader.SavageReader;
-import com.seleniumsimplified.pulp.reader.SpiderReader;
 import com.seleniumsimplified.pulp.reader.TheAvengerReader;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import org.junit.Assert;
@@ -35,7 +33,6 @@ public class FilterDataTest {
         PulpApp app = new PulpApp();
         app.readData( new SavageReader("/data/pulp/doc_savage_test.csv"));
 
-        PulpAuthor will = app.books().authors().findByName("Will Murray");
         BookFilter filter = new BookFilter();
         filter.where().publishedInYear(1949);
 

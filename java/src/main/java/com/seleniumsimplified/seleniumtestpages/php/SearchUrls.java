@@ -10,7 +10,7 @@ public class SearchUrls {
     public static List<SearchUrl> get() {
         List<SearchUrl> urls;
 
-        urls = new ArrayList();
+        urls = new ArrayList<>();
 
 
         // A bunch of urls scraped from searches - webdriver, java enums, java for testers, eviltester, stafford beer - to simulate a search engine

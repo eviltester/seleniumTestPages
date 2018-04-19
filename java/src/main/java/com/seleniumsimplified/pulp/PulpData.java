@@ -1,7 +1,5 @@
 package com.seleniumsimplified.pulp;
 
-import java.util.stream.DoubleStream;
-
 public class PulpData {
     private PulpAuthors theAuthors;
     private PulpPublishers thePublishers;

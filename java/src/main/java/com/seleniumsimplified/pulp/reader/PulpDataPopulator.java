@@ -1,13 +1,10 @@
 package com.seleniumsimplified.pulp.reader;
 
 import com.seleniumsimplified.pulp.PulpData;
-import com.seleniumsimplified.pulp.PulpPublishers;
 import com.seleniumsimplified.pulp.domain.PulpAuthor;
 import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.pulp.domain.PulpPublisher;
 import com.seleniumsimplified.pulp.domain.PulpSeries;
-
-import javax.print.DocFlavor;
 import java.util.List;
 
 public class PulpDataPopulator {

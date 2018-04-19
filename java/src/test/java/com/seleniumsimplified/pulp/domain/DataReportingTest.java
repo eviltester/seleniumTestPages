@@ -38,7 +38,7 @@ public class DataReportingTest {
     @Test
     public void haveBasicAppWrapperForBooks(){
         PulpApp app = new PulpApp();
-        app.readSavageData("/data/pulp/doc_savage_test.csv");
+        app.readData(new SavageReader("/data/pulp/doc_savage_test.csv"));
         String report = app.reports().getBooksAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary | Lester Dent"));
@@ -48,7 +48,7 @@ public class DataReportingTest {
     @Test
     public void haveBasicAppWrapperForAuthors(){
         PulpApp app = new PulpApp();
-        app.readSavageData("/data/pulp/doc_savage_test.csv");
+        app.readData(new SavageReader("/data/pulp/doc_savage_test.csv"));
         String report = app.reports().getAuthorsAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>Lester Dent</li>"));
@@ -57,7 +57,7 @@ public class DataReportingTest {
     @Test
     public void simpleReportHasBasicHtmlStructure(){
         PulpApp app = new PulpApp();
-        app.readSavageData("/data/pulp/doc_savage_test.csv");
+        app.readData(new SavageReader("/data/pulp/doc_savage_test.csv"));
         app.reports().configure(ReportConfig.justStrings());
         String report = app.reports().getAuthorsAsHtmlList();
         System.out.println(report);
@@ -72,7 +72,7 @@ public class DataReportingTest {
     @Test
     public void haveBasicAppWrapperForPublishers(){
         PulpApp app = new PulpApp();
-        app.readSavageData("/data/pulp/doc_savage_test.csv");
+        app.readData(new SavageReader("/data/pulp/doc_savage_test.csv"));
         String report = app.reports().getPublishersAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>Street And Smith</li>"));
@@ -81,7 +81,7 @@ public class DataReportingTest {
     @Test
     public void haveBasicAppWrapperForYears(){
         PulpApp app = new PulpApp();
-        app.readSavageData("/data/pulp/doc_savage_test.csv");
+        app.readData(new SavageReader("/data/pulp/doc_savage_test.csv"));
         String report = app.reports().getYearsAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>1948</li>"));
@@ -91,7 +91,7 @@ public class DataReportingTest {
     @Test
     public void haveBasicAppWrapperForSeries(){
         PulpApp app = new PulpApp();
-        app.readSavageData("/data/pulp/doc_savage_test.csv");
+        app.readData(new SavageReader("/data/pulp/doc_savage_test.csv"));
         String report = app.reports().getSeriesNamesAsHtmlList();
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>Doc Savage</li>"));

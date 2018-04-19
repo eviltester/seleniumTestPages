@@ -1,7 +1,6 @@
 package com.seleniumsimplified.pulp;
 
 import com.seleniumsimplified.pulp.domain.PulpAuthor;
-import com.seleniumsimplified.pulp.domain.PulpBook;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,8 +16,7 @@ public class ReportConfig {
 
     public static ReportConfig justStrings() {
 
-        ReportConfig config = new ReportConfig(false, false, false, false);
-        return config;
+        return new ReportConfig(false, false, false, false);
     }
 
 
@@ -32,7 +31,7 @@ public class ReportConfig {
     }
 
     public boolean areYearsLinks() {
-        return areAuthorNamesLinks;
+        return areYearsLinks;
     }
 
     public String getReportPath() {

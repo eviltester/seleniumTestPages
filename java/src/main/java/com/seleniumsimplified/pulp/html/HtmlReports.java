@@ -1,9 +1,6 @@
 package com.seleniumsimplified.pulp.html;
 
 import com.seleniumsimplified.pulp.PulpData;
-import com.seleniumsimplified.pulp.domain.PulpAuthor;
-import com.seleniumsimplified.pulp.domain.PulpPublisher;
-import com.seleniumsimplified.pulp.domain.PulpSeries;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;

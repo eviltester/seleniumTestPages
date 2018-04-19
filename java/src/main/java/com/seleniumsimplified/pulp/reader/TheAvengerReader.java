@@ -36,7 +36,7 @@ public class TheAvengerReader implements PulpSeriesCSVReader {
             houseAuthor="";
         }
 
-        PulpBook book = new PulpBook(   "unknown",
+        return new PulpBook(   "unknown",
                                         defaultSeriesName,
                                         authors,
                                         houseAuthor,
@@ -45,7 +45,6 @@ public class TheAvengerReader implements PulpSeriesCSVReader {
                                         Integer.valueOf(reader.getLineField(atLine,3)),
                                         reader.getLineField(atLine,4)
                             );
-        return book;
     }
 
     public List<String> getAuthorNames() {
@@ -56,8 +55,7 @@ public class TheAvengerReader implements PulpSeriesCSVReader {
             authorNames.addAll(getAuthorsFromLine(line));
         }
 
-        List<String> names = new ArrayList<>();
-        names.addAll(authorNames);
+        List<String> names = new ArrayList<>(authorNames);
 
         return names;
     }
@@ -77,8 +75,7 @@ public class TheAvengerReader implements PulpSeriesCSVReader {
             publisherNames.add(reader.getLineField(line,4));
         }
 
-        List<String> publishers = new ArrayList<>();
-        publishers.addAll(publisherNames);
+        List<String> publishers = new ArrayList<>(publisherNames);
         return publishers;
     }
 

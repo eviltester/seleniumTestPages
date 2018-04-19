@@ -36,7 +36,7 @@ public class SpiderReader implements PulpSeriesCSVReader {
             houseAuthor="";
         }
 
-        PulpBook book = new PulpBook(   "unknown",
+        return new PulpBook(   "unknown",
                                         defaultSeriesName,
                                         authors,
                                         houseAuthor,
@@ -45,7 +45,6 @@ public class SpiderReader implements PulpSeriesCSVReader {
                                         Integer.valueOf(reader.getLineField(atLine,3)),
                                         reader.getLineField(atLine,4)
                             );
-        return book;
     }
 
     public List<String> getAuthorNames() {
@@ -56,8 +55,7 @@ public class SpiderReader implements PulpSeriesCSVReader {
             authorNames.addAll(getAuthorsFromLine(line));
         }
 
-        List<String> names = new ArrayList<>();
-        names.addAll(authorNames);
+        List<String> names = new ArrayList<>(authorNames);
 
         return names;
     }

@@ -1,7 +1,5 @@
 package com.seleniumsimplified.seleniumtestpages;
 
-import java.util.Collection;
-
 public class CsvReader {
     private final String resourcePath;
     private String data;
@@ -26,8 +24,6 @@ public class CsvReader {
 
     public String getLineField(int line, int field) {
         String fields[]=this.getLines(line).split("\",\"");
-
-        String retVal;
 
         if(field==0){
             // get rid of first "

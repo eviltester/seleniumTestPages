@@ -39,8 +39,7 @@ public class PulpBook {
 
 
     public List<String> getAuthorIndexes() {
-        List<String> indexes = new ArrayList<>();
-        indexes.addAll(authorIndexNames);
+        List<String> indexes = new ArrayList<>(authorIndexNames);
         return indexes;
     }
 
@@ -83,17 +82,19 @@ public class PulpBook {
                 authors.append(", ");
             }
             authors.append(index);
+            authorCount++;
         }
 
         return authors.toString();
     }
 
     public Collection<String> getAllAuthorIndexes() {
-        Collection<String> ids = new HashSet<>();
-        ids.addAll(getAuthorIndexes());
+        Collection<String> ids = new HashSet<>(getAuthorIndexes());
+
         if(houseAuthorIndexName!=null && houseAuthorIndexName.trim().length()!=0){
             ids.add(houseAuthorIndexName);
         }
+
         return ids;
 
     }

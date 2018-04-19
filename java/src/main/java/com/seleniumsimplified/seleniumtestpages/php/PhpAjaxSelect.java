@@ -20,7 +20,7 @@ public class PhpAjaxSelect {
 
     public String get() {
 
-        List<String> jsonResponses = new ArrayList();
+        List<String> jsonResponses = new ArrayList<>();
         jsonResponses.add("[ {optionValue: 0, optionDisplay: 'Javascript'}, \n" +
                 "  {optionValue:1, optionDisplay: 'VBScript'}, \n" +
                 "  {optionValue:2, optionDisplay: 'Flash'}]");

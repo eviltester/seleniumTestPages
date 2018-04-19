@@ -10,7 +10,6 @@ public class SavageReader implements PulpSeriesCSVReader {
     private final CsvReader reader;
     private String defaultHouseAuthor;
     private String defaultSeriesName;
-    private String defaultPulpHero;
     private String defaultPublisherName;
 
     public SavageReader(String resourcePath) {
@@ -18,7 +17,6 @@ public class SavageReader implements PulpSeriesCSVReader {
         reader.read();
         this.setHouseAuthor("Kenneth Robeson");
         this.setSeriesName("Doc Savage");
-        this.setPulpHero("Doc Savage");
         this.setPublisher("Street And Smith");
     }
 
@@ -26,9 +24,6 @@ public class SavageReader implements PulpSeriesCSVReader {
         this.defaultSeriesName = defaultSeriesName;
     }
 
-    private void setPulpHero(String defaultPulpHero) {
-        this.defaultPulpHero = defaultPulpHero;
-    }
 
     private void setPublisher(String defaultPublisherName) {
         this.defaultPublisherName = defaultPublisherName;
@@ -44,7 +39,7 @@ public class SavageReader implements PulpSeriesCSVReader {
 
     public PulpBook getBook(int atLine) {
 
-        PulpBook book = new PulpBook(   "unknown",
+        return new PulpBook(   "unknown",
                                         defaultSeriesName,
                                         reader.getLineField(atLine,0),
                                         defaultHouseAuthor,
@@ -53,7 +48,6 @@ public class SavageReader implements PulpSeriesCSVReader {
                                         Integer.valueOf(reader.getLineField(atLine,3)),
                                         defaultPublisherName
                             );
-        return book;
     }
 
     public List<String> getAuthorNames() {
@@ -65,8 +59,7 @@ public class SavageReader implements PulpSeriesCSVReader {
             authorNames.addAll(getAuthorsFromLine(line));
         }
 
-        List<String> names = new ArrayList<>();
-        names.addAll(authorNames);
+        List<String> names = new ArrayList<>(authorNames);
 
         return names;
     }
