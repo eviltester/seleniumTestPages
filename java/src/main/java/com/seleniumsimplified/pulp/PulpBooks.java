@@ -2,6 +2,7 @@ package com.seleniumsimplified.pulp;
 
 import com.seleniumsimplified.pulp.domain.PulpBook;
 import com.seleniumsimplified.pulp.domain.PulpPublisher;
+import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,5 +73,33 @@ public class PulpBooks {
         }
 
         return authored;
+    }
+
+    public List<PulpBook> filteredBy(BookFilter filter) {
+        List<PulpBook> filteredResultSet = new ArrayList<>();
+
+        for(PulpBook book : books){
+
+            boolean ok = true;
+
+            if(filter.isByAuthor() && !book.isAuthoredBy(filter.getAuthorId())){
+                ok = false;
+            }
+
+            if(filter.isByYear() && !book.wasPublishedIn(filter.getYear())){
+                ok = false;
+            }
+
+            if(filter.isByPublisher() && !book.isPublishedBy(filter.getPublisherId())){
+                ok = false;
+            }
+
+
+            if(ok){
+                filteredResultSet.add(book);
+            }
+        }
+
+        return filteredResultSet;
     }
 }

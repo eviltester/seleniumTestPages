@@ -3,7 +3,7 @@ package com.seleniumsimplified.pulp.domain;
 public class ToDoListTest {
 
 
-    // TODO: allow multiple filter params e.g. ?year=136&author=4
+
 
 
     // TODO: Basic API

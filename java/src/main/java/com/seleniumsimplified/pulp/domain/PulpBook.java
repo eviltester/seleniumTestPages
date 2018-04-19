@@ -99,4 +99,12 @@ public class PulpBook {
     public boolean isAuthoredBy(String authorId) {
         return getAllAuthorIndexes().contains(authorId);
     }
+
+    public boolean isPublishedBy(String publisherId) {
+        return this.publisherIndexName.equalsIgnoreCase(publisherId);
+    }
+
+    public boolean wasPublishedIn(int year) {
+        return this.publicationYear==year;
+    }
 }
