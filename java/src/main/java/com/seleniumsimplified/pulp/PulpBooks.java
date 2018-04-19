@@ -80,28 +80,10 @@ public class PulpBooks {
 
         for(PulpBook book : books){
 
-            boolean ok = true;
-
-            if(filter.isByAuthor() && !book.isAuthoredBy(filter.getAuthorId())){
-                ok = false;
-            }
-
-            if(filter.isByYear() && !book.wasPublishedIn(filter.getYear())){
-                ok = false;
-            }
-
-            if(filter.isByPublisher() && !book.isPublishedBy(filter.getPublisherId())){
-                ok = false;
-            }
-
-            if(filter.isBySeries() && !book.isPartOfSeries(filter.getSeriesId())){
-                ok = false;
-            }
-
-
-            if(ok){
+            if(book.matches(filter)){
                 filteredResultSet.add(book);
             }
+
         }
 
         return filteredResultSet;

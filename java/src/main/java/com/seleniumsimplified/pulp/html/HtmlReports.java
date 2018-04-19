@@ -37,7 +37,6 @@ public class HtmlReports {
     /**
      * Use getBooksAsHtmlList(filter) instead with appropriate filter
      */
-
     public String getBooksAsHtmlListWhereAuthor(String authorId) {
 
         PulpAuthor author = reporter.data().authors().get(authorId);

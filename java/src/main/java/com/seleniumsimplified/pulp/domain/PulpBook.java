@@ -1,5 +1,7 @@
 package com.seleniumsimplified.pulp.domain;
 
+import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -110,5 +112,27 @@ public class PulpBook {
 
     public boolean isPartOfSeries(String seriesId) {
         return this.seriesIndexName.equalsIgnoreCase(seriesId);
+    }
+
+    public boolean matches(BookFilter filter) {
+        boolean ok = true;
+
+        if(filter.isByAuthor() && !isAuthoredBy(filter.getAuthorId())){
+            ok = false;
+        }
+
+        if(filter.isByYear() && !wasPublishedIn(filter.getYear())){
+            ok = false;
+        }
+
+        if(filter.isByPublisher() && !isPublishedBy(filter.getPublisherId())){
+            ok = false;
+        }
+
+        if(filter.isBySeries() && !isPartOfSeries(filter.getSeriesId())){
+            ok = false;
+        }
+
+        return ok;
     }
 }

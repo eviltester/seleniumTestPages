@@ -41,6 +41,10 @@ public class PulpReporter {
     }
 
 
+    @Deprecated
+    /**
+     * use getBooksAsStrings with appropriate filter
+     */
     public Collection<String> getBooksByAuthorAsStrings(String specificAuthorId) {
 
         BookFilter filter = new BookFilter().where().author(specificAuthorId);
@@ -48,6 +52,10 @@ public class PulpReporter {
         return getBooksAsStrings(filter);
     }
 
+    @Deprecated
+    /**
+     * use getBooksAsStrings with appropriate filter
+     */
     public Collection<String> getBooksPublishedInYearAsStrings(String year) {
 
         BookFilter filter = new BookFilter().where().publishedInYear(Integer.valueOf(year));
@@ -56,6 +64,10 @@ public class PulpReporter {
 
     }
 
+    @Deprecated
+    /**
+     * use getBooksAsStrings with appropriate filter
+     */
     public Collection<String> getBooksPublishedByPublisherAsStrings(String id) {
 
         BookFilter filter = new BookFilter().where().publishedBy(id);
@@ -63,6 +75,10 @@ public class PulpReporter {
         return getBooksAsStrings(filter);
     }
 
+    @Deprecated
+    /**
+     * use getBooksAsStrings with appropriate filter
+     */
     public Collection<String> getBooksPublishedInSeriesAsStrings(String id) {
 
         BookFilter filter = new BookFilter().where().partOfSeries(id);
