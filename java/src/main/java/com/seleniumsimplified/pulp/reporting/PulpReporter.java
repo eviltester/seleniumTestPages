@@ -30,27 +30,8 @@ public class PulpReporter {
         List<String> keys = data.books().keys();
 
         for(String key : keys){
-            line = new StringBuilder();
             PulpBook book = data.books().get(key);
-            line.append(book.getTitle());
-            line.append(" | ");
-
-            for(String authorId : book.getAllAuthorIndexes()){
-                line.append(getAuthorName(data.authors().get(authorId)));
-                line.append(", ");
-            }
-            line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
-            line.append(" | ");
-
-            line.append(getYear(book.getPublicationYear()));
-            line.append(" | ");
-
-            line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
-            line.append(" | ");
-
-            line.append(data.series().get(book.getSeriesIndex()).getName());
-
-            report.add(line.toString());
+            report.add(getLineFrom(book));
         }
 
         return report;
@@ -61,8 +42,6 @@ public class PulpReporter {
     public Collection<String> getBooksByAuthorAsStrings(String specificAuthorId) {
         List<String> report = new ArrayList<>();
 
-        StringBuilder line;
-
         List<String> keys = data.books().keys();
 
         for(String key : keys){
@@ -71,27 +50,7 @@ public class PulpReporter {
 
             if(book.isAuthoredBy(specificAuthorId)){
 
-                line = new StringBuilder();
-
-                line.append(book.getTitle());
-                line.append(" | ");
-
-                for(String authorId : book.getAllAuthorIndexes()){
-                    line.append(getAuthorName(data.authors().get(authorId)));
-                    line.append(", ");
-                }
-                line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
-                line.append(" | ");
-
-                line.append(getYear(book.getPublicationYear()));
-                line.append(" | ");
-
-                line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
-                line.append(" | ");
-
-                line.append(data.series().get(book.getSeriesIndex()).getName());
-
-                report.add(line.toString());
+                report.add(getLineFrom(book));
             }
         }
 
@@ -101,8 +60,6 @@ public class PulpReporter {
     public Collection<String> getBooksPublishedInYearAsStrings(String year) {
         List<String> report = new ArrayList<>();
 
-        StringBuilder line;
-
         List<String> keys = data.books().keys();
 
         for(String key : keys){
@@ -111,27 +68,7 @@ public class PulpReporter {
 
             if(book.getPublicationYear()==Integer.valueOf(year)){
 
-                line = new StringBuilder();
-
-                line.append(book.getTitle());
-                line.append(" | ");
-
-                for(String authorId : book.getAllAuthorIndexes()){
-                    line.append(getAuthorName(data.authors().get(authorId)));
-                    line.append(", ");
-                }
-                line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
-                line.append(" | ");
-
-                line.append(getYear(book.getPublicationYear()));
-                line.append(" | ");
-
-                line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
-                line.append(" | ");
-
-                line.append(data.series().get(book.getSeriesIndex()).getName());
-
-                report.add(line.toString());
+                report.add(getLineFrom(book));
             }
         }
 
@@ -141,8 +78,6 @@ public class PulpReporter {
     public Collection<String> getBooksPublishedByPublisherAsStrings(String id) {
         List<String> report = new ArrayList<>();
 
-        StringBuilder line;
-
         List<String> keys = data.books().keys();
 
         for(String key : keys){
@@ -151,32 +86,65 @@ public class PulpReporter {
 
             if(book.getPublisherIndex().contentEquals(id)){
 
-                line = new StringBuilder();
-
-                line.append(book.getTitle());
-                line.append(" | ");
-
-                for(String authorId : book.getAllAuthorIndexes()){
-                    line.append(getAuthorName(data.authors().get(authorId)));
-                    line.append(", ");
-                }
-                line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
-                line.append(" | ");
-
-                line.append(getYear(book.getPublicationYear()));
-                line.append(" | ");
-
-                line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
-                line.append(" | ");
-
-                line.append(data.series().get(book.getSeriesIndex()).getName());
-
-                report.add(line.toString());
+                report.add(getLineFrom(book));
             }
         }
 
         return report;
     }
+
+    public Collection<String> getBooksPublishedInSeriesAsStrings(String id) {
+        List<String> report = new ArrayList<>();
+
+        List<String> keys = data.books().keys();
+
+        for(String key : keys){
+
+            PulpBook book = data.books().get(key);
+
+            if(book.getSeriesIndex().contentEquals(id)){
+
+                report.add(getLineFrom(book));
+            }
+        }
+
+        return report;
+    }
+
+    private String getLineFrom(PulpBook book) {
+        StringBuilder line;
+
+        line = new StringBuilder();
+
+        line.append(book.getTitle());
+        line.append(" | ");
+
+        for(String authorId : book.getAllAuthorIndexes()){
+            line.append(getAuthorName(data.authors().get(authorId)));
+            line.append(", ");
+        }
+        line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
+        line.append(" | ");
+
+        line.append(getYear(book.getPublicationYear()));
+        line.append(" | ");
+
+        line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
+        line.append(" | ");
+
+        line.append(getSeries(data.series().get(book.getSeriesIndex())));
+
+        return line.toString();
+    }
+
+    private String getSeries(PulpSeries item) {
+        if(reportConfig!=null && reportConfig.areSeriesNamesLinks()){
+            return String.format("<a href='%sbooks?series=%s'>%s</a>", reportConfig.getReportPath(), item.getId(),item.getName());
+        }else{
+            return item.getName();
+        }
+    }
+
 
     private String getAuthorName(PulpAuthor author) {
 
@@ -270,7 +238,7 @@ public class PulpReporter {
 
         for(String key : keys) {
             PulpSeries item = data.series().get(key);
-            itemNames.add(item.getName());
+            itemNames.add(getSeries(item));
         }
 
         return itemNames;
@@ -280,7 +248,6 @@ public class PulpReporter {
     public void configure(ReportConfig reportConfig) {
         this.reportConfig = reportConfig;
     }
-
 
 
 }

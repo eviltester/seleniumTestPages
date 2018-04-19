@@ -288,25 +288,26 @@ public class BasicDomainObjectsTest {
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary"));
 
-        PulpAuthor lester = app.books().authors().findByName("Lester Dent");
+    }
 
-        report = app.reports().getBooksAsHtmlListWhereAuthor(lester.getId());
+    @Test
+    public void haveBasicAppWrapperForBooksBySeries(){
+        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+
+        PulpSeries series = app.books().series().findByName("Doc Savage");
+
+        String report = app.reports().getBooksAsHtmlListWhereSeries(series.getId());
 
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary"));
-        Assert.assertTrue(report.contains("<li>Up From Earth's Center"));
-    }
 
+    }
 
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
 
-    // TODO: Element linked Reports
-    
-        // TODO: add a link from the series to the books published in that series
-        // TODO: make the book report have links from "author" to author, publisher to publisher, year to year, series to series
+
 
     // TODO: allow multiple filter params e.g. ?year=136&author=4
-    // TODO: refactor PulpReporter to remove duplication
 
     // TODO: More Data
         // TODO: Add books for The Spider, The Avenger, and others ()

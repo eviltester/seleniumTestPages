@@ -91,6 +91,10 @@ public class MainTestPages {
                 //apps/pulp/gui/reports/books?author=%s
                 return pulp.reports().getBooksAsHtmlListWherePublisher(req.queryMap().value("publisher"));
             }
+            if(req.queryMap().hasKeys() && req.queryMap().value("series")!=null){
+                //apps/pulp/gui/reports/books?author=%s
+                return pulp.reports().getBooksAsHtmlListWhereSeries(req.queryMap().value("series"));
+            }
 
             return pulp.reports().getBooksAsHtmlList();
         });

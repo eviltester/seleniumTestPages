@@ -5,22 +5,24 @@ public class ReportConfig {
     private final boolean areYearsLinks;
     private String reportPath = "/apps/pulp/gui/reports/";
     private boolean arePublisherNamesLinks;
+    private boolean areSeriesNamesLinks;
 
-    public ReportConfig(boolean areAuthorNamesLinks, boolean areYearsLinks, boolean arePublisherNamesLinks) {
+    public ReportConfig(boolean areAuthorNamesLinks, boolean areYearsLinks, boolean arePublisherNamesLinks, boolean areSeriesNamesLinks) {
         this.areAuthorNamesLinks = areAuthorNamesLinks;
         this.areYearsLinks = areYearsLinks;
         this.arePublisherNamesLinks = arePublisherNamesLinks;
+        this.areSeriesNamesLinks = areSeriesNamesLinks;
     }
 
     public static ReportConfig justStrings() {
 
-        ReportConfig config = new ReportConfig(false, false, false);
+        ReportConfig config = new ReportConfig(false, false, false, false);
         return config;
     }
 
 
     public static ReportConfig allHTML(String reportPath) {
-        ReportConfig config = new ReportConfig(true, true, true);
+        ReportConfig config = new ReportConfig(true, true, true, true);
         config.reportPath = reportPath;
         return config;
     }
@@ -39,5 +41,9 @@ public class ReportConfig {
 
     public boolean arePublishersLinks() {
         return arePublisherNamesLinks;
+    }
+
+    public boolean areSeriesNamesLinks() {
+        return areSeriesNamesLinks;
     }
 }
