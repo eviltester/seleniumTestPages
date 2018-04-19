@@ -45,6 +45,9 @@ public class PulpReporter {
             line.append(getYear(book.getPublicationYear()));
             line.append(" | ");
 
+            line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
+            line.append(" | ");
+
             line.append(data.series().get(book.getSeriesIndex()).getName());
 
             report.add(line.toString());
@@ -81,6 +84,9 @@ public class PulpReporter {
                 line.append(" | ");
 
                 line.append(getYear(book.getPublicationYear()));
+                line.append(" | ");
+
+                line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
                 line.append(" | ");
 
                 line.append(data.series().get(book.getSeriesIndex()).getName());
@@ -120,6 +126,49 @@ public class PulpReporter {
                 line.append(getYear(book.getPublicationYear()));
                 line.append(" | ");
 
+                line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
+                line.append(" | ");
+
+                line.append(data.series().get(book.getSeriesIndex()).getName());
+
+                report.add(line.toString());
+            }
+        }
+
+        return report;
+    }
+
+    public Collection<String> getBooksPublishedByPublisherAsStrings(String id) {
+        List<String> report = new ArrayList<>();
+
+        StringBuilder line;
+
+        List<String> keys = data.books().keys();
+
+        for(String key : keys){
+
+            PulpBook book = data.books().get(key);
+
+            if(book.getPublisherIndex().contentEquals(id)){
+
+                line = new StringBuilder();
+
+                line.append(book.getTitle());
+                line.append(" | ");
+
+                for(String authorId : book.getAllAuthorIndexes()){
+                    line.append(getAuthorName(data.authors().get(authorId)));
+                    line.append(", ");
+                }
+                line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
+                line.append(" | ");
+
+                line.append(getYear(book.getPublicationYear()));
+                line.append(" | ");
+
+                line.append(getPublisher(data.publishers().get(book.getPublisherIndex())));
+                line.append(" | ");
+
                 line.append(data.series().get(book.getSeriesIndex()).getName());
 
                 report.add(line.toString());
@@ -146,6 +195,15 @@ public class PulpReporter {
             return String.valueOf(publicationYear);
         }
     }
+
+    private String getPublisher(PulpPublisher item) {
+        if(reportConfig!=null && reportConfig.arePublishersLinks()){
+            return String.format("<a href='%sbooks?publisher=%s'>%s</a>", reportConfig.getReportPath(), item.getId(), item.getName());
+        }else{
+            return item.getName();
+        }
+    }
+
 
     public Collection<String> getAuthorsAsStrings() {
         List<String> report = new ArrayList<>();
@@ -174,7 +232,7 @@ public class PulpReporter {
             for(String key : keys) {
                 line = new StringBuilder();
                 PulpPublisher item = data.publishers().get(key);
-                line.append(item.getName());
+                line.append(getPublisher(item));
 
                 report.add(line.toString());
             }
@@ -182,6 +240,7 @@ public class PulpReporter {
             return report;
 
     }
+
 
     public Collection<String> getYearsAsStrings() {
         List<String> report = new ArrayList<>();
@@ -221,6 +280,7 @@ public class PulpReporter {
     public void configure(ReportConfig reportConfig) {
         this.reportConfig = reportConfig;
     }
+
 
 
 }

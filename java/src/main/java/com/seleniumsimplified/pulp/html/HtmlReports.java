@@ -2,6 +2,7 @@ package com.seleniumsimplified.pulp.html;
 
 import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.domain.PulpAuthor;
+import com.seleniumsimplified.pulp.domain.PulpPublisher;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 
@@ -36,6 +37,11 @@ public class HtmlReports {
 
     public String getBooksAsHtmlListWhereYear(String year) {
         return reportCollectionAsLi(reporter.getBooksPublishedInYearAsStrings(year), "Books Published in " + year);
+    }
+
+    public String getBooksAsHtmlListWherePublisher(String id) {
+        PulpPublisher publisher = reporter.data().publishers().get(id);
+        return reportCollectionAsLi(reporter.getBooksPublishedByPublisherAsStrings(id), "Books Published By " + publisher.getName());
     }
 
     public String getPublishersAsHtmlList() {
@@ -138,6 +144,7 @@ public class HtmlReports {
         this.reportConfig = reportConfig;
         this.reporter.configure(this.reportConfig);
     }
+
 
 
 }
