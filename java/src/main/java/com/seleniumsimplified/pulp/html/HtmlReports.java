@@ -33,44 +33,6 @@ public class HtmlReports {
     }
 
 
-    @Deprecated
-    /**
-     * Use getBooksAsHtmlList(filter) instead with appropriate filter
-     */
-    public String getBooksAsHtmlListWhereAuthor(String authorId) {
-
-        PulpAuthor author = reporter.data().authors().get(authorId);
-
-        return reportCollectionAsLi(reporter.getBooksByAuthorAsStrings(authorId), "Books By " + author.getName());
-
-    }
-
-    @Deprecated
-    /**
-     * Use getBooksAsHtmlList(filter) instead with appropriate filter
-     */
-    public String getBooksAsHtmlListWhereYear(String year) {
-        return reportCollectionAsLi(reporter.getBooksPublishedInYearAsStrings(year), "Books Published in " + year);
-    }
-
-    @Deprecated
-    /**
-     * Use getBooksAsHtmlList(filter) instead with appropriate filter
-     */
-    public String getBooksAsHtmlListWherePublisher(String id) {
-        PulpPublisher publisher = reporter.data().publishers().get(id);
-        return reportCollectionAsLi(reporter.getBooksPublishedByPublisherAsStrings(id), "Books Published By " + publisher.getName());
-    }
-
-    @Deprecated
-    /**
-     * Use getBooksAsHtmlList(filter) instead with appropriate filter
-     */
-    public String getBooksAsHtmlListWhereSeries(String id) {
-        PulpSeries series = reporter.data().series().get(id);
-        return reportCollectionAsLi(reporter.getBooksPublishedInSeriesAsStrings(id), "Books Published In Series:" + series.getName());
-    }
-
     public String getPublishersAsHtmlList() {
         return reportCollectionAsLi(reporter.getPublishersAsStrings(), "Publishers");
     }

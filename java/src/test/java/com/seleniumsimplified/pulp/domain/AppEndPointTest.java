@@ -4,6 +4,7 @@ import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
 import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,14 +38,14 @@ public class AppEndPointTest {
 
         PulpAuthor will = app.books().authors().findByName("Will Murray");
 
-        String report = app.reports().getBooksAsHtmlListWhereAuthor(will.getId());
+        String report = app.reports().getBooksAsHtmlList(new BookFilter().where().author(will.getId()));
 
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary"));
 
         PulpAuthor lester = app.books().authors().findByName("Lester Dent");
 
-        report = app.reports().getBooksAsHtmlListWhereAuthor(lester.getId());
+        report = app.reports().getBooksAsHtmlList(new BookFilter().where().author(lester.getId()));
 
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary"));
@@ -59,7 +60,7 @@ public class AppEndPointTest {
 
         PulpPublisher pub = app.books().publishers().findByName("Street And Smith");
 
-        String report = app.reports().getBooksAsHtmlListWherePublisher(pub.getId());
+        String report = app.reports().getBooksAsHtmlList(new BookFilter().where().publishedBy(pub.getId()));
 
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary"));
@@ -73,7 +74,7 @@ public class AppEndPointTest {
 
         PulpSeries series = app.books().series().findByName("Doc Savage");
 
-        String report = app.reports().getBooksAsHtmlListWhereSeries(series.getId());
+        String report = app.reports().getBooksAsHtmlList(new BookFilter().where().partOfSeries(series.getId()));
 
         System.out.println(report);
         Assert.assertTrue(report.contains("<li>The Angry Canary"));

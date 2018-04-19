@@ -52,40 +52,6 @@ public class PulpReporter {
         return getBooksAsStrings(filter);
     }
 
-    @Deprecated
-    /**
-     * use getBooksAsStrings with appropriate filter
-     */
-    public Collection<String> getBooksPublishedInYearAsStrings(String year) {
-
-        BookFilter filter = new BookFilter().where().publishedInYear(Integer.valueOf(year));
-
-        return getBooksAsStrings(filter);
-
-    }
-
-    @Deprecated
-    /**
-     * use getBooksAsStrings with appropriate filter
-     */
-    public Collection<String> getBooksPublishedByPublisherAsStrings(String id) {
-
-        BookFilter filter = new BookFilter().where().publishedBy(id);
-
-        return getBooksAsStrings(filter);
-    }
-
-    @Deprecated
-    /**
-     * use getBooksAsStrings with appropriate filter
-     */
-    public Collection<String> getBooksPublishedInSeriesAsStrings(String id) {
-
-        BookFilter filter = new BookFilter().where().partOfSeries(id);
-
-        return getBooksAsStrings(filter);
-
-    }
 
     private String getLineFrom(PulpBook book) {
         StringBuilder line;
