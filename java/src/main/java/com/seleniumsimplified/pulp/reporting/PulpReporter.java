@@ -41,18 +41,6 @@ public class PulpReporter {
     }
 
 
-    @Deprecated
-    /**
-     * use getBooksAsStrings with appropriate filter
-     */
-    public Collection<String> getBooksByAuthorAsStrings(String specificAuthorId) {
-
-        BookFilter filter = new BookFilter().where().author(specificAuthorId);
-
-        return getBooksAsStrings(filter);
-    }
-
-
     private String getLineFrom(PulpBook book) {
         StringBuilder line;
 
