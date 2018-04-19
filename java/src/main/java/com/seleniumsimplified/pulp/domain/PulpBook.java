@@ -93,4 +93,8 @@ public class PulpBook {
         return ids;
 
     }
+
+    public boolean isAuthoredBy(String authorId) {
+        return getAllAuthorIndexes().contains(authorId);
+    }
 }

@@ -60,4 +60,17 @@ public class PulpBooks {
         }
         return bookKeys;
     }
+
+    public List<PulpBook> findByAuthorId(String authorId) {
+
+        List<PulpBook> authored = new ArrayList<>();
+
+        for(PulpBook book : books){
+            if(book.getAllAuthorIndexes().contains(authorId)){
+                authored.add(book);
+            }
+        }
+
+        return authored;
+    }
 }

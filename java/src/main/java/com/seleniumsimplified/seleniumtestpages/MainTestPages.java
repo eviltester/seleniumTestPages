@@ -1,6 +1,7 @@
 package com.seleniumsimplified.seleniumtestpages;
 
 import com.seleniumsimplified.pulp.PulpApp;
+import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.seleniumtestpages.php.*;
 
 import static spark.Spark.*;
@@ -76,11 +77,20 @@ public class MainTestPages {
 
         // pulp app
         PulpApp pulp = new PulpApp("/data/pulp/doc_savage.csv");
-        get("/apps/pulp/gui/reports/books", (req, res) -> { return pulp.reports().getBooksAsHtmlList();});
+        pulp.reports().configure(ReportConfig.allHTML());
+        get("/apps/pulp/gui/reports/books", (req, res) -> {
+            if(req.queryMap().hasKeys() && req.queryMap().value("author")!=null){
+                //apps/pulp/gui/reports/books?author=%s
+                return pulp.reports().getBooksAsHtmlListWhereAuthor(req.queryMap().value("author"));
+            }
+
+            return pulp.reports().getBooksAsHtmlList();
+        });
         get("/apps/pulp/gui/reports/authors", (req, res) -> { return pulp.reports().getAuthorsAsHtmlList();});
         get("/apps/pulp/gui/reports/publishers", (req, res) -> { return pulp.reports().getPublishersAsHtmlList();});
         get("/apps/pulp/gui/reports/years", (req, res) -> { return pulp.reports().getYearsAsHtmlList();});
         get("/apps/pulp/gui/reports/series", (req, res) -> { return pulp.reports().getSeriesNamesAsHtmlList();});
+
 
         get("/apps/pulp/", (req, res) -> { return pulp.reports().getIndexPage();});
         get("/apps/pulp", (req, res) -> { return pulp.reports().getIndexPage();});

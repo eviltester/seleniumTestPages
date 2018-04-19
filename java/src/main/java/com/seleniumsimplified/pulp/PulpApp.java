@@ -31,4 +31,8 @@ public class PulpApp {
     public HtmlReports reports() {
         return reports;
     }
+
+    public PulpData books() {
+        return books;
+    }
 }

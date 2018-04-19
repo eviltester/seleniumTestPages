@@ -1,15 +1,20 @@
 package com.seleniumsimplified.pulp.html;
 
 import com.seleniumsimplified.pulp.PulpData;
+import com.seleniumsimplified.pulp.domain.PulpAuthor;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
+import com.seleniumsimplified.pulp.reporting.ReportConfig;
 
 import java.util.Collection;
 
 public class HtmlReports {
     private final PulpReporter reporter;
+    private ReportConfig reportConfig;
 
     public HtmlReports(PulpData books) {
         reporter = new PulpReporter(books);
+        reportConfig = ReportConfig.justStrings();
+        reporter.configure(reportConfig);
     }
 
     public String getBooksAsHtmlList() {
@@ -18,6 +23,15 @@ public class HtmlReports {
 
     public String getAuthorsAsHtmlList() {
         return reportCollectionAsLi(reporter.getAuthorsAsStrings(), "Authors");
+    }
+
+
+    public String getBooksAsHtmlListWhereAuthor(String authorId) {
+
+        PulpAuthor author = reporter.data().authors().get(authorId);
+
+        return reportCollectionAsLi(reporter.getBooksByAuthorAsStrings(authorId), "Books By " + author.getName());
+
     }
 
     public String getPublishersAsHtmlList() {
@@ -116,4 +130,8 @@ public class HtmlReports {
     }
 
 
+    public void configure(ReportConfig reportConfig) {
+        this.reportConfig = reportConfig;
+        this.reporter.configure(this.reportConfig);
+    }
 }

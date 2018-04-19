@@ -5,6 +5,7 @@ import com.seleniumsimplified.pulp.PulpData;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
 import com.seleniumsimplified.pulp.reader.SavageReader;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
+import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
 import org.junit.Assert;
 import org.junit.Test;
@@ -200,6 +201,7 @@ public class BasicDomainObjectsTest {
     @Test
     public void simpleReportHasBasicHtmlStructure(){
         PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+        app.reports().configure(ReportConfig.justStrings());
         String report = app.reports().getAuthorsAsHtmlList();
         System.out.println(report);
 
@@ -235,17 +237,57 @@ public class BasicDomainObjectsTest {
         Assert.assertTrue(report.contains("<li>Doc Savage</li>"));
     }
 
+    @Test
+    public void canGetBooksByAuthor(){
+
+        PulpData books = new PulpData();
+        PulpDataPopulator populator = new PulpDataPopulator(books);
+        SavageReader reader = new SavageReader("/data/pulp/doc_savage_test.csv");
+        populator.populateFrom(reader);
+
+        PulpAuthor will = books.authors().findByName("Will Murray");
+
+        List<PulpBook> authored = books.books().findByAuthorId(will.getId());
+
+        Assert.assertEquals(1, authored.size());
+
+        PulpAuthor lester = books.authors().findByName("Lester Dent");
+        authored = books.books().findByAuthorId(lester.getId());
+        Assert.assertEquals(5, authored.size());
+    }
+
+    @Test
+    public void haveBasicAppWrapperForBooksByAuthor(){
+        PulpApp app = new PulpApp("/data/pulp/doc_savage_test.csv");
+
+        PulpAuthor will = app.books().authors().findByName("Will Murray");
+
+        String report = app.reports().getBooksAsHtmlListWhereAuthor(will.getId());
+
+        System.out.println(report);
+        Assert.assertTrue(report.contains("<li>The Angry Canary"));
+
+        PulpAuthor lester = app.books().authors().findByName("Lester Dent");
+
+        report = app.reports().getBooksAsHtmlListWhereAuthor(lester.getId());
+
+        System.out.println(report);
+        Assert.assertTrue(report.contains("<li>The Angry Canary"));
+        Assert.assertTrue(report.contains("<li>Up From Earth's Center"));
+    }
+
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
 
     // TODO: Element linked Reports
-        // TODO: add link from authors to a report of books written by the author
+        
+        // TODO: refactor to avoid report configuration being hardcoded for paths
         // TODO: add a link from the years to a report of books published in that year
         // TODO: add a link from the publishers to a report of the series published by that publisher
         // TODO: add a link from the series to the books published in that series
         // TODO: make the book report have links from "author" to author, publisher to publisher, year to year, series to series
 
     // TODO: More Data
-        // TODO: Add data for The Spider, The Avenger, and others ()
+        // TODO: Add books for The Spider, The Avenger, and others ()
 
     // TODO: Basic API
         // TODO: add report classes to use for JSON and XML serialisation
@@ -253,8 +295,8 @@ public class BasicDomainObjectsTest {
         // TODO: add a basic REST API for get requests and reporting
 
     // TODO: API Powered GUI
-        // TODO: add a simple GUI that uses the REST API for reporting the data
-        // TODO: add an AJAX based GUI that uses the REST API for reporting the data
+        // TODO: add a simple GUI that uses the REST API for reporting the books
+        // TODO: add an AJAX based GUI that uses the REST API for reporting the books
 
     
     // TODO: can READ and get without authentication
@@ -265,7 +307,7 @@ public class BasicDomainObjectsTest {
     // TODO: add other users
     // TODO: add permissions on entities, created-by, owner
     // TODO: amendment based on permissions of user
-    // TODO: the static data reader and collection classes were created with a high level exploratory test - not low level TDD, really neeed class specific tests on the collections
+    // TODO: the static books reader and collection classes were created with a high level exploratory test - not low level TDD, really neeed class specific tests on the collections
     //       20180415 bugs that slipped through because of this - hard coded paths, not reading books as unique books - i.e. every book was first in csv file
 
     // TODO create unit tests for each of the pages and apps routings
