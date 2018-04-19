@@ -42,7 +42,7 @@ public class PulpReporter {
             line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
             line.append(" | ");
 
-            line.append(book.getPublicationYear());
+            line.append(getYear(book.getPublicationYear()));
             line.append(" | ");
 
             line.append(data.series().get(book.getSeriesIndex()).getName());
@@ -52,6 +52,8 @@ public class PulpReporter {
 
         return report;
     }
+
+
 
     public Collection<String> getBooksByAuthorAsStrings(String specificAuthorId) {
         List<String> report = new ArrayList<>();
@@ -78,7 +80,44 @@ public class PulpReporter {
                 line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
                 line.append(" | ");
 
-                line.append(book.getPublicationYear());
+                line.append(getYear(book.getPublicationYear()));
+                line.append(" | ");
+
+                line.append(data.series().get(book.getSeriesIndex()).getName());
+
+                report.add(line.toString());
+            }
+        }
+
+        return report;
+    }
+
+    public Collection<String> getBooksPublishedInYearAsStrings(String year) {
+        List<String> report = new ArrayList<>();
+
+        StringBuilder line;
+
+        List<String> keys = data.books().keys();
+
+        for(String key : keys){
+
+            PulpBook book = data.books().get(key);
+
+            if(book.getPublicationYear()==Integer.valueOf(year)){
+
+                line = new StringBuilder();
+
+                line.append(book.getTitle());
+                line.append(" | ");
+
+                for(String authorId : book.getAllAuthorIndexes()){
+                    line.append(getAuthorName(data.authors().get(authorId)));
+                    line.append(", ");
+                }
+                line.replace(line.lastIndexOf(","), line.lastIndexOf(",")+1, "");
+                line.append(" | ");
+
+                line.append(getYear(book.getPublicationYear()));
                 line.append(" | ");
 
                 line.append(data.series().get(book.getSeriesIndex()).getName());
@@ -92,14 +131,20 @@ public class PulpReporter {
 
     private String getAuthorName(PulpAuthor author) {
 
-        // TODO: need to add an object that prevents me from hardcoding the URLs otherwise it won't work for different versions of the app
-
         if(reportConfig!=null && reportConfig.areAuthorNamesLinks()){
-            return String.format("<a href='/apps/pulp/gui/reports/books?author=%s'>%s</a>", author.getId(),author.getName());
+            return String.format("<a href='%sbooks?author=%s'>%s</a>", reportConfig.getReportPath(), author.getId(),author.getName());
         }else{
             return author.getName();
         }
 
+    }
+
+    private String getYear(int publicationYear) {
+        if(reportConfig!=null && reportConfig.areYearsLinks()){
+            return String.format("<a href='%sbooks?year=%d'>%d</a>", reportConfig.getReportPath(), publicationYear, publicationYear);
+        }else{
+            return String.valueOf(publicationYear);
+        }
     }
 
     public Collection<String> getAuthorsAsStrings() {
@@ -152,7 +197,7 @@ public class PulpReporter {
 
 
         for(Integer year : years){
-            report.add(year.toString());
+            report.add(getYear(year));
         }
 
         return report;
@@ -176,4 +221,6 @@ public class PulpReporter {
     public void configure(ReportConfig reportConfig) {
         this.reportConfig = reportConfig;
     }
+
+
 }

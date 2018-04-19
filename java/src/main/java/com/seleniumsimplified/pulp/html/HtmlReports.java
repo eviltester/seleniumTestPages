@@ -34,6 +34,10 @@ public class HtmlReports {
 
     }
 
+    public String getBooksAsHtmlListWhereYear(String year) {
+        return reportCollectionAsLi(reporter.getBooksPublishedInYearAsStrings(year), "Books Published in " + year);
+    }
+
     public String getPublishersAsHtmlList() {
         return reportCollectionAsLi(reporter.getPublishersAsStrings(), "Publishers");
     }
@@ -134,4 +138,6 @@ public class HtmlReports {
         this.reportConfig = reportConfig;
         this.reporter.configure(this.reportConfig);
     }
+
+
 }

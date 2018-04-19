@@ -279,12 +279,12 @@ public class BasicDomainObjectsTest {
     // I could use an in memory database but I'm much more likely to make a mistake if I don't, and this is a test app so mistakes are OK
 
     // TODO: Element linked Reports
-        
-        // TODO: refactor to avoid report configuration being hardcoded for paths
-        // TODO: add a link from the years to a report of books published in that year
+    
         // TODO: add a link from the publishers to a report of the series published by that publisher
         // TODO: add a link from the series to the books published in that series
         // TODO: make the book report have links from "author" to author, publisher to publisher, year to year, series to series
+
+    // TODO: refactor PulpReporter to remove duplication
 
     // TODO: More Data
         // TODO: Add books for The Spider, The Avenger, and others ()

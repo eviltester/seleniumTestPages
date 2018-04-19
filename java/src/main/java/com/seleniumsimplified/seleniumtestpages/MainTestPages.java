@@ -77,11 +77,15 @@ public class MainTestPages {
 
         // pulp app
         PulpApp pulp = new PulpApp("/data/pulp/doc_savage.csv");
-        pulp.reports().configure(ReportConfig.allHTML());
+        pulp.reports().configure(ReportConfig.allHTML("/apps/pulp/gui/reports/"));
         get("/apps/pulp/gui/reports/books", (req, res) -> {
             if(req.queryMap().hasKeys() && req.queryMap().value("author")!=null){
                 //apps/pulp/gui/reports/books?author=%s
                 return pulp.reports().getBooksAsHtmlListWhereAuthor(req.queryMap().value("author"));
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("year")!=null){
+                //apps/pulp/gui/reports/books?author=%s
+                return pulp.reports().getBooksAsHtmlListWhereYear(req.queryMap().value("year"));
             }
 
             return pulp.reports().getBooksAsHtmlList();
