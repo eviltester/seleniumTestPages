@@ -6,6 +6,7 @@ import com.seleniumsimplified.pulp.domain.PulpPublisher;
 import com.seleniumsimplified.pulp.domain.PulpSeries;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
+import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 
 import java.util.Collection;
 
@@ -19,14 +20,23 @@ public class HtmlReports {
         reporter.configure(reportConfig);
     }
 
+    public String getBooksAsHtmlList(BookFilter filter) {
+        return  reportCollectionAsLi(reporter.getBooksAsStrings(filter), "Books");
+    }
+
     public String getBooksAsHtmlList() {
-        return reportCollectionAsLi(reporter.getBooksAsStrings(), "Books");
+        return getBooksAsHtmlList(new BookFilter());
     }
 
     public String getAuthorsAsHtmlList() {
         return reportCollectionAsLi(reporter.getAuthorsAsStrings(), "Authors");
     }
 
+
+    @Deprecated
+    /**
+     * Use getBooksAsHtmlList(filter) instead with appropriate filter
+     */
 
     public String getBooksAsHtmlListWhereAuthor(String authorId) {
 
@@ -36,15 +46,27 @@ public class HtmlReports {
 
     }
 
+    @Deprecated
+    /**
+     * Use getBooksAsHtmlList(filter) instead with appropriate filter
+     */
     public String getBooksAsHtmlListWhereYear(String year) {
         return reportCollectionAsLi(reporter.getBooksPublishedInYearAsStrings(year), "Books Published in " + year);
     }
 
+    @Deprecated
+    /**
+     * Use getBooksAsHtmlList(filter) instead with appropriate filter
+     */
     public String getBooksAsHtmlListWherePublisher(String id) {
         PulpPublisher publisher = reporter.data().publishers().get(id);
         return reportCollectionAsLi(reporter.getBooksPublishedByPublisherAsStrings(id), "Books Published By " + publisher.getName());
     }
 
+    @Deprecated
+    /**
+     * Use getBooksAsHtmlList(filter) instead with appropriate filter
+     */
     public String getBooksAsHtmlListWhereSeries(String id) {
         PulpSeries series = reporter.data().series().get(id);
         return reportCollectionAsLi(reporter.getBooksPublishedInSeriesAsStrings(id), "Books Published In Series:" + series.getName());
@@ -150,7 +172,6 @@ public class HtmlReports {
         this.reportConfig = reportConfig;
         this.reporter.configure(this.reportConfig);
     }
-
 
 
 }

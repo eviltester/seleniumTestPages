@@ -5,6 +5,7 @@ import com.seleniumsimplified.pulp.reader.SavageReader;
 import com.seleniumsimplified.pulp.reader.SpiderReader;
 import com.seleniumsimplified.pulp.reader.TheAvengerReader;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
+import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import com.seleniumsimplified.seleniumtestpages.php.*;
 
 import static spark.Spark.*;
@@ -86,24 +87,22 @@ public class MainTestPages {
 
         pulp.reports().configure(ReportConfig.allHTML("/apps/pulp/gui/reports/"));
         get("/apps/pulp/gui/reports/books", (req, res) -> {
+
+            BookFilter filter = new BookFilter();
             if(req.queryMap().hasKeys() && req.queryMap().value("author")!=null){
-                //apps/pulp/gui/reports/books?author=%s
-                return pulp.reports().getBooksAsHtmlListWhereAuthor(req.queryMap().value("author"));
+                filter.author(req.queryMap().value("author"));
             }
             if(req.queryMap().hasKeys() && req.queryMap().value("year")!=null){
-                //apps/pulp/gui/reports/books?author=%s
-                return pulp.reports().getBooksAsHtmlListWhereYear(req.queryMap().value("year"));
+                filter.publishedInYear(Integer.valueOf(req.queryMap().value("year")));
             }
             if(req.queryMap().hasKeys() && req.queryMap().value("publisher")!=null){
-                //apps/pulp/gui/reports/books?author=%s
-                return pulp.reports().getBooksAsHtmlListWherePublisher(req.queryMap().value("publisher"));
+                filter.publishedBy(req.queryMap().value("publisher"));
             }
             if(req.queryMap().hasKeys() && req.queryMap().value("series")!=null){
-                //apps/pulp/gui/reports/books?author=%s
-                return pulp.reports().getBooksAsHtmlListWhereSeries(req.queryMap().value("series"));
+                filter.partOfSeries(req.queryMap().value("series"));
             }
 
-            return pulp.reports().getBooksAsHtmlList();
+            return pulp.reports().getBooksAsHtmlList(filter);
         });
         get("/apps/pulp/gui/reports/authors", (req, res) -> { return pulp.reports().getAuthorsAsHtmlList();});
         get("/apps/pulp/gui/reports/publishers", (req, res) -> { return pulp.reports().getPublishersAsHtmlList();});
