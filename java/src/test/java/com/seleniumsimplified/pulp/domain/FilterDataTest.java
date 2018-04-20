@@ -136,4 +136,23 @@ public class FilterDataTest {
 
         Assert.assertEquals(1, books.size());
     }
+
+    @Test
+    public void canFilterOnTitleContains(){
+        PulpApp app = new PulpApp();
+        app.readData( new TheAvengerReader("/data/pulp/the_avenger_test.csv"));
+
+        BookFilter filter = new BookFilter();
+        filter.where().titleContains("The");
+
+        List<PulpBook> books = app.books().books().filteredBy(filter);
+        Assert.assertEquals(4, books.size());
+
+
+        filter = new BookFilter();
+        filter.where().titleContains("atlantis");
+        books = app.books().books().filteredBy(filter);
+        Assert.assertEquals(1, books.size());
+
+    }
 }

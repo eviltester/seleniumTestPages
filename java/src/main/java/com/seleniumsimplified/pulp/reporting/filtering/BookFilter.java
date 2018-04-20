@@ -5,6 +5,7 @@ public class BookFilter {
     private Integer year;
     private String publisherId;
     private String seriesId;
+    private String titlePartialMatch;
 
     public BookFilter where() {
         return this;
@@ -64,5 +65,18 @@ public class BookFilter {
 
     public String getSeriesId() {
         return seriesId;
+    }
+
+    public BookFilter titleContains(String partialMatchTitle) {
+        this.titlePartialMatch = partialMatchTitle;
+        return this;
+    }
+
+    public boolean isByPartialTitleMatch() {
+        return titlePartialMatch!=null;
+    }
+
+    public String getPartialTitleMatchString() {
+        return titlePartialMatch;
     }
 }

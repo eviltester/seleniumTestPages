@@ -134,6 +134,10 @@ public class PulpBook {
             ok = false;
         }
 
+        if(filter.isByPartialTitleMatch() && !title.toLowerCase().contains(filter.getPartialTitleMatchString().toLowerCase())){
+            ok = false;
+        }
+
         return ok;
     }
 }

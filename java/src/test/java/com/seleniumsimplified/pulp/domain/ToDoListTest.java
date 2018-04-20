@@ -3,8 +3,17 @@ package com.seleniumsimplified.pulp.domain;
 public class ToDoListTest {
 
 
+    // TODO: Basic GUI functionality
+    // Can have a lot without login
 
 
+    // AJAX
+//* Ajax - an Ajax end point (not an API that searches for items) and displays
+//    * []As list []as table etc.
+//* Form for ‘advanced’ search with drop downs etc.
+//* Ajax based Form for advanced search
+//* Could use Frames to render based on a set of searches
+//    * e.g. Author, Publisher, data range etc.
 
     // TODO: Basic API
     // TODO: add report classes to use for JSON and XML serialisation

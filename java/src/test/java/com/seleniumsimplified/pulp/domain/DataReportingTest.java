@@ -62,7 +62,8 @@ public class DataReportingTest {
         String report = app.reports().getAuthorsAsHtmlList();
         System.out.println(report);
 
-        Assert.assertTrue("Should start as basic html",report.contains("<html><head>"));
+        Assert.assertTrue("Should start as basic html",report.contains("<html>"));
+        Assert.assertTrue("Should start as basic html",report.contains("<head>"));
         Assert.assertTrue("Should have title", report.contains("<title>List of Authors</title>"));
         Assert.assertTrue("Should have well formed head", report.contains("</head>"));
         Assert.assertTrue("Should have body", report.contains("<body>"));

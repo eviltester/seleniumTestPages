@@ -7,6 +7,9 @@ import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 
 import java.util.Collection;
 
+import static com.seleniumsimplified.pulp.html.HTMLElements.getLi;
+import static com.seleniumsimplified.pulp.html.HTMLElements.getLink;
+
 public class HtmlReports {
     private final PulpReporter reporter;
     private ReportConfig reportConfig;
@@ -69,19 +72,19 @@ public class HtmlReports {
     }
 
     private void endUl(StringBuilder report) {
-        report.append("</ul>");
+        report.append(HTMLElements.endUl());
     }
 
     private void startUl(StringBuilder report) {
-        report.append("<ul>\n");
+        report.append(HTMLElements.startUl());
     }
 
     private void endBodyAndPage(StringBuilder report) {
-        report.append("</body></html>");
+        report.append(HTMLElements.endBody() + HTMLElements.endHTML());
     }
 
     private void startBody(StringBuilder report) {
-        report.append("<body>\n");
+        report.append(HTMLElements.startBody());
     }
 
     public String getIndexPage(){
@@ -107,22 +110,14 @@ public class HtmlReports {
         report.append(getLi(getLink("List of Publishers", "/apps/pulp/gui/reports/publishers")));
         report.append(getLi(getLink("List of Years", "/apps/pulp/gui/reports/years")));
         report.append(getLi(getLink("List of Series", "/apps/pulp/gui/reports/series")));
+        report.append(getLi(getLink("Search Title", "/apps/pulp/gui/reports/books/search")));
 
         endUl(report);
     }
 
-    private String getLi(String text) {
-        return String.format("<li>%s</li>%n", text);
-    }
-
-    private String getLink(String text, String href) {
-        return String.format("<a href='%s'>%s</a>", href, text);
-    }
 
     private void addHeader(String title, StringBuilder report) {
-        report.append("<html><head>\n");
-        report.append(title);
-        report.append("</head>\n");
+        report.append(HTMLElements.htmlHeadWithTitle(title));
     }
 
 

@@ -1,6 +1,7 @@
 package com.seleniumsimplified.seleniumtestpages;
 
 import com.seleniumsimplified.pulp.PulpApp;
+import com.seleniumsimplified.pulp.html.gui.AlertSearchPage;
 import com.seleniumsimplified.pulp.reader.SavageReader;
 import com.seleniumsimplified.pulp.reader.SpiderReader;
 import com.seleniumsimplified.pulp.reader.TheAvengerReader;
@@ -104,6 +105,38 @@ public class MainTestPages {
 
             return pulp.reports().getBooksAsHtmlList(filter);
         });
+
+        get("/apps/pulp/gui/reports/books/search", (req, res) -> {
+            String how= "";
+            String what="";
+            String forTerm="";
+            String source="";
+            boolean confirmSearch=false;
+
+            if(req.queryMap().hasKeys() && req.queryMap().value("searchterm")!=null){
+                forTerm=req.queryMap().value("searchterm");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("what")!=null){
+                what=req.queryMap().value("what");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("how")!=null){
+                how=req.queryMap().value("how");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("mode")!=null){
+                source=req.queryMap().value("mode");
+            }
+            // confirmsearchcheck=on (or missing if not checked)
+            if(source.length()==0){
+                confirmSearch=true;
+            }
+            if(source.length()>0 && req.queryMap().hasKeys() && req.queryMap().value("confirmsearchcheck")!=null){
+                confirmSearch=true;
+            }
+
+            return new AlertSearchPage().setConfirmSearch(confirmSearch).setSearchTerms(what, how, forTerm).setDataFrom(pulp).asHTMLString();
+
+        });
+
         get("/apps/pulp/gui/reports/authors", (req, res) -> { return pulp.reports().getAuthorsAsHtmlList();});
         get("/apps/pulp/gui/reports/publishers", (req, res) -> { return pulp.reports().getPublishersAsHtmlList();});
         get("/apps/pulp/gui/reports/years", (req, res) -> { return pulp.reports().getYearsAsHtmlList();});
