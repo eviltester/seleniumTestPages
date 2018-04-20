@@ -1,6 +1,7 @@
 package com.seleniumsimplified.pulp.domain;
 
 
+import com.seleniumsimplified.pulp.domain.objects.*;
 import org.junit.Assert;
 import org.junit.Test;
 

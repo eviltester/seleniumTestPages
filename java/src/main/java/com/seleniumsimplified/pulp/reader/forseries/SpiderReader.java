@@ -1,7 +1,8 @@
-package com.seleniumsimplified.pulp.reader;
+package com.seleniumsimplified.pulp.reader.forseries;
 
-import com.seleniumsimplified.pulp.domain.PulpAuthor;
-import com.seleniumsimplified.pulp.domain.PulpBook;
+import com.seleniumsimplified.pulp.domain.objects.PulpAuthor;
+import com.seleniumsimplified.pulp.domain.objects.PulpBook;
+import com.seleniumsimplified.pulp.reader.PulpSeriesCSVReader;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package com.seleniumsimplified.pulp;
+package com.seleniumsimplified.pulp.domain.groupings;
 
 public class PulpData {
     private PulpAuthors theAuthors;

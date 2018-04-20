@@ -1,8 +1,7 @@
 package com.seleniumsimplified.pulp.html.gui;
 
 import com.seleniumsimplified.pulp.PulpApp;
-import com.seleniumsimplified.pulp.reader.SavageReader;
-import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
+import com.seleniumsimplified.pulp.reader.forseries.SavageReader;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,7 +26,7 @@ public class AlertSearchPageTest {
 
         AlertSearchPage page = new AlertSearchPage().setSearchTerms("title", "contains", "The");
         page.setConfirmSearch(true);
-        page.setDataFrom(app);
+        page.setDataFrom(app.books());
 
         String pageToRender = page.asHTMLString();
         System.out.println(pageToRender);

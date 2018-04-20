@@ -1,9 +1,9 @@
 package com.seleniumsimplified.pulp.domain;
 
 import com.seleniumsimplified.pulp.PulpApp;
-import com.seleniumsimplified.pulp.PulpData;
+import com.seleniumsimplified.pulp.domain.groupings.PulpData;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
-import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.reader.forseries.SavageReader;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import org.junit.Assert;

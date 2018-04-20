@@ -1,16 +1,13 @@
 package com.seleniumsimplified.pulp.html.gui;
 
-import com.seleniumsimplified.pulp.PulpApp;
-import com.seleniumsimplified.pulp.domain.PulpBook;
+import com.seleniumsimplified.pulp.domain.groupings.PulpData;
 import com.seleniumsimplified.pulp.html.HTMLElements;
-import com.seleniumsimplified.pulp.reporting.PulpReporter;
+import com.seleniumsimplified.pulp.reporting.reporters.BookReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import com.seleniumsimplified.seleniumtestpages.ResourceReader;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class AlertSearchPage {
 
@@ -19,7 +16,7 @@ public class AlertSearchPage {
     private String searchHow="";
     private String searchTerm="";
     private boolean confirmSearch=true;
-    private PulpApp app;
+    private PulpData data;
 
     public String asHTMLString() {
         String pageToRender = new ResourceReader().asString("/web/apps/pulp/page-template/alert-search-page.html");
@@ -27,10 +24,9 @@ public class AlertSearchPage {
         String checked = confirmSearch ? "checked" : "notchecked";
         pageToRender = pageToRender.replace("!!checked!!", checked);
 
-        if(app!=null && searchWhat.length()>0 && searchHow.length()>0){
-            app.reports().configure(ReportConfig.justStrings());
+        if(data!=null && searchWhat.length()>0 && searchHow.length()>0){
 
-            PulpReporter reporter = new PulpReporter(app.books());
+            BookReporter reporter = new BookReporter(ReportConfig.justStrings(), data.authors(), data.publishers(), data.series());
 
             BookFilter filter = new BookFilter();
 
@@ -42,7 +38,7 @@ public class AlertSearchPage {
 
             dataOutput.append("<div id='dataoutput'>");
 
-            Collection<String> outputList = reporter.getBooksAsStrings(filter);
+            Collection<String> outputList = reporter.getBooksAsLines(data.books().filteredBy(filter));
 
             if(outputList.size()==0){
                 dataOutput.append("<p>No Books found Matching Search Criteria</p>");
@@ -75,8 +71,8 @@ public class AlertSearchPage {
         return this;
     }
 
-    public AlertSearchPage setDataFrom(PulpApp app) {
-        this.app = app;
+    public AlertSearchPage setDataFrom(PulpData data) {
+        this.data = data;
         return this;
     }
 }

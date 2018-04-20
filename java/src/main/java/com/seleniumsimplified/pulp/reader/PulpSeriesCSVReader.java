@@ -1,6 +1,6 @@
 package com.seleniumsimplified.pulp.reader;
 
-import com.seleniumsimplified.pulp.domain.PulpBook;
+import com.seleniumsimplified.pulp.domain.objects.PulpBook;
 
 import java.util.List;
 

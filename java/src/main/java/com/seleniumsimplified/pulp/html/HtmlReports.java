@@ -1,9 +1,10 @@
 package com.seleniumsimplified.pulp.html;
 
-import com.seleniumsimplified.pulp.PulpData;
+import com.seleniumsimplified.pulp.domain.groupings.PulpData;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
+import com.seleniumsimplified.pulp.reporting.reporters.BookReporter;
 
 import java.util.Collection;
 
@@ -12,16 +13,19 @@ import static com.seleniumsimplified.pulp.html.HTMLElements.getLink;
 
 public class HtmlReports {
     private final PulpReporter reporter;
+    private final PulpData data;
     private ReportConfig reportConfig;
 
     public HtmlReports(PulpData books) {
+        this.data = books;
         reporter = new PulpReporter(books);
         reportConfig = ReportConfig.justStrings();
         reporter.configure(reportConfig);
     }
 
     public String getBooksAsHtmlList(BookFilter filter) {
-        return  reportCollectionAsLi(reporter.getBooksAsStrings(filter), "Books");
+        BookReporter bReporter = new BookReporter(reportConfig, data.authors(), data.publishers(), data.series() );
+        return  reportCollectionAsLiPage(bReporter.getBooksAsLines(this.data.books().filteredBy(filter)), "Books");
     }
 
     public String getBooksAsHtmlList() {
@@ -29,39 +33,35 @@ public class HtmlReports {
     }
 
     public String getAuthorsAsHtmlList() {
-        return reportCollectionAsLi(reporter.getAuthorsAsStrings(), "Authors");
+        return reportCollectionAsLiPage(reporter.getAuthorsAsStrings(), "Authors");
     }
 
 
     public String getPublishersAsHtmlList() {
-        return reportCollectionAsLi(reporter.getPublishersAsStrings(), "Publishers");
+        return reportCollectionAsLiPage(reporter.getPublishersAsStrings(), "Publishers");
     }
 
     public String getYearsAsHtmlList() {
-        return reportCollectionAsLi(reporter.getYearsAsStrings(), "Years");
+        return reportCollectionAsLiPage(reporter.getYearsAsStrings(), "Years");
     }
 
     public String getSeriesNamesAsHtmlList() {
-        return reportCollectionAsLi(reporter.getSeriesNamesAsStrings(), "Series");
+        return reportCollectionAsLiPage(reporter.getSeriesNamesAsStrings(), "Series");
     }
 
 
-    private String reportCollectionAsLi(Collection<String> simpleReport, String listOfWhat){
+    private String reportCollectionAsLiPage(Collection<String> simpleReport, String listOfWhat){
 
         StringBuilder report = new StringBuilder();
 
-        addHeader(String.format("<title>List of %s</title>%n", listOfWhat), report);
+        addHeader(String.format("List of %s", listOfWhat), report);
 
         startBody(report);
 
-        startUl(report);
-
         report.append(String.format("<h1>List of %s</h1>%n", listOfWhat));
 
-        for(String reportLine : simpleReport){
-            report.append(getLi(reportLine));
-        }
-        endUl(report);
+        report.append(new HTMLReporter().getAsUl(simpleReport));
+
 
         addReportList(report);
 

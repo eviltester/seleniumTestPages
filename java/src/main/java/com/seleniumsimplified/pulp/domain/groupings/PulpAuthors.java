@@ -1,9 +1,8 @@
-package com.seleniumsimplified.pulp;
+package com.seleniumsimplified.pulp.domain.groupings;
 
-import com.seleniumsimplified.pulp.domain.PulpAuthor;
+import com.seleniumsimplified.pulp.domain.objects.PulpAuthor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PulpAuthors {
     private int key;
@@ -57,5 +56,24 @@ public class PulpAuthors {
             keys.add(item.getId());
         }
         return keys;
+    }
+
+    public Collection<PulpAuthor> getAll() {
+        return authors;
+    }
+
+    public Collection<PulpAuthor> getAllOrderedByName() {
+        List<PulpAuthor> sorted = new ArrayList<>(authors);
+
+        Collections.sort(sorted, PulpAuthor.SortNameComparatorAscending());
+        return sorted;
+    }
+
+    public Collection<PulpAuthor> getAll(Collection<String> authorIndexes) {
+        Collection<PulpAuthor> someAuthors = new ArrayList<>();
+        for(String index : authorIndexes){
+            someAuthors.add(get(index));
+        }
+        return someAuthors;
     }
 }

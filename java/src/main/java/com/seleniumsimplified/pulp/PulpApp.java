@@ -1,5 +1,6 @@
 package com.seleniumsimplified.pulp;
 
+import com.seleniumsimplified.pulp.domain.groupings.PulpData;
 import com.seleniumsimplified.pulp.html.HtmlReports;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
 import com.seleniumsimplified.pulp.reader.PulpSeriesCSVReader;

@@ -1,4 +1,4 @@
-package com.seleniumsimplified.pulp.domain;
+package com.seleniumsimplified.pulp.domain.objects;
 
 public class PulpHero {
     private String name;

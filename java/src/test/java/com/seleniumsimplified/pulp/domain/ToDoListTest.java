@@ -7,6 +7,7 @@ public class ToDoListTest {
     // Can have a lot without login
 
 
+
     // AJAX
 //* Ajax - an Ajax end point (not an API that searches for items) and displays
 //    * []As list []as table etc.
@@ -14,6 +15,10 @@ public class ToDoListTest {
 //* Ajax based Form for advanced search
 //* Could use Frames to render based on a set of searches
 //    * e.g. Author, Publisher, data range etc.
+
+    // TODO: add sorting button on the series, authors and publishers list pages
+
+    // TODO: Add more page templates to allow easier 'app updating via version number'
 
     // TODO: Basic API
     // TODO: add report classes to use for JSON and XML serialisation

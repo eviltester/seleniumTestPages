@@ -1,4 +1,4 @@
-package com.seleniumsimplified.pulp.domain;
+package com.seleniumsimplified.pulp.domain.objects;
 
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 

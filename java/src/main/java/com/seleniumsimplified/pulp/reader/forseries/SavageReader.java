@@ -1,21 +1,24 @@
-package com.seleniumsimplified.pulp.reader;
+package com.seleniumsimplified.pulp.reader.forseries;
 
-import com.seleniumsimplified.pulp.domain.PulpAuthor;
-import com.seleniumsimplified.pulp.domain.PulpBook;
+import com.seleniumsimplified.pulp.domain.objects.PulpAuthor;
+import com.seleniumsimplified.pulp.domain.objects.PulpBook;
+import com.seleniumsimplified.pulp.reader.PulpSeriesCSVReader;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
 
 import java.util.*;
 
-public class TheAvengerReader implements PulpSeriesCSVReader {
+public class SavageReader implements PulpSeriesCSVReader {
     private final CsvReader reader;
+    private String defaultHouseAuthor;
     private String defaultSeriesName;
+    private String defaultPublisherName;
 
-
-
-    public TheAvengerReader(String resourcePath) {
+    public SavageReader(String resourcePath) {
         reader = new CsvReader(resourcePath);
         reader.read();
-        this.setSeriesName("The Avenger");
+        this.setHouseAuthor("Kenneth Robeson");
+        this.setSeriesName("Doc Savage");
+        this.setPublisher("Street And Smith");
     }
 
     private void setSeriesName(String defaultSeriesName) {
@@ -23,33 +26,35 @@ public class TheAvengerReader implements PulpSeriesCSVReader {
     }
 
 
+    private void setPublisher(String defaultPublisherName) {
+        this.defaultPublisherName = defaultPublisherName;
+    }
+
+    private void setHouseAuthor(String defaultHouseAuthor) {
+        this.defaultHouseAuthor = defaultHouseAuthor;
+    }
+
     public int numberOfLines() {
         return reader.numberOfLines();
     }
 
     public PulpBook getBook(int atLine) {
 
-        String houseAuthor = "Kenneth Robeson";
-        String authors = reader.getLineField(atLine,0);
-
-        if(!authors.contains(houseAuthor)){
-            houseAuthor="";
-        }
-
         return new PulpBook(   "unknown",
                                         defaultSeriesName,
-                                        authors,
-                                        houseAuthor,
+                                        reader.getLineField(atLine,0),
+                                        defaultHouseAuthor,
                                         reader.getLineField(atLine,1),
                                         reader.getLineField(atLine,2),
                                         Integer.valueOf(reader.getLineField(atLine,3)),
-                                        reader.getLineField(atLine,4)
+                                        defaultPublisherName
                             );
     }
 
     public List<String> getAuthorNames() {
 
         Set<String> authorNames = new HashSet<>();
+        authorNames.add(defaultHouseAuthor);
 
         for(int line=0; line<reader.numberOfLines(); line++){
             authorNames.addAll(getAuthorsFromLine(line));
@@ -69,16 +74,10 @@ public class TheAvengerReader implements PulpSeriesCSVReader {
     }
 
     public List<String> getPublisherNames() {
-        Set<String> publisherNames = new HashSet<>();
-
-        for(int line=0; line<reader.numberOfLines(); line++){
-            publisherNames.add(reader.getLineField(line,4));
-        }
-
-        List<String> publishers = new ArrayList<>(publisherNames);
+        List<String> publishers = new ArrayList<>();
+        publishers.add(defaultPublisherName);
         return publishers;
     }
-
 
     public List<String> getPulpSeries() {
         List<String> seriesnames = new ArrayList<>();

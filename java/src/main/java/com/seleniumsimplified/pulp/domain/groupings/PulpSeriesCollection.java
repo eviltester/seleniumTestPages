@@ -1,9 +1,8 @@
-package com.seleniumsimplified.pulp;
+package com.seleniumsimplified.pulp.domain.groupings;
 
-import com.seleniumsimplified.pulp.domain.PulpSeries;
+import com.seleniumsimplified.pulp.domain.objects.PulpSeries;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PulpSeriesCollection {
     private int key;
@@ -53,10 +52,22 @@ public class PulpSeriesCollection {
     }
 
     public List<String> keys() {
-        List<String> itemKeys = new ArrayList<>();
+        Set<String> itemKeys = new TreeSet<>();
         for(PulpSeries item : serieses){
             itemKeys.add(item.getId());
         }
-        return itemKeys;
+        return new ArrayList<>(itemKeys);
+    }
+
+    public Collection<PulpSeries> getAll() {
+        return serieses;
+    }
+
+    public Collection<PulpSeries> getAllOrderedByName() {
+
+        List<PulpSeries> sorted = new ArrayList<>(serieses);
+
+        Collections.sort(sorted, PulpSeries.SortNameComparatorAscending());
+        return sorted;
     }
 }

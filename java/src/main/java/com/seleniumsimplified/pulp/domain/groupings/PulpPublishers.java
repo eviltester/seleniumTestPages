@@ -1,8 +1,10 @@
-package com.seleniumsimplified.pulp;
+package com.seleniumsimplified.pulp.domain.groupings;
 
-import com.seleniumsimplified.pulp.domain.PulpPublisher;
+import com.seleniumsimplified.pulp.domain.objects.PulpPublisher;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class PulpPublishers {
@@ -58,4 +60,17 @@ public class PulpPublishers {
             keys.add(item.getId());
         }
         return keys;
-    }}
+    }
+
+    public List<PulpPublisher> getAll() {
+        return publishers;
+    }
+
+    public Collection<PulpPublisher> getAllOrderedByName() {
+
+        List<PulpPublisher> sorted = new ArrayList<>(publishers);
+
+        Collections.sort(sorted, PulpPublisher.SortNameComparatorAscending());
+        return sorted;
+    }
+}

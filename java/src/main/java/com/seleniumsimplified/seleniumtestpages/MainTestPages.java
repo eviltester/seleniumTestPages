@@ -2,9 +2,9 @@ package com.seleniumsimplified.seleniumtestpages;
 
 import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.pulp.html.gui.AlertSearchPage;
-import com.seleniumsimplified.pulp.reader.SavageReader;
-import com.seleniumsimplified.pulp.reader.SpiderReader;
-import com.seleniumsimplified.pulp.reader.TheAvengerReader;
+import com.seleniumsimplified.pulp.reader.forseries.SavageReader;
+import com.seleniumsimplified.pulp.reader.forseries.SpiderReader;
+import com.seleniumsimplified.pulp.reader.forseries.TheAvengerReader;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import com.seleniumsimplified.seleniumtestpages.php.*;
@@ -133,7 +133,10 @@ public class MainTestPages {
                 confirmSearch=true;
             }
 
-            return new AlertSearchPage().setConfirmSearch(confirmSearch).setSearchTerms(what, how, forTerm).setDataFrom(pulp).asHTMLString();
+            return new AlertSearchPage().setConfirmSearch(confirmSearch)
+                                        .setSearchTerms(what, how, forTerm)
+                                        .setDataFrom(pulp.books())
+                                        .asHTMLString();
 
         });
 

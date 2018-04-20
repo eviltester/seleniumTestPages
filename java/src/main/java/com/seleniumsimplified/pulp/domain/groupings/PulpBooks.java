@@ -1,10 +1,9 @@
-package com.seleniumsimplified.pulp;
+package com.seleniumsimplified.pulp.domain.groupings;
 
-import com.seleniumsimplified.pulp.domain.PulpBook;
+import com.seleniumsimplified.pulp.domain.objects.PulpBook;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PulpBooks {
 
@@ -86,5 +85,20 @@ public class PulpBooks {
         }
 
         return filteredResultSet;
+    }
+
+    public List<PulpBook> getAll() {
+        return books;
+    }
+
+    public Collection<Integer> getYears() {
+
+        Set<Integer> years = new TreeSet<>();
+
+        for(PulpBook book : books) {
+            years.add(Integer.valueOf(book.getPublicationYear()));
+        }
+
+        return years;
     }
 }

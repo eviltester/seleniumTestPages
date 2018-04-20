@@ -1,8 +1,11 @@
 package com.seleniumsimplified.pulp.domain;
 
 import com.seleniumsimplified.pulp.PulpApp;
-import com.seleniumsimplified.pulp.reader.SavageReader;
-import com.seleniumsimplified.pulp.reader.TheAvengerReader;
+import com.seleniumsimplified.pulp.domain.objects.PulpAuthor;
+import com.seleniumsimplified.pulp.domain.objects.PulpBook;
+import com.seleniumsimplified.pulp.domain.objects.PulpPublisher;
+import com.seleniumsimplified.pulp.reader.forseries.SavageReader;
+import com.seleniumsimplified.pulp.reader.forseries.TheAvengerReader;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import org.junit.Assert;
 import org.junit.Test;

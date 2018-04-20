@@ -1,6 +1,7 @@
 package com.seleniumsimplified.pulp.domain;
 
-import com.seleniumsimplified.pulp.reader.SavageReader;
+import com.seleniumsimplified.pulp.domain.objects.PulpBook;
+import com.seleniumsimplified.pulp.reader.forseries.SavageReader;
 import com.seleniumsimplified.seleniumtestpages.CsvReader;
 import org.junit.Assert;
 import org.junit.Test;
