@@ -18,6 +18,15 @@ public class BookFilterFromQueryMap {
         if(queryParamsMap.hasKeys() && queryParamsMap.value("series")!=null){
             filter.partOfSeries(queryParamsMap.value("series"));
         }
+        if(queryParamsMap.hasKeys() && queryParamsMap.value("page")!=null){
+            filter.currentPage(Integer.valueOf(queryParamsMap.value("page")));
+        }
+        if(queryParamsMap.hasKeys() && queryParamsMap.value("pagelimit")!=null){
+            filter.numberPerPage(Integer.valueOf(queryParamsMap.value("pagelimit")));
+        }
+        if(queryParamsMap.hasKeys() && queryParamsMap.value("searchterm")!=null){
+            filter.titleContains(queryParamsMap.value("searchterm"));
+        }
         return filter;
     }
 }

@@ -76,12 +76,15 @@ public class PulpBooks {
     public List<PulpBook> filteredBy(BookFilter filter) {
         List<PulpBook> filteredResultSet = new ArrayList<>();
 
+        int bookCount = 0;
+
         for(PulpBook book : books){
 
-            if(book.matches(filter)){
+            if(book.matches(filter, bookCount)){
                 filteredResultSet.add(book);
             }
 
+            bookCount++;
         }
 
         return filteredResultSet;

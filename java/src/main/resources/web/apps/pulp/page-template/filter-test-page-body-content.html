@@ -1,0 +1,83 @@
+Rendering Style:<br />
+<input type="radio" name="style" value=
+        "table" checked/>Table
+<input type="radio" name="style"
+       value="list" />List
+<br/>
+<hr/>
+Data is:<br />
+<input type="radio" name="navigation" value=
+        "off" />Static
+<input type="radio" name="navigation"
+       value="on" checked/>Navigable
+<br/>
+<hr/>
+Search Term Control: <br/>
+<input type="checkbox" name="search[]" value=
+        "cansearch" />Search <br/>
+<input type="text" name="searchterm" size="15" />
+<br/>
+<hr/>
+Pagination Control:<br />
+<input type="checkbox" name="paginate[]" value=
+        "cansearch" checked />Paginate<br/>
+Current Page: <select name="page">
+    <option value="1">
+        1
+    </option>
+    <option value="2">
+        2
+    </option>
+    <option value="3">
+        3
+    </option>
+    <option value="4">
+        4
+    </option>
+    <option value="5">
+        5
+    </option>
+    <option value="6" selected="selected">
+        6
+    </option>
+</select>
+Number Per Page: <select name="pagelimit" selected="selected">
+    <option value="1">
+        1
+    </option>
+    <option value="2">
+        2
+    </option>
+    <option value="3" selected="selected">
+        3
+    </option>
+    <option value="4">
+        4
+    </option>
+    <option value="5">
+        5
+    </option>
+    <option value="6">
+        6
+    </option>
+</select>
+<br/>
+<hr/>
+Page Template:<br />
+<select name="template" multiple size="4">
+    <option value="title">
+        Title
+    </option>
+    <option value="list" selected="selected">
+        List
+    </option>
+    <option value="paging" selected="selected">
+        Paging
+    </option>
+    <option value="footer">
+        Footer
+    </option>
+</select>
+<br/>
+<hr/>
+<input type="submit" name="submitbutton" value="View Books"/>

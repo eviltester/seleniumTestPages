@@ -1,11 +1,15 @@
 package com.seleniumsimplified.pulp.reporting.filtering;
 
+import java.awt.print.Book;
+
 public class BookFilter {
     private String authorId;
     private Integer year;
     private String publisherId;
     private String seriesId;
     private String titlePartialMatch;
+    private Integer pageLimit;
+    private Integer currentPage;
 
     public BookFilter where() {
         return this;
@@ -78,5 +82,27 @@ public class BookFilter {
 
     public String getPartialTitleMatchString() {
         return titlePartialMatch;
+    }
+
+    public BookFilter numberPerPage(Integer pageLimit) {
+        this.pageLimit = pageLimit;
+        return this;
+    }
+
+    public BookFilter currentPage(Integer currentPage) {
+        this.currentPage=currentPage;
+        return this;
+    }
+
+    public boolean isPaging() {
+        return !((pageLimit==null)||(currentPage==null));
+    }
+
+    public int getNumberPerPage() {
+        return pageLimit;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
     }
 }

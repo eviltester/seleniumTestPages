@@ -8,6 +8,8 @@ public class ToDoListTest {
 
     // switch between 'easy to automate' (with ids) and 'hard to automate' (without ids)
 
+    // TODO: Create a Frames view which has side frame for list and mainframe for report and top frame for search?
+
     // AJAX
 //* Ajax - an Ajax end point (not an API that searches for items) and displays
 //    * []As list []as table etc.
@@ -16,9 +18,20 @@ public class ToDoListTest {
 //* Could use Frames to render based on a set of searches
 //    * e.g. Author, Publisher, data range etc.
 
+    // TODO: CSS for styling - swap in/out for different versions
+
+   
+    // TODO: page count list under table or list e.g. [1][2][3]  (current page not clickable)
+
+    // TODO: create a book filter 'test' page with all options as drop downs or buttons e.g list/table, current page, number per page etc.
+    //       this can be a good technical test harness and automation page
+
     // TODO: add sorting button on the series, authors and publishers list pages
 
     // TODO: Add more page templates to allow easier 'app updating via version number'
+
+    // TODO: create rendering objects
+    // TODO: add names, ids, classes etc. to rendered items
 
     // TODO: Basic API
     // TODO: add report classes to use for JSON and XML serialisation

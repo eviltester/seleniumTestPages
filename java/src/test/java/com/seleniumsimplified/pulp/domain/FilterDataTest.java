@@ -158,4 +158,51 @@ public class FilterDataTest {
         Assert.assertEquals(1, books.size());
 
     }
+
+    @Test
+    public void canCreateAFilterForPaging(){
+        PulpApp app = new PulpApp();
+        app.readData( new TheAvengerReader("/data/pulp/the_avenger_test.csv"));
+        app.readData( new SavageReader("/data/pulp/doc_savage_test.csv"));
+
+        Assert.assertEquals(13, app.books().books().count());
+
+        BookFilter filter = new BookFilter();
+        filter.where().numberPerPage(5).currentPage(1);
+
+        List<PulpBook> books = app.books().books().filteredBy(filter);
+
+        Assert.assertEquals(5, books.size());
+
+
+        filter.currentPage(2);
+        books = app.books().books().filteredBy(filter);
+        Assert.assertEquals(5, books.size());
+
+        filter.currentPage(3);
+        books = app.books().books().filteredBy(filter);
+        Assert.assertEquals(3, books.size());
+
+        filter.currentPage(4);
+        books = app.books().books().filteredBy(filter);
+        Assert.assertEquals(0, books.size());
+
+    }
+
+    @Test
+    public void canTellIfFilterIsPaging(){
+
+        BookFilter filter = new BookFilter();
+        Assert.assertFalse(filter.isPaging());
+
+        filter.currentPage(1);
+        Assert.assertFalse(filter.isPaging());
+
+        filter.numberPerPage(1);
+        Assert.assertTrue(filter.isPaging());
+
+        filter = new BookFilter();
+        filter.numberPerPage(1);
+        Assert.assertFalse(filter.isPaging());
+    }
 }
