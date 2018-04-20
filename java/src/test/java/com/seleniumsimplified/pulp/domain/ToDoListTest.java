@@ -6,7 +6,7 @@ public class ToDoListTest {
     // TODO: Basic GUI functionality
     // Can have a lot without login
 
-
+    // switch between 'easy to automate' (with ids) and 'hard to automate' (without ids)
 
     // AJAX
 //* Ajax - an Ajax end point (not an API that searches for items) and displays

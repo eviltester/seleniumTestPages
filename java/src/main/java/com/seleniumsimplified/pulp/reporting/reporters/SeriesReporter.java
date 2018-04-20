@@ -26,7 +26,7 @@ public class SeriesReporter {
 
     public String getSeries(PulpSeries item) {
         if(reportConfig!=null && reportConfig.areSeriesNamesLinks()){
-            return String.format("<a href='%sbooks?series=%s'>%s</a>", reportConfig.getReportPath(), item.getId(),item.getName());
+            return String.format("<a href='%s?series=%s'>%s</a>", reportConfig.getReportPath("books"), item.getId(),item.getName());
         }else{
             return item.getName();
         }

@@ -4,6 +4,7 @@ import com.seleniumsimplified.pulp.domain.groupings.PulpData;
 import com.seleniumsimplified.pulp.html.HtmlReports;
 import com.seleniumsimplified.pulp.reader.PulpDataPopulator;
 import com.seleniumsimplified.pulp.reader.PulpSeriesCSVReader;
+import com.seleniumsimplified.pulp.reporting.ReportConfig;
 
 public class PulpApp {
     private final PulpData books;
@@ -23,6 +24,10 @@ public class PulpApp {
 
     public HtmlReports reports() {
         return reports;
+    }
+
+    public HtmlReports reports(ReportConfig config) {
+        return new HtmlReports(books).configure(config);
     }
 
     public PulpData books() {

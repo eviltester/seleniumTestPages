@@ -26,7 +26,7 @@ public class PublisherReporter {
 
     public String getPublisher(PulpPublisher item) {
         if(reportConfig!=null && reportConfig.arePublishersLinks()){
-            return String.format("<a href='%sbooks?publisher=%s'>%s</a>", reportConfig.getReportPath(), item.getId(), item.getName());
+            return String.format("<a href='%s?publisher=%s'>%s</a>", reportConfig.getReportPath("books"), item.getId(), item.getName());
         }else{
             return item.getName();
         }

@@ -8,6 +8,7 @@ import com.seleniumsimplified.pulp.reader.forseries.TheAvengerReader;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import com.seleniumsimplified.seleniumtestpages.php.*;
+import com.seleniumsimplified.spark.app.pulp.BookFilterFromQueryMap;
 
 import static spark.Spark.*;
 
@@ -87,24 +88,25 @@ public class MainTestPages {
         pulp.readData(new TheAvengerReader("/data/pulp/the_avenger.csv"));
 
         pulp.reports().configure(ReportConfig.allHTML("/apps/pulp/gui/reports/"));
-        get("/apps/pulp/gui/reports/books", (req, res) -> {
 
-            BookFilter filter = new BookFilter();
-            if(req.queryMap().hasKeys() && req.queryMap().value("author")!=null){
-                filter.author(req.queryMap().value("author"));
-            }
-            if(req.queryMap().hasKeys() && req.queryMap().value("year")!=null){
-                filter.publishedInYear(Integer.valueOf(req.queryMap().value("year")));
-            }
-            if(req.queryMap().hasKeys() && req.queryMap().value("publisher")!=null){
-                filter.publishedBy(req.queryMap().value("publisher"));
-            }
-            if(req.queryMap().hasKeys() && req.queryMap().value("series")!=null){
-                filter.partOfSeries(req.queryMap().value("series"));
-            }
-
-            return pulp.reports().getBooksAsHtmlList(filter);
+        get("/apps/pulp/gui/reports/books/list/navigation", (req, res) -> {
+            BookFilter filter = BookFilterFromQueryMap.getBookFilter(req.queryMap());
+            return pulp.reports().configurePostFixPath("/list/navigation").getBooksAsHtmlList(filter);
         });
+        get("/apps/pulp/gui/reports/books/list/static", (req, res) -> {
+            BookFilter filter = BookFilterFromQueryMap.getBookFilter(req.queryMap());
+            return pulp.reports(ReportConfig.justStrings()).getBooksAsHtmlList(filter);
+        });
+        get("/apps/pulp/gui/reports/books/table/navigation", (req, res) -> {
+            BookFilter filter = BookFilterFromQueryMap.getBookFilter(req.queryMap());
+            return pulp.reports().configurePostFixPath("/table/navigation").getBooksAsHtmlTable(filter);
+        });
+        get("/apps/pulp/gui/reports/books/table/static", (req, res) -> {
+            BookFilter filter = BookFilterFromQueryMap.getBookFilter(req.queryMap());
+            return pulp.reports(ReportConfig.justStrings()).getBooksAsHtmlTable(filter);
+        });
+
+
 
         get("/apps/pulp/gui/reports/books/search", (req, res) -> {
             String how= "";
@@ -140,10 +142,15 @@ public class MainTestPages {
 
         });
 
-        get("/apps/pulp/gui/reports/authors", (req, res) -> { return pulp.reports().getAuthorsAsHtmlList();});
-        get("/apps/pulp/gui/reports/publishers", (req, res) -> { return pulp.reports().getPublishersAsHtmlList();});
-        get("/apps/pulp/gui/reports/years", (req, res) -> { return pulp.reports().getYearsAsHtmlList();});
-        get("/apps/pulp/gui/reports/series", (req, res) -> { return pulp.reports().getSeriesNamesAsHtmlList();});
+        get("/apps/pulp/gui/reports/authors/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getAuthorsAsHtmlList();});
+        get("/apps/pulp/gui/reports/publishers/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getPublishersAsHtmlList();});
+        get("/apps/pulp/gui/reports/years/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getYearsAsHtmlList();});
+        get("/apps/pulp/gui/reports/series/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getSeriesNamesAsHtmlList();});
+
+        get("/apps/pulp/gui/reports/authors/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getAuthorsAsHtmlList();});
+        get("/apps/pulp/gui/reports/publishers/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getPublishersAsHtmlList();});
+        get("/apps/pulp/gui/reports/years/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getYearsAsHtmlList();});
+        get("/apps/pulp/gui/reports/series/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getSeriesNamesAsHtmlList();});
 
 
         get("/apps/pulp/", (req, res) -> { return pulp.reports().getIndexPage();});
@@ -152,6 +159,7 @@ public class MainTestPages {
         get("/apps/pulp/gui/", (req, res) -> { return pulp.reports().getIndexPage();});
         get("/apps/pulp/gui/reports", (req, res) -> { return pulp.reports().getIndexPage();});
         get("/apps/pulp/gui/reports/", (req, res) -> { return pulp.reports().getIndexPage();});
+        get("/apps/pulp/gui/reports/books", (req, res) -> { return pulp.reports().getIndexPage();});
 
     }
 

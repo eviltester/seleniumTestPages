@@ -19,7 +19,7 @@ public class AlertSearchPage {
     private PulpData data;
 
     public String asHTMLString() {
-        String pageToRender = new ResourceReader().asString("/web/apps/pulp/page-template/alert-search-page.html");
+        String pageToRender = new ResourceReader().asString("/web/apps/pulp/page-template/alert-search-page-body-content.html");
         pageToRender = pageToRender.replace("!!searchterm!!", searchTerm);
         String checked = confirmSearch ? "checked" : "notchecked";
         pageToRender = pageToRender.replace("!!checked!!", checked);

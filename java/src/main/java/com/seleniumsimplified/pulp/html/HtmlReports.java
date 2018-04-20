@@ -5,11 +5,9 @@ import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import com.seleniumsimplified.pulp.reporting.reporters.BookReporter;
+import com.seleniumsimplified.seleniumtestpages.ResourceReader;
 
 import java.util.Collection;
-
-import static com.seleniumsimplified.pulp.html.HTMLElements.getLi;
-import static com.seleniumsimplified.pulp.html.HTMLElements.getLink;
 
 public class HtmlReports {
     private final PulpReporter reporter;
@@ -27,6 +25,12 @@ public class HtmlReports {
         BookReporter bReporter = new BookReporter(reportConfig, data.authors(), data.publishers(), data.series() );
         return  reportCollectionAsLiPage(bReporter.getBooksAsLines(this.data.books().filteredBy(filter)), "Books");
     }
+
+    public String getBooksAsHtmlTable(BookFilter filter) {
+        BookReporter bReporter = new BookReporter(reportConfig, data.authors(), data.publishers(), data.series() );
+        return reportCollectionAsTablePage(bReporter.getBooksAsTable(this.data.books().filteredBy(filter)), "Books");
+    }
+
 
     public String getBooksAsHtmlList() {
         return getBooksAsHtmlList(new BookFilter());
@@ -71,12 +75,23 @@ public class HtmlReports {
 
     }
 
-    private void endUl(StringBuilder report) {
-        report.append(HTMLElements.endUl());
-    }
+    private String reportCollectionAsTablePage(String thingsAsTable, String things) {
+        StringBuilder report = new StringBuilder();
 
-    private void startUl(StringBuilder report) {
-        report.append(HTMLElements.startUl());
+        addHeader(String.format("Table of %s", things), report);
+
+        startBody(report);
+
+        report.append(String.format("<h1>Table of %s</h1>%n", things));
+
+        report.append(thingsAsTable);
+
+
+        addReportList(report);
+
+        endBodyAndPage(report);
+
+        return report.toString();
     }
 
     private void endBodyAndPage(StringBuilder report) {
@@ -102,17 +117,8 @@ public class HtmlReports {
 
     private void addReportList(StringBuilder report) {
 
-        report.append("<h2>Reports List</h2>");
-        startUl(report);
+        report.append(new ResourceReader().asString("/web/apps/pulp/page-template/reports-list-widget.html"));
 
-        report.append(getLi(getLink("List of Books", "/apps/pulp/gui/reports/books")));
-        report.append(getLi(getLink("List of Authors", "/apps/pulp/gui/reports/authors")));
-        report.append(getLi(getLink("List of Publishers", "/apps/pulp/gui/reports/publishers")));
-        report.append(getLi(getLink("List of Years", "/apps/pulp/gui/reports/years")));
-        report.append(getLi(getLink("List of Series", "/apps/pulp/gui/reports/series")));
-        report.append(getLi(getLink("Search Title", "/apps/pulp/gui/reports/books/search")));
-
-        endUl(report);
     }
 
 
@@ -121,10 +127,16 @@ public class HtmlReports {
     }
 
 
-    public void configure(ReportConfig reportConfig) {
+    public HtmlReports configure(ReportConfig reportConfig) {
         this.reportConfig = reportConfig;
         this.reporter.configure(this.reportConfig);
+        return this;
     }
 
 
+    public HtmlReports configurePostFixPath(String linksPostFix) {
+        this.reportConfig.setPostFixPath(linksPostFix);
+        this.reporter.configure(this.reportConfig);
+        return this;
+    }
 }

@@ -15,7 +15,7 @@ public class YearReporter {
 
     public String getYear(int publicationYear) {
         if(reportConfig!=null && reportConfig.areYearsLinks()){
-            return String.format("<a href='%sbooks?year=%d'>%d</a>", reportConfig.getReportPath(), publicationYear, publicationYear);
+            return String.format("<a href='%s?year=%d'>%d</a>", reportConfig.getReportPath("books"), publicationYear, publicationYear);
         }else{
             return String.valueOf(publicationYear);
         }

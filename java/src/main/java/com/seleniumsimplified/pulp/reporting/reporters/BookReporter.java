@@ -66,11 +66,54 @@ public class BookReporter {
     }
 
 
+    public String getBooksAsTable(List<PulpBook> books) {
+        StringBuilder table=new StringBuilder();
 
+        table.append("<table>");
 
+        table.append("<tr>");
+        table.append("<th>Title</th>");
+        table.append("<th>Authors</th>");
+        table.append("<th>Published</th>");
+        table.append("<th>Publisher</th>");
+        table.append("<th>Series</th>");
+        table.append("</tr>");
 
+        for(PulpBook book : books){
+            table.append(getAsTr(book));
+        }
 
+        table.append("</table>");
+        return table.toString();
+    }
 
+    private String getAsTr(PulpBook book) {
+        StringBuilder line;
 
+        line = new StringBuilder();
 
+        line.append("<tr>");
+        line.append("<td>");
+        line.append(book.getTitle());
+        line.append("</td>");
+
+        line.append("<td>");
+        line.append(authorReporter.getConcatenated(authors.getAll(book.getAllAuthorIndexes()), ", "));
+        line.append("</td>");
+
+        line.append("<td>");
+        line.append(yearReporter.getYear(book.getPublicationYear()));
+        line.append("</td>");
+
+        line.append("<td>");
+        line.append(publisherReporter.getPublisher(publishers.get(book.getPublisherIndex())));
+        line.append("</td>");
+
+        line.append("<td>");
+        line.append(seriesReporter.getSeries(series.get(book.getSeriesIndex())));
+        line.append("</td>");
+
+        line.append("</tr>");
+        return line.toString();
+    }
 }

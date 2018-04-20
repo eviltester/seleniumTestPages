@@ -6,6 +6,7 @@ public class ReportConfig {
     private String reportPath = "/apps/pulp/gui/reports/";
     private boolean arePublisherNamesLinks;
     private boolean areSeriesNamesLinks;
+    private String linksPostFix;
 
     public ReportConfig(boolean areAuthorNamesLinks, boolean areYearsLinks, boolean arePublisherNamesLinks, boolean areSeriesNamesLinks) {
         this.areAuthorNamesLinks = areAuthorNamesLinks;
@@ -44,5 +45,19 @@ public class ReportConfig {
 
     public boolean areSeriesNamesLinks() {
         return areSeriesNamesLinks;
+    }
+
+    public ReportConfig setPostFixPath(String linksPostFix) {
+        this.linksPostFix = linksPostFix;
+        return this;
+    }
+
+    public String getReportPath(String path) {
+        StringBuilder retPath = new StringBuilder();
+        retPath.append(String.format("%s%s",reportPath,path));
+        if(linksPostFix!=null){
+            retPath.append(linksPostFix);
+        }
+        return retPath.toString();
     }
 }

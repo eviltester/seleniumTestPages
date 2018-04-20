@@ -28,7 +28,7 @@ public class AuthorReporter {
     public String getAuthorName(PulpAuthor author) {
 
         if(reportConfig!=null && reportConfig.areAuthorNamesLinks()){
-            return String.format("<a href='%sbooks?author=%s'>%s</a>", reportConfig.getReportPath(), author.getId(),author.getName());
+            return String.format("<a href='%s?author=%s'>%s</a>", reportConfig.getReportPath("books"), author.getId(),author.getName());
         }else{
             return author.getName();
         }
