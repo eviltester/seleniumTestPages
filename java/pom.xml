@@ -6,9 +6,9 @@
 
     <groupId>com.seleniumsimplified.java</groupId>
     <artifactId>seleniumtestpages</artifactId>
-    <version>1.2</version>
+    <!-- <version>1.3</version>-->
 
-    <!-- <version>1.3-SNAPSHOT</version> -->
+   <version>1.3-SNAPSHOT</version>
 
 
     <!--
