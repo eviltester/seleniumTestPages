@@ -18,6 +18,7 @@ public class ToDoListTest {
 //* Could use Frames to render based on a set of searches
 //    * e.g. Author, Publisher, data range etc.
 
+    // TODO: for test filter page add [author], [series], [year], [publisher] as drop downs
     // TODO: CSS for styling - swap in/out for different versions
 
 
@@ -51,8 +52,5 @@ public class ToDoListTest {
 
     // TODO create unit tests for each of the pages and apps routings
 
-
-    // TODO: More Data
-    // TODO: Add books for others ()
 
 }
