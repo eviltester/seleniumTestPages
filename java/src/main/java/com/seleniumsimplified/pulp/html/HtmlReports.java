@@ -1,6 +1,7 @@
 package com.seleniumsimplified.pulp.html;
 
 import com.seleniumsimplified.pulp.domain.groupings.PulpData;
+import com.seleniumsimplified.pulp.html.templates.PaginatorRender;
 import com.seleniumsimplified.pulp.reporting.PulpReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
@@ -23,12 +24,12 @@ public class HtmlReports {
 
     public String getBooksAsHtmlList(BookFilter filter) {
         BookReporter bReporter = new BookReporter(reportConfig, data.authors(), data.publishers(), data.series() );
-        return  reportCollectionAsLiPage(bReporter.getBooksAsLines(this.data.books().filteredBy(filter)), "Books");
+        return  reportCollectionAsLiPage(bReporter.getBooksAsLines(this.data.books().filteredBy(filter)), "Books", "books");
     }
 
     public String getBooksAsHtmlTable(BookFilter filter) {
         BookReporter bReporter = new BookReporter(reportConfig, data.authors(), data.publishers(), data.series() );
-        return reportCollectionAsTablePage(bReporter.getBooksAsTable(this.data.books().filteredBy(filter)), "Books");
+        return reportCollectionAsTablePage(bReporter.getBooksAsTable(this.data.books().filteredBy(filter)), "Books", "books");
     }
 
 
@@ -37,24 +38,24 @@ public class HtmlReports {
     }
 
     public String getAuthorsAsHtmlList() {
-        return reportCollectionAsLiPage(reporter.getAuthorsAsStrings(), "Authors");
+        return reportCollectionAsLiPage(reporter.getAuthorsAsStrings(), "Authors", "authors");
     }
 
 
     public String getPublishersAsHtmlList() {
-        return reportCollectionAsLiPage(reporter.getPublishersAsStrings(), "Publishers");
+        return reportCollectionAsLiPage(reporter.getPublishersAsStrings(), "Publishers", "publishers");
     }
 
     public String getYearsAsHtmlList() {
-        return reportCollectionAsLiPage(reporter.getYearsAsStrings(), "Years");
+        return reportCollectionAsLiPage(reporter.getYearsAsStrings(), "Years", "years");
     }
 
     public String getSeriesNamesAsHtmlList() {
-        return reportCollectionAsLiPage(reporter.getSeriesNamesAsStrings(), "Series");
+        return reportCollectionAsLiPage(reporter.getSeriesNamesAsStrings(), "Series", "series");
     }
 
 
-    private String reportCollectionAsLiPage(Collection<String> simpleReport, String listOfWhat){
+    private String reportCollectionAsLiPage(Collection<String> simpleReport, String listOfWhat, String urlArg){
 
         StringBuilder report = new StringBuilder();
 
@@ -66,6 +67,9 @@ public class HtmlReports {
 
         report.append(new HTMLReporter().getAsUl(simpleReport));
 
+        String style = reportConfig.areYearsLinks() ? "navigation" : "static";
+
+        report.append(new PaginatorRender(this.data.books().getPaginationDetails()).renderAsClickable(String.format("%s%s/list/%s",reportConfig.getReportPath(), urlArg, style)));
 
         addReportList(report);
 
@@ -75,7 +79,7 @@ public class HtmlReports {
 
     }
 
-    private String reportCollectionAsTablePage(String thingsAsTable, String things) {
+    private String reportCollectionAsTablePage(String thingsAsTable, String things, String urlArg) {
         StringBuilder report = new StringBuilder();
 
         addHeader(String.format("Table of %s", things), report);
@@ -86,6 +90,8 @@ public class HtmlReports {
 
         report.append(thingsAsTable);
 
+        String style = reportConfig.areYearsLinks() ? "navigation" : "static";
+        report.append(new PaginatorRender(this.data.books().getPaginationDetails()).renderAsClickable(String.format("%s%s/table/%s",reportConfig.getReportPath() , urlArg, style)));
 
         addReportList(report);
 

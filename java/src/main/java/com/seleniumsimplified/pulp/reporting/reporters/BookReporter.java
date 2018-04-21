@@ -31,6 +31,10 @@ public class BookReporter {
         this.authorReporter = new AuthorReporter(reportConfig);
     }
 
+    public static BookReporter getEmpty() {
+        return new BookReporter(ReportConfig.justStrings(), new PulpAuthors(), new PulpPublishers(), new PulpSeriesCollection());
+    }
+
     public String getAsLine(PulpBook book) {
 
         StringBuilder line;

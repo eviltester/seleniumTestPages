@@ -3,6 +3,7 @@ package com.seleniumsimplified.pulp.html.gui;
 import com.seleniumsimplified.pulp.domain.groupings.PulpData;
 import com.seleniumsimplified.pulp.html.HTMLReporter;
 import com.seleniumsimplified.pulp.html.templates.MyTemplate;
+import com.seleniumsimplified.pulp.html.templates.PaginatorRender;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import com.seleniumsimplified.pulp.reporting.reporters.BookReporter;
@@ -103,12 +104,13 @@ public class FilterTestPage {
             if(showPaging) {
                 template.replace("<option value='paging'>", "<option value='paging' selected>");
 
-                String paging = "Showing All " + books.size() + " books.";
+                PaginatorRender pagingR = new PaginatorRender(data.books().getPaginationDetails());
 
-                if (filter.isPaging()){
-                    paging = "Showing Page " + filter.getCurrentPage(); //+ " of " + ((books.size() / filter.getNumberPerPage()) + 1);
-                }
-                template.replace("<!-- PAGING GOES HERE -->", "<p>" + paging + "</p>" );
+                String lt = showAsList ? "list" : "table";
+                String nav = fieldsAreNavigable ? "navigation" : "static";
+
+                template.replace("<!-- PAGING GOES HERE -->", pagingR.renderAsClickable(String.format("books/%s/%s", lt, nav) ));
+                //template.replace("<!-- PAGING GOES HERE -->", pagingR.renderAsHtml());
             }
             if(showFooter){
                 template.replace("<option value='footer'>", "<option value='footer' selected>");

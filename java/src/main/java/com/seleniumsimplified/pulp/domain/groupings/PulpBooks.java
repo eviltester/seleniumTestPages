@@ -2,6 +2,8 @@ package com.seleniumsimplified.pulp.domain.groupings;
 
 import com.seleniumsimplified.pulp.domain.objects.PulpBook;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
+import com.seleniumsimplified.pulp.reporting.filtering.BooksFilter;
+import com.seleniumsimplified.pulp.reporting.filtering.PaginationDetails;
 
 import java.util.*;
 
@@ -9,10 +11,13 @@ public class PulpBooks {
 
     private int key;
     private ArrayList<PulpBook> books;
+    private BooksFilter booksFilter;
 
     public PulpBooks(){
         books = new ArrayList<>();
         key = 1;
+        booksFilter = new BooksFilter(new ArrayList<>());
+
     }
     public int count() {
         return books.size();
@@ -73,35 +78,13 @@ public class PulpBooks {
         return authored;
     }
 
-    // TODO move this into BooksFilter and use that instead
-
     public List<PulpBook> filteredBy(BookFilter filter) {
-        List<PulpBook> filteredResultSet = new ArrayList<>();
+        booksFilter = new BooksFilter(books);
+        return booksFilter.filteredBy(filter);
+    }
 
-        int bookCount = 0;
-
-        for(PulpBook book : books){
-
-            if(book.matches(filter)){
-
-                // is it on the page?
-                if(filter.isPaging()){
-                    // on page if bookCount/perpage==pageNumber-1
-                    // bookCount must start at 0 for this to work otherwise first page will be 1 less than it ought to
-                    if((bookCount/filter.getNumberPerPage()) == (filter.getCurrentPage()-1)){
-                        filteredResultSet.add(book);
-                    }
-                }else{
-                    filteredResultSet.add(book);
-                }
-
-                bookCount++;
-            }
-
-
-        }
-
-        return filteredResultSet;
+    public PaginationDetails getPaginationDetails(){
+        return booksFilter.getPaginationDetails();
     }
 
     public List<PulpBook> getAll() {
