@@ -20,11 +20,7 @@ public class ToDoListTest {
 //    * e.g. Author, Publisher, data range etc.
 
     // TODO: CSS for styling - swap in/out for different versions
-
-
-    // TODO: page count list under table or list e.g. [1][2][3]  (current page not clickable)
-
-
+    
 
     // TODO: add sorting button on the series, authors and publishers list pages
 
