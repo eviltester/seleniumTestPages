@@ -2,6 +2,7 @@ package com.seleniumsimplified.seleniumtestpages;
 
 import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.pulp.html.gui.AlertSearchPage;
+import com.seleniumsimplified.pulp.html.gui.FilterTestPage;
 import com.seleniumsimplified.pulp.reader.forseries.SavageReader;
 import com.seleniumsimplified.pulp.reader.forseries.SpiderReader;
 import com.seleniumsimplified.pulp.reader.forseries.TheAvengerReader;
@@ -140,6 +141,43 @@ public class MainTestPages {
                                         .setDataFrom(pulp.books())
                                         .asHTMLString();
 
+        });
+
+        get("/apps/pulp/gui/reports/filtertest", (req, res) -> {
+
+            String listOrTable="list";
+            String navigationOrStatic="navigation";
+            boolean canSearch=false;
+            boolean isPaginated=false;
+
+            String[] templateElements = {};
+
+            if(req.queryMap().hasKeys() && req.queryMap().value("style")!=null){
+                listOrTable=req.queryMap().value("style");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("navigation")!=null){
+                navigationOrStatic=req.queryMap().value("navigation");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("search")!=null){
+                canSearch=true; //req.queryMap().value("search");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("paginate")!=null){
+                isPaginated=true; //req.queryMap().value("search");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("template")!=null){
+                templateElements = req.queryMap().toMap().get("template");
+            }
+
+
+            boolean isList = listOrTable.equalsIgnoreCase("list");
+            boolean navigation = navigationOrStatic.equalsIgnoreCase("navigation");
+
+            BookFilter filter = BookFilterFromQueryMap.getBookFilter(req.queryMap());
+            return new FilterTestPage(isList, navigation, canSearch, isPaginated).
+                                    setFilter(filter).setData(pulp.books()).
+                                    setShowData(req.queryMap().hasKeys()).
+                                    setShowThese(templateElements).
+                                    asHTMLString();
         });
 
         get("/apps/pulp/gui/reports/authors/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getAuthorsAsHtmlList();});

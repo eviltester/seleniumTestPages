@@ -141,22 +141,4 @@ public class PulpBook {
         return ok;
     }
 
-    public boolean matches(BookFilter filter, int bookCount) {
-        if(!matches(filter)){
-            return false;
-        }
-
-        // only check paging if it actually matches rest of filter
-        if(filter.isPaging()){
-            // on page if bookCount/perpage==pageNumber-1
-            // bookCount must start at 0 for this to work otherwise first page will be 1 less than it ought to
-            if((bookCount/filter.getNumberPerPage()) == (filter.getCurrentPage()-1)){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

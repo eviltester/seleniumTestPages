@@ -99,10 +99,18 @@ public class BookFilter {
     }
 
     public int getNumberPerPage() {
+
+        if(pageLimit==null){
+            return 20;
+        }
         return pageLimit;
     }
 
     public int getCurrentPage() {
+        if(currentPage==null){
+            return 1;
+        }
+
         return currentPage;
     }
 }

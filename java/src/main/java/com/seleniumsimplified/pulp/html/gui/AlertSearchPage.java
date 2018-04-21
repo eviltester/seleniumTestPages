@@ -2,6 +2,7 @@ package com.seleniumsimplified.pulp.html.gui;
 
 import com.seleniumsimplified.pulp.domain.groupings.PulpData;
 import com.seleniumsimplified.pulp.html.HTMLElements;
+import com.seleniumsimplified.pulp.html.templates.MyTemplate;
 import com.seleniumsimplified.pulp.reporting.reporters.BookReporter;
 import com.seleniumsimplified.pulp.reporting.ReportConfig;
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
@@ -20,9 +21,13 @@ public class AlertSearchPage {
 
     public String asHTMLString() {
         String pageToRender = new ResourceReader().asString("/web/apps/pulp/page-template/alert-search-page-body-content.html");
-        pageToRender = pageToRender.replace("!!searchterm!!", searchTerm);
+
+        MyTemplate template = new MyTemplate(pageToRender);
+        template.replace("!!searchterm!!", searchTerm);
         String checked = confirmSearch ? "checked" : "notchecked";
-        pageToRender = pageToRender.replace("!!checked!!", checked);
+        template.replace("!!checked!!", checked);
+
+        pageToRender = template.toString();
 
         if(data!=null && searchWhat.length()>0 && searchHow.length()>0){
 

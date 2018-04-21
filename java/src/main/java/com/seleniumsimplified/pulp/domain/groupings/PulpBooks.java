@@ -73,6 +73,8 @@ public class PulpBooks {
         return authored;
     }
 
+    // TODO move this into BooksFilter and use that instead
+
     public List<PulpBook> filteredBy(BookFilter filter) {
         List<PulpBook> filteredResultSet = new ArrayList<>();
 
@@ -80,11 +82,23 @@ public class PulpBooks {
 
         for(PulpBook book : books){
 
-            if(book.matches(filter, bookCount)){
-                filteredResultSet.add(book);
+            if(book.matches(filter)){
+
+                // is it on the page?
+                if(filter.isPaging()){
+                    // on page if bookCount/perpage==pageNumber-1
+                    // bookCount must start at 0 for this to work otherwise first page will be 1 less than it ought to
+                    if((bookCount/filter.getNumberPerPage()) == (filter.getCurrentPage()-1)){
+                        filteredResultSet.add(book);
+                    }
+                }else{
+                    filteredResultSet.add(book);
+                }
+
+                bookCount++;
             }
 
-            bookCount++;
+
         }
 
         return filteredResultSet;

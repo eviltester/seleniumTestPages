@@ -9,6 +9,7 @@ public class ToDoListTest {
     // switch between 'easy to automate' (with ids) and 'hard to automate' (without ids)
 
     // TODO: Create a Frames view which has side frame for list and mainframe for report and top frame for search?
+    // TODO: need to have a better way of calculating paging so can know in advance how many items are in full set, how many pages etc.
 
     // AJAX
 //* Ajax - an Ajax end point (not an API that searches for items) and displays
@@ -20,11 +21,10 @@ public class ToDoListTest {
 
     // TODO: CSS for styling - swap in/out for different versions
 
-   
+
     // TODO: page count list under table or list e.g. [1][2][3]  (current page not clickable)
 
-    // TODO: create a book filter 'test' page with all options as drop downs or buttons e.g list/table, current page, number per page etc.
-    //       this can be a good technical test harness and automation page
+
 
     // TODO: add sorting button on the series, authors and publishers list pages
 
