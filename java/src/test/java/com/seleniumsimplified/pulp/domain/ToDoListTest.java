@@ -18,9 +18,19 @@ public class ToDoListTest {
 //* Could use Frames to render based on a set of searches
 //    * e.g. Author, Publisher, data range etc.
 
+    // TODO: FAQ questions for each entity e.g. "Who was Pulp Author <name>?" "What did Pulp author <name> write?" etc.
+    // TODO: FAQ questions link to search engine
+    // TODO: iframe page with FAQ questions and the answers as search in iframe
+    // TODO: configure the search engines: google, bing, duckduckgo etc.
     // TODO: for test filter page add [author], [series], [year], [publisher] as drop downs
     // TODO: CSS for styling - swap in/out for different versions
 
+    // TODO: Table Column sort by DOM using Javascript
+    // TODO: filter sort by direct page load call
+    // TODO: filter sort by AJAX
+
+    // Report for Author: name, list of "published by" pbulishers, "wrote series" list of series, "tiltes", list of books authrored, FAQS - all on one page
+    // CRUD create your own reportes - templates columns, styles
 
     // TODO: add sorting button on the series, authors and publishers list pages
 
