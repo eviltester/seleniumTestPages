@@ -2,8 +2,6 @@ package com.seleniumsimplified.pulp.html.templates;
 
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class FilterRenderer {
     private final BookFilter filter;
@@ -22,13 +20,7 @@ public class FilterRenderer {
                 url.append(String.format("page=%d&pagelimit=%d&", page, filter.getNumberPerPage()));
             }
             if(filter.isByPartialTitleMatch()){
-                try {
-                    url.append(String.format("searchterm=%s&",URLEncoder.encode(filter.getPartialTitleMatchString(),"UTF-8")));
-                } catch (UnsupportedEncodingException e) {
-                    System.out.println("Failed to encode " + filter.getPartialTitleMatchString());
-                    e.printStackTrace();
-                    url.append(String.format("searchterm=%s&",filter.getPartialTitleMatchString()));
-                }
+                url.append(String.format("searchterm=%s&",MyUrlEncoder.encode(filter.getPartialTitleMatchString())));
             }
             if(filter.isBySeries()){
                 url.append(String.format("series=%s&", filter.getSeriesId()));

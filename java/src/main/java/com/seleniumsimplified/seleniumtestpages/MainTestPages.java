@@ -2,6 +2,7 @@ package com.seleniumsimplified.seleniumtestpages;
 
 import com.seleniumsimplified.pulp.PulpApp;
 import com.seleniumsimplified.pulp.html.gui.AlertSearchPage;
+import com.seleniumsimplified.pulp.html.gui.FaqRenderPage;
 import com.seleniumsimplified.pulp.html.gui.FilterTestPage;
 import com.seleniumsimplified.pulp.reader.forseries.SavageReader;
 import com.seleniumsimplified.pulp.reader.forseries.SpiderReader;
@@ -107,6 +108,20 @@ public class MainTestPages {
             return pulp.reports(ReportConfig.justStrings()).getBooksAsHtmlTable(filter);
         });
 
+        get("/apps/pulp/gui/reports/:type/faqs", (req, res) -> {
+
+            String typeOfFaq = req.params(":type");
+            String forTerm="";
+            boolean showiframe=false;
+
+            if(req.queryMap().hasKeys() && req.queryMap().value("searchterm")!=null){
+                forTerm=req.queryMap().value("searchterm");
+            }
+            if(req.queryMap().hasKeys() && req.queryMap().value("iframe")!=null){
+                showiframe=true;
+            }
+            return new FaqRenderPage(typeOfFaq, forTerm, showiframe).asHTMLString();
+        });
 
 
         get("/apps/pulp/gui/reports/books/search", (req, res) -> {
@@ -180,12 +195,19 @@ public class MainTestPages {
                                     asHTMLString();
         });
 
-        get("/apps/pulp/gui/reports/authors/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getAuthorsAsHtmlList();});
+        get("/apps/pulp/gui/reports/authors/list/navigation", (req, res) -> {
+            boolean includeFaqs = false;
+            if(req.queryMap().hasKeys() && req.queryMap().value("faqs")!=null){
+                includeFaqs=true;
+            }
+            return pulp.reports().configurePostFixPath("/list/navigation").getAuthorsAsHtmlList(includeFaqs);
+        });
+
         get("/apps/pulp/gui/reports/publishers/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getPublishersAsHtmlList();});
         get("/apps/pulp/gui/reports/years/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getYearsAsHtmlList();});
         get("/apps/pulp/gui/reports/series/list/navigation", (req, res) -> { return pulp.reports().configurePostFixPath("/list/navigation").getSeriesNamesAsHtmlList();});
 
-        get("/apps/pulp/gui/reports/authors/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getAuthorsAsHtmlList();});
+        get("/apps/pulp/gui/reports/authors/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getAuthorsAsHtmlList(false);});
         get("/apps/pulp/gui/reports/publishers/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getPublishersAsHtmlList();});
         get("/apps/pulp/gui/reports/years/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getYearsAsHtmlList();});
         get("/apps/pulp/gui/reports/series/list/static", (req, res) -> { return pulp.reports(ReportConfig.justStrings()).getSeriesNamesAsHtmlList();});

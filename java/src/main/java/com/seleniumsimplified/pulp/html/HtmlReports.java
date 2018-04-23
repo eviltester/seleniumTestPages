@@ -37,10 +37,10 @@ public class HtmlReports {
         return getBooksAsHtmlList(new BookFilter());
     }
 
-    public String getAuthorsAsHtmlList() {
-        return reportCollectionAsLiPage(reporter.getAuthorsAsStrings(), "Authors", "authors");
+    // TODO: this is all getting very hacky - refactor this into the reporter config and allow local adjustments from urls
+    public String getAuthorsAsHtmlList(boolean includeFaqs) {
+        return reportCollectionAsLiPage(reporter.getAuthorsAsStrings(includeFaqs), "Authors", "authors");
     }
-
 
     public String getPublishersAsHtmlList() {
         return reportCollectionAsLiPage(reporter.getPublishersAsStrings(), "Publishers", "publishers");
@@ -145,4 +145,6 @@ public class HtmlReports {
         this.reporter.configure(this.reportConfig);
         return this;
     }
+
+
 }

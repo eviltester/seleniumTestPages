@@ -27,7 +27,7 @@ public class AlertSearchPage {
         String checked = confirmSearch ? "checked" : "notchecked";
         template.replace("!!checked!!", checked);
 
-        pageToRender = template.toString();
+        StringBuilder dataOutput = new StringBuilder();
 
         if(data!=null && searchWhat.length()>0 && searchHow.length()>0){
 
@@ -38,8 +38,6 @@ public class AlertSearchPage {
             if(searchWhat.equalsIgnoreCase("title") && searchHow.equalsIgnoreCase("contains")){
                 filter.titleContains(searchTerm);
             }
-
-            StringBuilder dataOutput = new StringBuilder();
 
             dataOutput.append("<div id='dataoutput'>");
 
@@ -56,11 +54,13 @@ public class AlertSearchPage {
             }
 
             dataOutput.append("</div>");
-
-            return pageToRender + dataOutput.toString();
         }
 
-        return pageToRender;
+
+        template.replace("<!-- OUTPUT GOES HERE -->", dataOutput.toString());
+        template.replace("<!-- FOOTER GOES HERE -->", new ResourceReader().asString("/web/apps/pulp/page-template/reports-list-widget.html"));
+
+        return template.toString();
 
     }
 

@@ -1,18 +1,33 @@
 package com.seleniumsimplified.pulp.reporting;
 
 public class ReportConfig {
-    private final boolean areAuthorNamesLinks;
-    private final boolean areYearsLinks;
-    private String reportPath = "/apps/pulp/gui/reports/";
+    private boolean areAuthorNamesLinks;
+    private boolean areYearsLinks;
     private boolean arePublisherNamesLinks;
     private boolean areSeriesNamesLinks;
+    private String reportPath = "/apps/pulp/gui/reports/";
     private String linksPostFix;
+    private boolean includeFaqLinks=false; // by default do not do this
+
 
     public ReportConfig(boolean areAuthorNamesLinks, boolean areYearsLinks, boolean arePublisherNamesLinks, boolean areSeriesNamesLinks) {
         this.areAuthorNamesLinks = areAuthorNamesLinks;
         this.areYearsLinks = areYearsLinks;
         this.arePublisherNamesLinks = arePublisherNamesLinks;
         this.areSeriesNamesLinks = areSeriesNamesLinks;
+    }
+
+    public ReportConfig(ReportConfig reportConfig) {
+        this.areAuthorNamesLinks = reportConfig.areAuthorNamesLinks();
+        this. areYearsLinks = reportConfig.areYearsLinks();
+        this. arePublisherNamesLinks = reportConfig.arePublishersLinks();
+        this.areSeriesNamesLinks = reportConfig.areSeriesNamesLinks();
+        this.reportPath = reportConfig.getReportPath();
+        this.linksPostFix = reportConfig.getLinksPostFix();
+    }
+
+    private String getLinksPostFix() {
+        return linksPostFix;
     }
 
     public static ReportConfig justStrings() {
@@ -59,5 +74,14 @@ public class ReportConfig {
             retPath.append(linksPostFix);
         }
         return retPath.toString();
+    }
+
+    public ReportConfig setIncludeFaqLinks(boolean includeFaqs) {
+        this.includeFaqLinks = includeFaqs;
+        return this;
+    }
+
+    public boolean includeFaqLinks() {
+        return includeFaqLinks;
     }
 }

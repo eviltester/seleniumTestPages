@@ -6,8 +6,8 @@ public class ToDoListTest {
     // TODO: Basic GUI functionality
     // Can have a lot without login
 
+    // TODO: fix paging bug to support authors, series, publishers etc. - currently just books
     // switch between 'easy to automate' (with ids) and 'hard to automate' (without ids)
-
     // TODO: Create a Frames view which has side frame for list and mainframe for report and top frame for search?
 
     // AJAX
@@ -18,10 +18,8 @@ public class ToDoListTest {
 //* Could use Frames to render based on a set of searches
 //    * e.g. Author, Publisher, data range etc.
 
-    // TODO: FAQ questions for each entity e.g. "Who was Pulp Author <name>?" "What did Pulp author <name> write?" etc.
-    // TODO: FAQ questions link to search engine
-    // TODO: iframe page with FAQ questions and the answers as search in iframe
-    // TODO: configure the search engines: google, bing, duckduckgo etc.
+
+    // TODO: allow user configuration of the search engines: google, bing, duckduckgo etc.
     // TODO: for test filter page add [author], [series], [year], [publisher] as drop downs
     // TODO: CSS for styling - swap in/out for different versions
 

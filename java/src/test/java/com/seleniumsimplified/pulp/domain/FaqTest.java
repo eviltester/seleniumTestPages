@@ -17,12 +17,11 @@ public class FaqTest {
     public void searchEngine(){
         SearchEngine google = new SearchEngine("https://www.google.com/search?q=");
         Assert.assertEquals("https://www.google.com/search?q=", google.getSearchTerm());
+
+        SearchEngine bing = SearchEngine.bing();
 //        https://www.bing.com/search?q=test+this
 
 
-        // The following search engines do not allow embedding
-        // https://www.google.com/search?q=
-        //https://duckduckgo.com/?q=
     }
 
 
