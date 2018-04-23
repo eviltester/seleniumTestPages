@@ -60,7 +60,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.seleniumsimplified.seleniumtestpages.MainTestPages</mainClass>
+                            <mainClass>com.seleniumsimplified.MainTestPages</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

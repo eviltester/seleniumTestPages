@@ -1,4 +1,4 @@
-package com.seleniumsimplified.spark.app.pulp;
+package com.seleniumsimplified.pulp.spark.app;
 
 import com.seleniumsimplified.pulp.reporting.filtering.BookFilter;
 import spark.QueryParamsMap;
