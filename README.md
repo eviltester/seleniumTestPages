@@ -26,6 +26,7 @@ For a list of more Selenium WebDriver resources visit:
 
 * http://seleniumsimplified.com/selenium-resources/
 
+
 ------
 Alan Richardson
 
@@ -34,3 +35,17 @@ Alan Richardson
 * www.javafortesters.com
 * www.compendiumdev.co.uk
 * [@eviltester](https://twitter.com/eviltester)
+
+
+
+## Updates
+
+_20180429_
+
+
+For a while, this project contained a java app and a php app, these have been moved:
+
+- Java App - https://github.com/eviltester/TestingApp
+- PHP App - https://github.com/eviltester/phptestapp
+
+
