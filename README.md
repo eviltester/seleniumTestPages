@@ -11,11 +11,11 @@ And the Training course
 
 http://unow.be/at/webdriverapi
 
-These pages are hosted at:
+These pages are no longer hosted online. Instead they have been updated and restyled as part of
 
-* http://compendiumdev.co.uk/selenium (without the index.html)
-* http://compendiumdev.co.uk/selenium/testpages/index.html
-* http://seleniumsimplified.com/testpages/
+https://testpages.herokuapp.com/
+
+These pages are considered legacy, but match the code in the books.
 
 The automated @Test code executed against these pages are run on cloud based WebDriver grids hosted by:
 
@@ -31,14 +31,16 @@ For a list of more Selenium WebDriver resources visit:
 Alan Richardson
 
 * www.eviltester.com
-* www.seleniumsimplified.com
-* www.javafortesters.com
 * www.compendiumdev.co.uk
 * [@eviltester](https://twitter.com/eviltester)
 
 
 
 ## Updates
+
+_20230723_
+
+- updated to mark as legacy
 
 _20180429_
 
